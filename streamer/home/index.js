@@ -1,14 +1,21 @@
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
 
-const { View, Text } = UI
+const { View, Button } = UI
 
 class Home extends Component {
+  constructor(props) {
+    super(props)
+  }
+  
+  handleClick = () => {
+    this.props.history.push('/luck-draw')
+  }
+
   render () {
     return (
       <View>
-        <Link to="/luck-draw">跳转到抽奖</Link>
+        <Button onPress={this.handleClick}>跳转到抽奖</Button>
       </View>
     )
   }
