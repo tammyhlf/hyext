@@ -1,0 +1,45 @@
+{
+  "name": "hy-ext",
+  "outputPath": "dist",
+  "releasePath": "release",
+  "extId": "094434a5fc1183e5",
+  "ignore": [
+    "*.md",
+    "LICENSE",
+    ".git/**",
+    ".gitignore",
+    "package-lock.json"
+  ],
+  "builder": {
+    "name": "@hyext/builder-beyond",
+    "config": {
+      "webSDKVersion": "1.8.0",
+      "webTitle": "虎牙小程序",
+      "useCssLoader": true,
+      "designWidth": 750,
+      "https": true,
+      "host": "localhost",
+      "port": 18080,
+      "enableLint": false,
+      "buildConfig": {
+        "RN": [
+          {
+            "entry": "index.js",
+            "extType": "app_panel",
+            "platform": "app",
+            "registerComponent": [
+              "hy-ext"
+            ]
+          }
+        ],
+        "H5": [
+          {
+            "entry": "index_streamer.js",
+            "extType": "pc_anchor_panel",
+            "platform": "pc"
+          }
+        ]
+      }
+    }
+  }
+}
