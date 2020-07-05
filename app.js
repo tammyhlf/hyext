@@ -8,8 +8,8 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/luck-draw" component={LuckDraw} />
-          <Route path="/" component={Home} />
+          <Route path="/home" component={Home} />
+          <Route path="/" component={LuckDraw} />
         </Switch>
       </Router> 
     )
