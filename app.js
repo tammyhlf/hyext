@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Router, Route, Switch, browserHistory } from "react-router";
 import Home from './streamer/home'
 import LuckDraw from './streamer/luck-draw'
 
 class App extends Component {
   render () {
     return (
-      <Router>
+      <Router history={browserHistory}>
         <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/" component={LuckDraw} />
+          <Route path="/luck-draw" component={LuckDraw} />
+          <Route path="/" component={Home} />
         </Switch>
       </Router> 
     )
