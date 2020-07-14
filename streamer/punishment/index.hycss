@@ -1,3 +1,34 @@
-.punishment-contanier {
-  
+.punish-img {
+  max-width: 100%;
+  margin-top: 3vh;
+}
+.btn-group {
+  color: #fff;
+  margin-top: 22%;
+}
+.punish-btn {
+  padding: 28px;
+  width: 45%;
+  margin: 0 auto;
+  background-color: #f9bd33;
+  border-radius: 52px;
+  border: 1px solid #c78b49;
+  color: #ffffff
+}
+.custom-btn {
+  padding: 28px;
+  width: 45%;
+  margin: 44px auto;
+  background-color: #6badf2;
+  border-radius: 52px;
+  border: 1px solid #4a56cd;
+  color: #ffffff;
+}
+.result-content {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
 }
