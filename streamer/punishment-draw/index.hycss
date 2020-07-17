@@ -1,0 +1,55 @@
+.result-content {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+}
+.punish-img {
+  max-width: 100%;
+  margin-top: 3vh;
+}
+.draw-contanier {
+  position: relative;
+}
+.draw-bgd {
+  position: relative;
+  margin: 0 auto;
+  display: block;
+}
+.draw-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  margin-left: -206px;
+  margin-top: -206px;
+}
+.draw-img {
+  /* display: inline-block; */
+  /* animation: move 3s ease infinite; */
+}
+@keyframes move{
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.draw-index {
+  position: absolute;
+  z-index: 3;
+  top: 5px;
+  left: 50%;
+  margin-left: -58px;
+}
+.start {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  margin-left: -70px;
+  margin-top: -70px;
+}
