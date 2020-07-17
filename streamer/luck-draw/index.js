@@ -1,6 +1,7 @@
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
+import danceAction from './dance-action'
 
 const { View, Text, Button, Image } = UI
 let timer = null; //定时器，用于节流
@@ -20,7 +21,8 @@ class App extends Component {
         },
         contourCount: 0,
         contourPoints: []
-      }
+      },
+      result: ''
     }
 
     hyExt.env.getInitialParam().then(param => {
@@ -33,8 +35,8 @@ class App extends Component {
         hyExt.stream.onExtraWhiteBoardMessage({
           // 接收到数据，刷新视图
           callback: data => {
-            const state = JSON.parse(data);
-            this.setState(state);
+            const result = JSON.parse(data);
+            this.setState({ result });
             this.setState({wb:true});
           }
         })
@@ -65,12 +67,49 @@ class App extends Component {
       })
   }
 
-  sendToWb () {
+  calAngle = (angle1, angle2, angle3) => {
+    const k1 = (angle2.y - angle1.y) / (angle2.x - angle1.x)
+    const k2 = (angle3.y - angle2.y) / (angle3.x - angle2.x)
+    return Math.abs((k2 - k1) / (1 + k1 * k2))
+  }
+
+  calResult = (keypointsList) => {
+    const leftArm = this.calAngle(keypointsList[10], keypointsList[11], keypointsList[12])
+    const rightArm = this.calAngle(keypointsList[10], keypointsList[11], keypointsList[12])
+    const leftLeg = this.calAngle(keypointsList[10], keypointsList[11], keypointsList[12])
+    const rightLeg = this.calAngle(keypointsList[10], keypointsList[11], keypointsList[12])
+    return { leftArm, rightArm, leftLeg, rightLeg }
+  }
+
+  /**
+   * @param { Object } actionResult 定义的动作角度
+   * @param { Object } distinguishResult 识别的动作角度
+   * @return { Number } 
+   */
+  contrastResult = (actionResult = {}, distinguishResult = {}) => {
+    const goodValue = 3
+    const perfectValue = 1
+
+    const result1 =  Math.abs(distinguishResult.leftArm - actionResult.leftArm)
+    const result2 =  Math.abs(distinguishResult.rightArm - actionResult.rightArm)
+    const result3 =  Math.abs(distinguishResult.leftLeg - actionResult.leftLeg)
+    const result4 =  Math.abs(distinguishResult.rightLeg - actionResult.rightLeg)
+
+    if (result1 < perfectValue && result2 < perfectValue && result3 < perfectValue && result4 < perfectValue) {
+      return 10
+    } else if (result1 < goodValue && result2 < goodValue && result3 < goodValue && result4 < goodValue) {
+      return 8
+    } else {
+      return 0
+    }
+  }
+
+  sendToWb (result) {
     if(this.state.wbId){
-      const data = JSON.stringify(this.state);
+      // const data = JSON.stringify(this.state);
       hyExt.stream.sendToExtraWhiteBoard({
         wbId: this.state.wbId,
-        data
+        data: result
       })
     }
   }
@@ -92,7 +131,13 @@ class App extends Component {
       height: wb_height,
       callback: recognition => {
         this.setState({ recognition });
-        this.throttle(this.sendToWb,1000);
+        const keypoints = this.state.recognition.keypoints || []
+        let keypointsList = {}
+        keypoints.map(item => {
+          keypointsList[item.id] = item
+        })
+        const result = this.contrastResult(this.calResult(danceAction[0]), this.calResult(keypointsList))
+        this.throttle(this.sendToWb(result), 10000);
         if(!this.state.wbId)
           this.createWb();
       }
@@ -108,24 +153,11 @@ class App extends Component {
   }
 
   renderWb () {
-    const { recognition , wb_height , wb_width } = this.state
-    const { canvas } = recognition
-    const keypoints = recognition.keypoints || []
+    const { result } = this.state
     return (
       <View className='container'>
-        {
-          keypoints.map(item => 
-            <div
-              style={{
-                'font-size': '50px',
-                position: 'absolute',
-                left: wb_width * (item.x / canvas.width) + 'px',
-                top: wb_height * (item.y / canvas.height) + 'px',
-                color: 'yellow',
-              }}
-            >{item.id}</div>
-          )
-        }
+        <Text>{{ result }} </Text>
+        <Image src={require('../../assets/dance-action/1.png')} />
       </View>
     )
   }

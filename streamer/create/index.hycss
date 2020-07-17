@@ -1,0 +1,86 @@
+.backgroundImage{
+  height: 100%;
+}
+.container {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding-top: 120px;
+}
+.txt{
+  border: black;
+}
+.copy{
+  margin: 30px;
+  border:5px;
+  border-radius: 120px;
+  border-color: #d2a017;
+  background-color: #ffb700;
+}
+.logo1{
+  width: 740px;
+  height: 140px;
+}
+.home{
+  width: 43px;
+  height: 43px;
+}
+.draw-back{
+  width: 23px;
+  height: 41px;
+}
+.user1{
+  width: 344px;
+  height: 200px;
+  position: relative;
+  left: 40px;
+}
+.user2{
+  width: 344px;
+  height: 200px;
+  position: relative;
+  left: -40px;
+}
+.spack-left{
+  margin-top: 80px;
+  width: 84px;
+  height: 114px;
+  position: relative;
+  left: -40px;
+}
+.pk{
+  position: absolute;
+}
+.userImage{
+  position: absolute;
+}
+.spack-right{
+  width: 80px;
+  height: 84px;
+  position: relative;
+  left: 40px;
+}
+.blue-avatar{
+  left: -130px;
+  top: 240px;
+}
+.yellow-avatar{
+  left: 130px;
+  top: 240px;
+}
+
+.invite{
+  border:5px;
+  border-radius: 120px;
+  margin: 50px;
+  border-color: #d2a017;
+  background-color: #ffb700;
+}
+.start{
+  border:5px;
+  border-radius: 120px;
+  margin: 50px;
+  margin-top: 0;
+  border-color: #3a5ede;
+  background-color: #4f7ef7;
+}

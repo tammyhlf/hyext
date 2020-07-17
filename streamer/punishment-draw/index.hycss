@@ -1,19 +1,43 @@
-.result-content {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-  color: #fff;
-  text-align: center;
-  font-size: 32px;
+.backgroundImage {
+  height: 100%;
 }
 .punish-img {
-  max-width: 100%;
-  margin-top: 3vh;
+  width: 100%;
+  margin-top: 40px;
 }
+.result-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 80px;
+}
+.avatar-img {
+  width: 208px;
+  height: 208px;
+  border: 6px solid #ffb901;
+  border-radius: 50%;
+  margin-bottom: 40px;
+}
+.lose-back {
+  border: 6px solid #4668fa;
+  margin-top: 58px;
+}
+.crown {
+  width: 84px;
+  height: 58px;
+  margin-left: 62px;
+}
+.text {
+  color: #ffffff;
+  font-size: 36px;
+}
+
 .draw-contanier {
   position: relative;
 }
 .draw-bgd {
+  width: 606px;
+  height: 606px;
   position: relative;
   margin: 0 auto;
   display: block;
@@ -26,19 +50,17 @@
   margin-left: -206px;
   margin-top: -206px;
 }
-.draw-img {
-  /* display: inline-block; */
-  /* animation: move 3s ease infinite; */
+.content-img {
+  width: 412px;
+  height: 412px;
 }
-@keyframes move{
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.start-img {
+  width: 140px;
+  height: 140px;
 }
 .draw-index {
+  width: 116px;
+  height: 146px;
   position: absolute;
   z-index: 3;
   top: 5px;

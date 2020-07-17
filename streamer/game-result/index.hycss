@@ -1,36 +1,68 @@
+.backgroundImage {
+  height: 100%;
+}
 .punish-img {
-  max-width: 100%;
-  margin-top: 3vh;
+  width: 100%;
+  margin-top: 40px;
+}
+.avatar-img {
+  width: 208px;
+  height: 208px;
+  border: 6px solid #ffb901;
+  border-radius: 50%;
+  margin-bottom: 70px;
+}
+.lose-back {
+  border: 6px solid #4668fa;
+  margin-top: 58px;
+}
+.crown {
+  width: 84px;
+  height: 58px;
+  margin-left: 62px;
+}
+.win {
+  position: absolute;
+  top: 195px;
+  z-index: 2;
+  width: 210px;
+  height: 114px;
+}
+.lose {
+  position: absolute;
+  top: 195px;
+  z-index: 2;
+  width: 230px;
+  height: 118px;
 }
 .btn-group {
-  color: #fff;
-  margin-top: 22%;
+  margin-top: 150px;
 }
 .punish-btn {
-  padding: 28px;
-  width: 45%;
+  width: 55%;
+  border: 5px solid #d2a017;
+  border-radius: 120px;
   margin: 0 auto;
-  background-color: #f9bd33;
-  border-radius: 52px;
-  border: 1px solid #c78b49;
-  color: #ffffff
+  background-color: #ffb700;
 }
 .result-content {
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
-  margin-top: 20px;
-  color: #fff;
-  text-align: center;
-  font-size: 32px;
+  margin-top: 80px;
 }
 .game-restart {
-  color: #ffffff;
-  font-size: 40px;
   margin-top: 30%;
   display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 .game-icon {
   display: inline-block;
   margin-left: 30px;
+}
+
+.text {
+  color: #ffffff;
+  font-size: 36px;
 }

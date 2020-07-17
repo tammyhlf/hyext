@@ -2,7 +2,7 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 
-const { View, Button } = UI
+const { View, Image, Text, BackgroundImage } = UI
 
 class PunishmentDraw extends Component {
   constructor(props) {
@@ -15,35 +15,30 @@ class PunishmentDraw extends Component {
 
   render () {
     return (
-      <div
-        style={{
-          height: "100%",
-          background: "url("+require("../../assets/background.png")+")",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover"
-        }}>
-        <img src={require('../../assets/logo.png')} className="punish-img" />
-        <div className="draw-contanier">
-          <img src={require('../../assets/draw-bgd.png')} className="draw-bgd" />
-          <div className="draw-content">
-            <img src={require('../../assets/draw-content.png')} />
-          </div>
-          <img src={require('../../assets/draw-index.png')} className="draw-index" />
-          <View onPress={this.handleStart} className="start">
-            <img src={require('../../assets/start.png')} />
+      <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
+        <Image src={require('../../assets/logo.png')} className="punish-img" />
+        <View className="draw-contanier">
+          <Image src={require('../../assets/draw-bgd.png')} className="draw-bgd" />
+          <View className="draw-content">
+            <Image className="content-img" src={require('../../assets/draw-content.png')} />
           </View>
-        </div>
-        <div className="result-content">
-          <div>
-            <img src={require('../../assets/yellow-avatar.png')} />
-            <div>这是一个名字</div>
-          </div>
-          <div>
-            <img src={require('../../assets/blue-avatar.png')} />
-            <div>这还是一个名字</div>
-          </div>
-        </div>
-      </div>
+          <Image src={require('../../assets/draw-index.png')} className="draw-index" />
+          <View onPress={this.handleStart} className="start">
+            <Image className="start-img" src={require('../../assets/start.png')} />
+          </View>
+        </View>
+        <View className="result-content">
+          <View>
+            <Image className="crown" src={require('../../assets/crown.png')} />
+            <Image className="avatar-img" src={require('../../assets/modal.png')} />
+            <Text className="text">这还是一个名字</Text>
+          </View>
+          <View>
+            <Image className="avatar-img lose-back" src={require('../../assets/modal.png')} />
+            <Text className="text">这还是一个名字</Text>
+          </View>
+        </View>
+      </BackgroundImage>
     )
   }
 }
