@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Router, Route, Switch, browserHistory } from "react-router";
 import Home from './streamer/home'
 // import LuckDraw from './streamer/luck-draw'
 import PunishmentDraw from './streamer/punishment-draw'
@@ -12,7 +12,7 @@ import Wait from "./streamer/wait";
 class App extends Component {
   render () {
     return (
-      <Router>
+      <Router history={browserHistory}>
         <Switch>
           <Route path="/punishment-draw" component={() => <PunishmentDraw />} />
           <Route path="/punishment" component={() => <Punishment />} />
