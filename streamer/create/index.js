@@ -49,9 +49,7 @@ class Create extends Component {
 
                     </View>
                     <View style={{width:10}}>
-                        <Link to={'/wait'}>
-                            <Image className="draw-back" src={require('../../assets/draw-back.png')}></Image>
-                        </Link>
+
                     </View>
                 </View>
 
