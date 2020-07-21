@@ -1,7 +1,10 @@
-import { UI } from '@hyext/hy-ui'
+import { UI, Modules } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import danceAction from './dance-action'
+import { Animated } from 'react-native'
+
+const { Animations } = Modules
 
 const { View, Text, Button, Image } = UI
 let timer = null; //定时器，用于节流
@@ -22,7 +25,7 @@ class App extends Component {
         contourCount: 0,
         contourPoints: []
       },
-      result: ''
+      result: 0
     }
 
     hyExt.env.getInitialParam().then(param => {
@@ -43,6 +46,11 @@ class App extends Component {
       }
     })
   }
+  animated = new Animations.SlideAnimated({
+    duration: 5000,
+    translateYList: [500, 20],
+    directionType: ["vertical"]
+  })
 
   //在组件内加入创建白板函数
   createWb () {
@@ -67,17 +75,17 @@ class App extends Component {
       })
   }
 
-  calAngle = (angle1, angle2, angle3) => {
+  calAngle = (angle1 = {x:0, y:0}, angle2 = {x:0, y:0}, angle3 = {x:0, y:0}) => {
     const k1 = (angle2.y - angle1.y) / (angle2.x - angle1.x)
     const k2 = (angle3.y - angle2.y) / (angle3.x - angle2.x)
     return Math.abs((k2 - k1) / (1 + k1 * k2))
   }
 
   calResult = (keypointsList) => {
-    const leftArm = this.calAngle(keypointsList[10], keypointsList[11], keypointsList[12])
-    const rightArm = this.calAngle(keypointsList[10], keypointsList[11], keypointsList[12])
-    const leftLeg = this.calAngle(keypointsList[10], keypointsList[11], keypointsList[12])
-    const rightLeg = this.calAngle(keypointsList[10], keypointsList[11], keypointsList[12])
+    const leftArm = this.calAngle(keypointsList['10'], keypointsList['11'], keypointsList['12'])
+    const rightArm = this.calAngle(keypointsList['10'], keypointsList['11'], keypointsList['12'])
+    const leftLeg = this.calAngle(keypointsList['10'], keypointsList['11'], keypointsList['12'])
+    const rightLeg = this.calAngle(keypointsList['10'], keypointsList['11'], keypointsList['12'])
     return { leftArm, rightArm, leftLeg, rightLeg }
   }
 
@@ -87,13 +95,13 @@ class App extends Component {
    * @return { Number } 
    */
   contrastResult = (actionResult = {}, distinguishResult = {}) => {
-    const goodValue = 3
-    const perfectValue = 1
+    const goodValue = 1
+    const perfectValue = 0.5
 
-    const result1 =  Math.abs(distinguishResult.leftArm - actionResult.leftArm)
-    const result2 =  Math.abs(distinguishResult.rightArm - actionResult.rightArm)
-    const result3 =  Math.abs(distinguishResult.leftLeg - actionResult.leftLeg)
-    const result4 =  Math.abs(distinguishResult.rightLeg - actionResult.rightLeg)
+    const result1 =  Math.abs(distinguishResult.leftArm - actionResult.leftArm) || 0
+    const result2 =  Math.abs(distinguishResult.rightArm - actionResult.rightArm) || 0
+    const result3 =  Math.abs(distinguishResult.leftLeg - actionResult.leftLeg) || 0
+    const result4 =  Math.abs(distinguishResult.rightLeg - actionResult.rightLeg) || 0
 
     if (result1 < perfectValue && result2 < perfectValue && result3 < perfectValue && result4 < perfectValue) {
       return 10
@@ -106,10 +114,10 @@ class App extends Component {
 
   sendToWb (result) {
     if(this.state.wbId){
-      // const data = JSON.stringify(this.state);
+      const data = JSON.stringify(result);
       hyExt.stream.sendToExtraWhiteBoard({
         wbId: this.state.wbId,
-        data: result
+        data
       })
     }
   }
@@ -136,12 +144,14 @@ class App extends Component {
         keypoints.map(item => {
           keypointsList[item.id] = item
         })
+        console.log(this.state.recognition)
         const result = this.contrastResult(this.calResult(danceAction[0]), this.calResult(keypointsList))
-        this.throttle(this.sendToWb(result), 10000);
+        this.throttle(() => this.sendToWb(result), 10000);
         if(!this.state.wbId)
           this.createWb();
       }
     });
+    this.animated.toIn()
   }
 
   renderForm () {
@@ -154,10 +164,43 @@ class App extends Component {
 
   renderWb () {
     const { result } = this.state
+    const wrapperStyle = {
+      transform: [
+        {
+          translateY: this.animated.getState().translateY
+        }
+      ]
+    }
     return (
       <View className='container'>
-        <Text>{{ result }} </Text>
-        <Image src={require('../../assets/dance-action/1.png')} />
+        {/* <Text style={{ fontSize: '200px', color: 'white' }}>{ result } </Text> */}
+        <Animated.View style={wrapperStyle}>
+          <Image style={{
+            width: '300px',
+            height:  '400px'
+          }}
+            src={require('../../assets/dance-action/1.png')}
+          />
+           <Image style={{
+            width: '300px',
+            height:  '400px'
+          }}
+            src={require('../../assets/dance-action/2.png')}
+          />
+          <Image style={{
+            width: '300px',
+            height:  '400px'
+          }}
+            src={require('../../assets/dance-action/3.png')}
+          />
+          <Image style={{
+            width: '300px',
+            height:  '400px'
+          }}
+            src={require('../../assets/dance-action/4.png')}
+          /> 
+        </Animated.View>
+        
       </View>
     )
   }
@@ -171,4 +214,3 @@ class App extends Component {
 }
 
 export default App
-
