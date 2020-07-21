@@ -75,3 +75,10 @@
   margin-left: -70px;
   margin-top: -70px;
 }
+.game-result {
+  margin-top: 40px;
+  font-size: 88px;
+  font-weight: 700;
+  color: #fee47b;
+  text-shadow: 0 0 34px #b90565;
+}
