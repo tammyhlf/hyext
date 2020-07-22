@@ -1,0 +1,16 @@
+.home{
+  width: 43px;
+  height: 43px;
+}
+.backgroundImage{
+  height: 100%;
+}
+.container {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+.logo{
+  width: 520px;
+  height: 200px;
+}
