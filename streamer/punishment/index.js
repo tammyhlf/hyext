@@ -1,7 +1,7 @@
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import './index.hycss'
+import * as Animatable from "react-native-animatable"
 
 const { View, Button, Image, Text, BackgroundImage } = UI
 
@@ -19,9 +19,31 @@ class Punishment extends Component {
   }
 
   render () {
+    const animates = {
+      0: {
+        opacity: 1
+      },
+      1: {
+        opacity: 0
+      }
+    }
+    const animatesbox = {
+      from: {
+        translateY: 0
+      },
+      to: {
+        translateY: -1222
+      }
+    }
     return (
       <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
-        <Image src={require('../../assets/logo.png')} className="punish-img" />
+          <Animatable.View animation={animatesbox} duration={6000} className="box" easing="linear">
+            <Image src={require('../../assets/dance-action/three.png')} style={{ width: '306px', height: '306px' }}></Image>
+            <Image src={require('../../assets/dance-action/two.png')} style={{ width: '306px', height: '306px', marginTop: '70px' }}></Image>
+            <Image src={require('../../assets/dance-action/three.png')} style={{ width: '306px', height: '306px', marginTop: '70px' }}></Image>
+            <Image src={require('../../assets/dance-action/two.png')} style={{ width: '306px', height: '306px', marginTop: '70px' }}></Image>
+          </Animatable.View>
+        {/* <Image src={require('../../assets/logo.png')} className="punish-img" />
         <View className="result-content">
           <View>
             <Image className="crown" src={require('../../assets/crown.png')} />
@@ -40,10 +62,10 @@ class Punishment extends Component {
         <View className="btn-group">
           <Button className="punish-btn" size="lg" textStyle={{color: 'white'}} onPress={this.handleClick}>抽取惩罚</Button>
           <Button className="custom-btn" size="lg" textStyle={{color: 'white'}} onPress={this.handleCustomClick}>自定义惩罚</Button>
-        </View>
+        </View> */}
       </BackgroundImage>
     )
   }
 }
 
-export default withRouter(Punishment)
+export default Punishment
