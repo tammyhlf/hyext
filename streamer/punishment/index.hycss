@@ -71,4 +71,11 @@
   color: #4668fa;
   margin-top: 14px;
 }
-
+.animates {
+  width: 712px;
+  height: 712px;
+  overflow: hidden;
+}
+.box {
+  position: absolute;
+}
