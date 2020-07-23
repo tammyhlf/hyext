@@ -21,7 +21,7 @@ class App extends Component {
           <Route path="/wait" component={ Wait }/>
           <Route path="/add" component={ Add } />
           <Route path="/create" component={ Create }/>
-          <Route path="/index_streamer_pc_anchor_panel.html" component={ Home } />
+          <Route path="/index_streamer_pc_anchor_panel.html" component={ Punishment } />
         </Switch>
       </Router> 
     )
