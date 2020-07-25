@@ -12,9 +12,9 @@ class Create extends Component {
         super(props)
         this.state = {
             mytext : "",
-            // streamerNick:"",
-            // streamerAvatarUrl:"",
-            // streamerUnionId:"",
+            streamerNick:"",
+            streamerAvatarUrl:"",
+            streamerUnionId:"",
         };
     }
     getRoom= () =>{ //请求数据函数
@@ -51,20 +51,55 @@ class Create extends Component {
                 //     streamerAvatarUrl:userInfo.streamerAvatarUrl,
                 //     streamerUnionId:userInfo.streamerUnionId
                 // }
-                // this.postData();
+                this.postData();
             })
         });
     }
 
     postData = () => {
-        var url = "http://localhost:3000/streamers";
+        let url = "http://121.196.176.201:8082/game/create";
+
+        var formData = new FormData();
+        formData.append("nickName",this.state.streamerNick);
+        formData.append("picUrl",this.state.streamerAvatarUrl);
+        formData.append("unionId",this.state.streamerUnionId);
+
+        fetch(url,{
+            method :'POST',
+            headers:{
+                'Content-Type':'multipart/form-data',
+            },
+            body: formData,
+        })
+            .then(res=>res.json()).then(responseJson => {
+            console.log("Success: json ---> "  + responseJson);
+        })
+            .catch(error => console.error('Error:', error))
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    postData1 = () => {
+        // let url = "http://121.196.176.201:8082/game/create";
+        let url = "http://localhost:3000/streamers"
         var data = {
             nickName:this.state.streamerNick,
             picUrl:this.state.streamerAvatarUrl,
             unionId:this.state.streamerUnionId,
         };
+
         console.log("postData stringify ---- > " + JSON.stringify(data));
         console.log("postData data ---- > " + data);
+
         fetch(url,{
             method :'POST',
             headers:{
@@ -72,7 +107,8 @@ class Create extends Component {
                 'Content-Type': 'application/json',
             },
             body:JSON.stringify(data)
-        }).then(res=>res.json()).then(responseJson => {
+        })
+            .then(res=>res.json()).then(responseJson => {
             console.log("Success: json ---> "  + responseJson);
         })
             .catch(error => console.error('Error:', error))
@@ -101,7 +137,6 @@ class Create extends Component {
 
                 <View  className="container">
                     <Image className="logo1" src={require('../../assets/logo1.png')}/>
-
                     <View style={{
                         flexDirection: "row",
                         height: 150,
@@ -121,27 +156,27 @@ class Create extends Component {
                         </View>
                     </View>
 
-                    <View  className="pk" style={{
+                    <View  className="pkImage" style={{
                         flexDirection: "row",
                     }}>
-                        <View>
-                            <Image className="blue-avatar" src={require('../../assets/blue-avatar.png')}/>
+                        <View className="blue-user">
+                            <Avatar
+                                size="l"
+                                borderWidth={3}
+                                borderColor="#3a5ede"
+                                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                                src={this.state.streamerAvatarUrl}
+                            />
                         </View>
-                        <View>
-                            <Image className="yellow-avatar" src={require('../../assets/yellow-avatar.png')}/>
+                        <View className="yellow-user">
+                            <Avatar
+                                size="l"
+                                borderWidth={3}
+                                borderColor="#ffb700"
+                                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                                src={require('../../assets/fail.png')}
+                            />
                         </View>
-                    </View>
-
-                    <View  className="pkImage" style={{
-                        // flexDirection: "row",
-                    }}>
-                        <Image src={this.state.streamerAvatarUrl}/>
-                        {/*<Avatar*/}
-                        {/*    size="s"*/}
-                        {/*    borderColor="#f90909"*/}
-                        {/*    backupSrc={this.state.streamerAvatarUrl} // 网络错误显示默认图*/}
-                        {/*    src={this.state.streamerAvatarUrl}*/}
-                        {/*/>*/}
                     </View>
                     <View style={{
                         flexDirection: "row",
