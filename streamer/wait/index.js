@@ -4,13 +4,12 @@ import './index.hycss'
 import {Link} from "react-router-dom";
 
 
-const { View,Text,Button,BackgroundImage,Image,Modal} = UI
+const { View,Text,Button,BackgroundImage,Image,Modal,Avatar} = UI
 
 class Wait extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            mytext: "",
         };
     }
 
@@ -57,15 +56,38 @@ class Wait extends Component {
                             <Image className="yellow-avatar-bgd" src={require('../../assets/yellow-avatar-bgd.png')}/>
                         </View>
                     </View>
-                    <View  className="pk" style={{
-                        flex:1,
+                    <View  className="pkImage" style={{
                         flexDirection: "row",
                     }}>
-                        <View>
-                            <Image className="blue-avatar" src={require('../../assets/blue-avatar.png')}/>
+                        <View className="blue-user">
+                            <Avatar
+                                size="l"
+                                borderWidth={3}
+                                borderColor="#3a5ede"
+                                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                                src={require('../../assets/fail.png')}
+                            />
                         </View>
-                        <View>
-                            <Image className="yellow-avatar" src={require('../../assets/yellow-avatar.png')}/>
+                        <View className="yellow-user">
+                            <Avatar
+                                size="l"
+                                borderWidth={3}
+                                borderColor="#ffb700"
+                                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                                src={this.state.streamerAvatarUrl}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{
+                        flexDirection: "row",
+                        width:460
+                    }}>
+                        <View className="streamerName">
+                            <Text className="streamerName-txt">玩家1</Text>
+                        </View>
+                        <View className="streamerName">
+                            <Text className="streamerName-txt">{this.state.streamerNick}</Text>
                         </View>
                     </View>
                     <Button className="start" type="primary">开始对战</Button>
