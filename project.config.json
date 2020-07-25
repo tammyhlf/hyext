@@ -18,7 +18,7 @@
       "compileNodeModules": ["react-native-animatable"],
       "useCssLoader": true,
       "designWidth": 750,
-      "https": true,
+      "https": false,
       "host": "localhost",
       "port": 18080,
       "enableLint": false,

@@ -4,23 +4,18 @@ import copy from 'copy-to-clipboard'
 import './index.hycss'
 import {Link} from "react-router-dom";
 
-const { View,Text,Button,BackgroundImage,Image,Modal} = UI
+const {View,Text,Button,BackgroundImage,Image,Modal,Avatar} = UI
 
 class Create extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
             mytext : "",
+            streamerNick:"",
+            streamerAvatarUrl:"",
+            streamerUnionId:"",
         };
-    }
-    getRoom= () =>{ //请求数据函数
-        fetch(`http://localhost:3000/rooms/1`,{
-            method: 'GET'
-        }).then(res => res.json()).then(
-            data => {
-                this.setState({mytext:data})
-            }
-        )
     }
 
     handleCopy= (e) =>{
@@ -29,8 +24,44 @@ class Create extends Component {
     }
 
     componentWillMount() {
-        this.getRoom()
     }
+
+    componentDidMount() {
+        hyExt.onLoad(()=> {    //小程序生命周期
+            hyExt.context.getStreamerInfo().then(userInfo => {    //获取用户信息
+                console.log(userInfo,"获取主播信息");
+                // console.log(userInfo.streamerNick);
+                this.setState({
+                  streamerNick:userInfo.streamerNick,
+                  streamerAvatarUrl:userInfo.streamerAvatarUrl,
+                  streamerUnionId:userInfo.streamerUnionId,
+                })
+                this.postData();
+            })
+        });
+    }
+
+    postData = () => {
+        let args = []
+        args[0] = {}
+        args[0].header = {
+            'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'Accept': 'application/json',
+            // 'Content-Type': 'application/json',
+        }
+        args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.streamerNick+"&picUrl="+this.state.streamerAvatarUrl+"&unionId="+this.state.streamerUnionId)
+        args[0].method = "POST"
+        args[0].data = {}  //请求的body
+        args[0].dataType = "json"    //返回的数据格式
+        console.log('发送HTTP请求：' + JSON.stringify(args))
+        hyExt.request(args[0]).then(resp => {
+            console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+        }).catch(err => {
+            console.log('发送HTTP请求失败，错误信息：' + err.message)
+        })
+
+    }
+
     render() {
         return (
             <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
@@ -55,14 +86,13 @@ class Create extends Component {
 
                 <View  className="container">
                     <Image className="logo1" src={require('../../assets/logo1.png')}/>
-
                     <View style={{
                         flexDirection: "row",
                         height: 150,
                         padding: 50
                     }}>
                         <View>
-                            <Image className="user1" src={require('../../assets/blue-avatar-bgd.png')}/>
+                            <Image className="blue-avatar-bgd" src={require('../../assets/blue-avatar-bgd.png')}/>
                         </View>
                         <View>
                             <Image className="spack-left" src={require('../../assets/spark-left.png')}/>
@@ -71,21 +101,44 @@ class Create extends Component {
                             <Image className="spack-right" src={require('../../assets/spark-right.png')}/>
                         </View>
                         <View>
-                            <Image className="user2" src={require('../../assets/yellow-avatar-bgd.png')}/>
+                            <Image className="yellow-avatar-bgd" src={require('../../assets/yellow-avatar-bgd.png')}/>
                         </View>
                     </View>
-                    <View  className="pk" style={{
-                        flex:1,
+
+                    <View  className="pkImage" style={{
                         flexDirection: "row",
                     }}>
-                        <View>
-                            <Image className="blue-avatar" src={require('../../assets/blue-avatar.png')}/>
+                        <View className="blue-user">
+                            <Avatar
+                                size="l"
+                                borderWidth={3}
+                                borderColor="#3a5ede"
+                                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                                src={this.state.streamerAvatarUrl}
+                            />
                         </View>
-                        <View>
-                            <Image className="yellow-avatar" src={require('../../assets/yellow-avatar.png')}/>
+                        <View className="yellow-user">
+                            <Avatar
+                                size="l"
+                                borderWidth={3}
+                                borderColor="#ffb700"
+                                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                                src={require('../../assets/fail.png')}
+                            />
                         </View>
                     </View>
-                    <Button className="invite" onPress={() => {
+                    <View style={{
+                        flexDirection: "row",
+                        width:460
+                    }}>
+                        <View className="streamerName">
+                            <Text className="streamerName-txt">{this.state.streamerNick}</Text>
+                        </View>
+                        <View className="streamerName">
+                            <Text className="streamerName-txt">等待加入</Text>
+                        </View>
+                    </View>
+                    <Button className="invite" type="primary" onPress={() => {
                         this._modal.open()
                     }}>邀请对手</Button>
                     <Modal
@@ -97,14 +150,15 @@ class Create extends Component {
                         }}>
                         <BackgroundImage src={require('../../assets/modal.png')} style={{width:300,height:235}}>
                             <View style={{borderRadius: 20,minWidth: 100, height: 200, alignItems: 'center', justifyContent: 'center'}}>
-                                <Text>您的房间号码为：</Text>
-                                <Text>{this.state.mytext.data}</Text>
-                                <Button className="copy" size='sm' onPress={this.handleCopy}>点击复制</Button>
-                                <Text>分享号码给好友，输入房间号即可对战</Text>
+                                <Text className="txt">您的房间号码为：</Text>
+                                <Text className="txt">{this.state.mytext.data}</Text>
+                                <Button className="copy" size='sm' type="primary" onPress={this.handleCopy}>点击复制</Button>
+                                <Text className="txt">分享号码给好友，输入房间号即可对战</Text>
                             </View>
                         </BackgroundImage>
                     </Modal>
-                    <Button className="start" disabled>开始对战</Button>
+                    <Button className="start" type="primary" disabled>开始对战</Button>
+
                 </View>
             </BackgroundImage>
         )

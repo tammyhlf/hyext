@@ -8,7 +8,7 @@
   padding-top: 120px;
 }
 .txt{
-  border: black;
+  color: white;
 }
 .copy{
   margin: 30px;
@@ -29,13 +29,13 @@
   width: 23px;
   height: 41px;
 }
-.user1{
+.blue-avatar-bgd{
   width: 344px;
   height: 200px;
   position: relative;
   left: 40px;
 }
-.user2{
+.yellow-avatar-bgd{
   width: 344px;
   height: 200px;
   position: relative;
@@ -48,8 +48,15 @@
   position: relative;
   left: -40px;
 }
-.pk{
+.pkImage{
   position: absolute;
+}
+.streamerName{
+  width: 50%;
+}
+.streamerName-txt{
+  color: white;
+  text-align: center;
 }
 .userImage{
   position: absolute;
@@ -60,13 +67,13 @@
   position: relative;
   left: 40px;
 }
-.blue-avatar{
+.blue-user{
   left: -130px;
-  top: 240px;
+  top: 260px;
 }
-.yellow-avatar{
+.yellow-user{
   left: 130px;
-  top: 240px;
+  top: 265px;
 }
 
 .invite{
