@@ -51,14 +51,7 @@
 .pk{
   position: absolute;
 }
-.streamerName{
-  width: 50%;
-}
-.streamerName-txt{
-  color: white;
-  text-align: center;
-}
-.pkImage{
+.userImage{
   position: absolute;
 }
 .spack-right{
@@ -67,13 +60,13 @@
   position: relative;
   left: 40px;
 }
-.blue-user{
+.blue-avatar{
   left: -130px;
-  top: 260px;
+  top: 240px;
 }
-.yellow-user{
+.yellow-avatar{
   left: 130px;
-  top: 265px;
+  top: 240px;
 }
 
 .invite{

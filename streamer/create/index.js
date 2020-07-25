@@ -11,7 +11,7 @@ class Create extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            roomId : "",
+            mytext : "",
             streamerNick:"",
             streamerAvatarUrl:"",
             streamerUnionId:"",
@@ -19,8 +19,8 @@ class Create extends Component {
     }
 
     handleCopy= (e) =>{
-        copy(this.state.roomId)
-        console.log(this.state.roomId)
+        copy(this.state.mytext.data)
+        console.log(this.state.mytext.data)
     }
 
     componentWillMount() {
@@ -45,9 +45,9 @@ class Create extends Component {
         let args = []
         args[0] = {}
         args[0].header = {
-            "Content-Type":"application/json;charset=UTF-8",
-            // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-            'Accept': 'application/json'
+            'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'Accept': 'application/json',
+            // 'Content-Type': 'application/json',
         }
         args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.streamerNick+"&picUrl="+this.state.streamerAvatarUrl+"&unionId="+this.state.streamerUnionId)
         args[0].method = "POST"
@@ -56,8 +56,6 @@ class Create extends Component {
         console.log('发送HTTP请求：' + JSON.stringify(args))
         hyExt.request(args[0]).then(resp => {
             console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
-            console.log('房间号---------------->发送HTTP请求成功，返回：' + JSON.stringify(resp.data.result))
-            this.setState({roomId:JSON.stringify(resp.data.result)})
         }).catch(err => {
             console.log('发送HTTP请求失败，错误信息：' + err.message)
         })
@@ -153,13 +151,14 @@ class Create extends Component {
                         <BackgroundImage src={require('../../assets/modal.png')} style={{width:300,height:235}}>
                             <View style={{borderRadius: 20,minWidth: 100, height: 200, alignItems: 'center', justifyContent: 'center'}}>
                                 <Text className="txt">您的房间号码为：</Text>
-                                <Text className="txt">{this.state.roomId}</Text>
+                                <Text className="txt">{this.state.mytext.data}</Text>
                                 <Button className="copy" size='sm' type="primary" onPress={this.handleCopy}>点击复制</Button>
                                 <Text className="txt">分享号码给好友，输入房间号即可对战</Text>
                             </View>
                         </BackgroundImage>
                     </Modal>
                     <Button className="start" type="primary" disabled>开始对战</Button>
+
                 </View>
             </BackgroundImage>
         )
