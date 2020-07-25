@@ -17,15 +17,6 @@ class Create extends Component {
             streamerUnionId:"",
         };
     }
-    getRoom= () =>{ //请求数据函数
-        fetch(`http://localhost:3000/rooms/1`,{
-            method: 'GET'
-        }).then(res => res.json()).then(
-            data => {
-                this.setState({mytext:data})
-            }
-        )
-    }
 
     handleCopy= (e) =>{
         copy(this.state.mytext.data)
@@ -33,7 +24,6 @@ class Create extends Component {
     }
 
     componentWillMount() {
-        // this.getRoom()
     }
 
     componentDidMount() {
@@ -46,73 +36,32 @@ class Create extends Component {
                   streamerAvatarUrl:userInfo.streamerAvatarUrl,
                   streamerUnionId:userInfo.streamerUnionId,
                 })
-                // this.state = {
-                //     streamerNick:userInfo.streamerNick,
-                //     streamerAvatarUrl:userInfo.streamerAvatarUrl,
-                //     streamerUnionId:userInfo.streamerUnionId
-                // }
                 this.postData();
             })
         });
     }
 
     postData = () => {
-        let url = "http://121.196.176.201:8082/game/create";
-
-        var formData = new FormData();
-        formData.append("nickName",this.state.streamerNick);
-        formData.append("picUrl",this.state.streamerAvatarUrl);
-        formData.append("unionId",this.state.streamerUnionId);
-
-        fetch(url,{
-            method :'POST',
-            headers:{
-                'Content-Type':'multipart/form-data',
-            },
-            body: formData,
+        let args = []
+        args[0] = {}
+        args[0].header = {
+            'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'Accept': 'application/json',
+            // 'Content-Type': 'application/json',
+        }
+        args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.streamerNick+"&picUrl="+this.state.streamerAvatarUrl+"&unionId="+this.state.streamerUnionId)
+        args[0].method = "POST"
+        args[0].data = {}  //请求的body
+        args[0].dataType = "json"    //返回的数据格式
+        console.log('发送HTTP请求：' + JSON.stringify(args))
+        hyExt.request(args[0]).then(resp => {
+            console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+        }).catch(err => {
+            console.log('发送HTTP请求失败，错误信息：' + err.message)
         })
-            .then(res=>res.json()).then(responseJson => {
-            console.log("Success: json ---> "  + responseJson);
-        })
-            .catch(error => console.error('Error:', error))
+
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    postData1 = () => {
-        // let url = "http://121.196.176.201:8082/game/create";
-        let url = "http://localhost:3000/streamers"
-        var data = {
-            nickName:this.state.streamerNick,
-            picUrl:this.state.streamerAvatarUrl,
-            unionId:this.state.streamerUnionId,
-        };
-
-        console.log("postData stringify ---- > " + JSON.stringify(data));
-        console.log("postData data ---- > " + data);
-
-        fetch(url,{
-            method :'POST',
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify(data)
-        })
-            .then(res=>res.json()).then(responseJson => {
-            console.log("Success: json ---> "  + responseJson);
-        })
-            .catch(error => console.error('Error:', error))
-    }
     render() {
         return (
             <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
