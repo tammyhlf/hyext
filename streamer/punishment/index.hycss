@@ -3,6 +3,8 @@
 }
 .punish-img {
   width: 100%;
+  height: 212px;
+  margin-top: 40px;
 }
 .result-content {
   display: flex;

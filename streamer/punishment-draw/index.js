@@ -2,6 +2,7 @@ import { UI } from "@hyext/hy-ui"
 import React, { Component } from "react"
 import "./index.hycss"
 import * as Animatable from "react-native-animatable"
+import { RootContext } from '../context'
 
 const { View, Image, Text, BackgroundImage, Modal } = UI
 
@@ -19,11 +20,29 @@ class PunishmentDraw extends Component {
         6: '模仿五种动物叫',
         7: '真心话'
       },
-      gameResult: '唱歌'
+      gameResult: '唱歌',
+      userInfo: {}
     }
   }
-  componentDidMount() {}
 
+  static contextType = RootContext
+
+  componentDidMount() {
+    let that = this
+    hyExt.onLoad(()=> {
+      if (!this.context.user) {
+        this.props.func.requestUserInfo().then(res => {
+          that.setState({
+            userInfo: res.user
+          })
+        })
+      } else {
+        that.setState({
+          userInfo: that.context.user
+        })
+      }
+    })
+  }
   handleDraw = (ref) => (this.view = ref);
 
   handleStart = () => {
@@ -87,7 +106,7 @@ class PunishmentDraw extends Component {
               className="avatar-img lose-back"
               src={require("../../assets/modal.png")}
             />
-            <Text className="text">这还是一个名字</Text>
+            <Text className="text">{this.state.userInfo.streamerNick}</Text>
           </View>
         </View>
         <Modal
@@ -123,4 +142,4 @@ class PunishmentDraw extends Component {
   }
 }
 
-export default PunishmentDraw;
+export default PunishmentDraw
