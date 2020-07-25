@@ -15,6 +15,7 @@
     "config": {
       "webSDKVersion": "1.10.0",
       "webTitle": "虎牙小程序",
+      "compileNodeModules": ["react-native-animatable"],
       "useCssLoader": true,
       "designWidth": 750,
       "https": false,

@@ -3,6 +3,7 @@
 }
 .punish-img {
   width: 100%;
+  height: 212px;
   margin-top: 40px;
 }
 .result-content {
@@ -72,4 +73,11 @@
   color: #4668fa;
   margin-top: 14px;
 }
-
+.animates {
+  width: 712px;
+  height: 712px;
+  overflow: hidden;
+}
+.box {
+  position: absolute;
+}
