@@ -26,3 +26,7 @@
   border-color: #3a5ede;
   background-color: #4f7ef7;
 }
+.txt{
+  padding-top: 120px;
+  color: white;
+}

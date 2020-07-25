@@ -29,13 +29,13 @@
   width: 23px;
   height: 41px;
 }
-.user1{
+.blue-avatar-bgd{
   width: 344px;
   height: 200px;
   position: relative;
   left: 40px;
 }
-.user2{
+.yellow-avatar-bgd{
   width: 344px;
   height: 200px;
   position: relative;

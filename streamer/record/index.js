@@ -10,9 +10,13 @@ class Record extends Component {
     constructor (p) {
         super(p)
         this.state = {
-
         }
     }
+
+    componentWillMount() {
+
+    }
+
 
     render () {
         return (

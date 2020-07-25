@@ -17,7 +17,7 @@
       "webTitle": "虎牙小程序",
       "useCssLoader": true,
       "designWidth": 750,
-      "https": true,
+      "https": false,
       "host": "localhost",
       "port": 18080,
       "enableLint": false,
