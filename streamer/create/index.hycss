@@ -8,7 +8,7 @@
   padding-top: 120px;
 }
 .txt{
-  border: black;
+  color: white;
 }
 .copy{
   margin: 30px;
@@ -29,13 +29,13 @@
   width: 23px;
   height: 41px;
 }
-.user1{
+.blue-avatar-bgd{
   width: 344px;
   height: 200px;
   position: relative;
   left: 40px;
 }
-.user2{
+.yellow-avatar-bgd{
   width: 344px;
   height: 200px;
   position: relative;
@@ -50,6 +50,13 @@
 }
 .pk{
   position: absolute;
+}
+.streamerName{
+  width: 50%;
+  text-align: center;
+}
+.streamerName-txt{
+  color: white;
 }
 .userImage{
   position: absolute;

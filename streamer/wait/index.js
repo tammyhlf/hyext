@@ -45,7 +45,7 @@ class Wait extends Component {
                         padding: 50
                     }}>
                         <View>
-                            <Image className="user1" src={require('../../assets/blue-avatar-bgd.png')}/>
+                            <Image className="blue-avatar-bgd" src={require('../../assets/blue-avatar-bgd.png')}/>
                         </View>
                         <View>
                             <Image className="spack-left" src={require('../../assets/spark-left.png')}/>
@@ -54,7 +54,7 @@ class Wait extends Component {
                             <Image className="spack-right" src={require('../../assets/spark-right.png')}/>
                         </View>
                         <View>
-                            <Image className="user2" src={require('../../assets/yellow-avatar-bgd.png')}/>
+                            <Image className="yellow-avatar-bgd" src={require('../../assets/yellow-avatar-bgd.png')}/>
                         </View>
                     </View>
                     <View  className="pk" style={{
@@ -68,7 +68,7 @@ class Wait extends Component {
                             <Image className="yellow-avatar" src={require('../../assets/yellow-avatar.png')}/>
                         </View>
                     </View>
-                    <Button className="start">开始对战</Button>
+                    <Button className="start" type="primary">开始对战</Button>
                 </View>
             </BackgroundImage>
         )

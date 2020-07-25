@@ -4,13 +4,17 @@ import copy from 'copy-to-clipboard'
 import './index.hycss'
 import {Link} from "react-router-dom";
 
-const { View,Text,Button,BackgroundImage,Image,Modal} = UI
+const {View,Text,Button,BackgroundImage,Image,Modal,Avatar} = UI
 
 class Create extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
             mytext : "",
+            // streamerNick:"",
+            // streamerAvatarUrl:"",
+            // streamerUnionId:"",
         };
     }
     getRoom= () =>{ //请求数据函数
@@ -29,7 +33,49 @@ class Create extends Component {
     }
 
     componentWillMount() {
-        this.getRoom()
+        // this.getRoom()
+    }
+
+    componentDidMount() {
+        hyExt.onLoad(()=> {    //小程序生命周期
+            hyExt.context.getStreamerInfo().then(userInfo => {    //获取用户信息
+                console.log(userInfo,"获取主播信息");
+                // console.log(userInfo.streamerNick);
+                this.setState({
+                  streamerNick:userInfo.streamerNick,
+                  streamerAvatarUrl:userInfo.streamerAvatarUrl,
+                  streamerUnionId:userInfo.streamerUnionId,
+                })
+                // this.state = {
+                //     streamerNick:userInfo.streamerNick,
+                //     streamerAvatarUrl:userInfo.streamerAvatarUrl,
+                //     streamerUnionId:userInfo.streamerUnionId
+                // }
+                // this.postData();
+            })
+        });
+    }
+
+    postData = () => {
+        var url = "http://localhost:3000/streamers";
+        var data = {
+            nickName:this.state.streamerNick,
+            picUrl:this.state.streamerAvatarUrl,
+            unionId:this.state.streamerUnionId,
+        };
+        console.log("postData stringify ---- > " + JSON.stringify(data));
+        console.log("postData data ---- > " + data);
+        fetch(url,{
+            method :'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(data)
+        }).then(res=>res.json()).then(responseJson => {
+            console.log("Success: json ---> "  + responseJson);
+        })
+            .catch(error => console.error('Error:', error))
     }
     render() {
         return (
@@ -62,7 +108,7 @@ class Create extends Component {
                         padding: 50
                     }}>
                         <View>
-                            <Image className="user1" src={require('../../assets/blue-avatar-bgd.png')}/>
+                            <Image className="blue-avatar-bgd" src={require('../../assets/blue-avatar-bgd.png')}/>
                         </View>
                         <View>
                             <Image className="spack-left" src={require('../../assets/spark-left.png')}/>
@@ -71,11 +117,11 @@ class Create extends Component {
                             <Image className="spack-right" src={require('../../assets/spark-right.png')}/>
                         </View>
                         <View>
-                            <Image className="user2" src={require('../../assets/yellow-avatar-bgd.png')}/>
+                            <Image className="yellow-avatar-bgd" src={require('../../assets/yellow-avatar-bgd.png')}/>
                         </View>
                     </View>
+
                     <View  className="pk" style={{
-                        flex:1,
                         flexDirection: "row",
                     }}>
                         <View>
@@ -85,7 +131,30 @@ class Create extends Component {
                             <Image className="yellow-avatar" src={require('../../assets/yellow-avatar.png')}/>
                         </View>
                     </View>
-                    <Button className="invite" onPress={() => {
+
+                    <View  className="pkImage" style={{
+                        // flexDirection: "row",
+                    }}>
+                        <Image src={this.state.streamerAvatarUrl}/>
+                        {/*<Avatar*/}
+                        {/*    size="s"*/}
+                        {/*    borderColor="#f90909"*/}
+                        {/*    backupSrc={this.state.streamerAvatarUrl} // 网络错误显示默认图*/}
+                        {/*    src={this.state.streamerAvatarUrl}*/}
+                        {/*/>*/}
+                    </View>
+                    <View style={{
+                        flexDirection: "row",
+                        width:460
+                    }}>
+                        <View className="streamerName">
+                            <Text className="streamerName-txt">{this.state.streamerNick}</Text>
+                        </View>
+                        <View className="streamerName">
+                            <Text className="streamerName-txt">等待加入</Text>
+                        </View>
+                    </View>
+                    <Button className="invite" type="primary" onPress={() => {
                         this._modal.open()
                     }}>邀请对手</Button>
                     <Modal
@@ -97,14 +166,15 @@ class Create extends Component {
                         }}>
                         <BackgroundImage src={require('../../assets/modal.png')} style={{width:300,height:235}}>
                             <View style={{borderRadius: 20,minWidth: 100, height: 200, alignItems: 'center', justifyContent: 'center'}}>
-                                <Text>您的房间号码为：</Text>
-                                <Text>{this.state.mytext.data}</Text>
-                                <Button className="copy" size='sm' onPress={this.handleCopy}>点击复制</Button>
-                                <Text>分享号码给好友，输入房间号即可对战</Text>
+                                <Text className="txt">您的房间号码为：</Text>
+                                <Text className="txt">{this.state.mytext.data}</Text>
+                                <Button className="copy" size='sm' type="primary" onPress={this.handleCopy}>点击复制</Button>
+                                <Text className="txt">分享号码给好友，输入房间号即可对战</Text>
                             </View>
                         </BackgroundImage>
                     </Modal>
-                    <Button className="start" disabled>开始对战</Button>
+                    <Button className="start" type="primary" disabled>开始对战</Button>
+
                 </View>
             </BackgroundImage>
         )
