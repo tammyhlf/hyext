@@ -2,7 +2,6 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import copy from 'copy-to-clipboard'
 import './index.hycss'
-import {Link} from "react-router-dom";
 import { RootContext } from '../context'
 
 
@@ -24,22 +23,13 @@ class Create extends Component {
         Tip.show('复制成功', 500, true,'top')
     }
 
+    handleClick = () => {
+        this.props.history.push('/index_streamer_pc_anchor_panel.html')
+    }
 
     static contextType = RootContext
 
     componentDidMount() {
-        // hyExt.onLoad(()=> {    //小程序生命周期
-        //     hyExt.context.getStreamerInfo().then(userInfo => {    //获取用户信息
-        //         console.log(userInfo,"获取主播信息");
-        //         // console.log(userInfo.streamerNick);
-        //         this.setState({
-        //           streamerNick:userInfo.streamerNick,
-        //           streamerAvatarUrl:userInfo.streamerAvatarUrl,
-        //           streamerUnionId:userInfo.streamerUnionId,
-        //         })
-        //         this.postData();
-        //     })
-        // });
         let that = this
         hyExt.onLoad(()=> {
             if (!this.context.user) {
@@ -94,10 +84,8 @@ class Create extends Component {
                     height: 40,
                     padding: 20
                 }}>
-                    <View style={{width:10}}>
-                        <Link to={'/index_streamer_pc_anchor_panel.html'}>
-                            <Image className="home" src={require('../../assets/home.png')}></Image>
-                        </Link>
+                    <View style={{width:10}} onClick={this.handleClick}>
+                        <Image className="home" src={require('../../assets/home.png')}></Image>
                     </View>
                     <View style={{width:310}}>
 

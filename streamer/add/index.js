@@ -1,10 +1,9 @@
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
-import {Link} from "react-router-dom";
 import { RootContext } from '../context'
 
-const { View, Text, Input ,Button ,BackgroundImage ,Image ,Tip} = UI
+const { View, Text, Input ,Button ,BackgroundImage ,Image ,Tip } = UI
 
 class Add extends Component {
     constructor (p) {
@@ -67,6 +66,9 @@ class Add extends Component {
             }
         })
     }
+    handleClick = () => {
+        this.props.history.push('/index_streamer_pc_anchor_panel.html')
+    }
 
     render() {
         return (
@@ -77,18 +79,13 @@ class Add extends Component {
                     height: 40,
                     padding: 20
                 }}>
-                    <View style={{width:10}}>
-                        <Link to={'/index_streamer_pc_anchor_panel.html'}>
-                            <Image className="home" src={require('../../assets/home.png')}></Image>
-                        </Link>
+                    <View style={{width:10}} onClick={this.handleClick}>
+                        <Image className="home" src={require('../../assets/home.png')}></Image>
                     </View>
                     <View style={{width:310}}>
 
                     </View>
                     <View style={{width:10}}>
-                        {/*<Link to={'/wait'}>*/}
-                        {/*    <Image className="draw-back" src={require('../../assets/draw-back.png')}></Image>*/}
-                        {/*</Link>*/}
                     </View>
                 </View>
 

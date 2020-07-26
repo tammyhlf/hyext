@@ -1,7 +1,6 @@
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
-import {Link} from "react-router-dom";
 
 const { View, Text, Longlist, Image, BackgroundImage} = UI
 
@@ -11,6 +10,10 @@ class Record extends Component {
         super(p)
         this.state = {
         }
+    }
+
+    handleClick = () => {
+        this.props.history.push('/index_streamer_pc_anchor_panel.html')
     }
 
     componentWillMount() {
@@ -27,10 +30,8 @@ class Record extends Component {
                     height: 40,
                     padding: 20
                 }}>
-                    <View style={{width:10}}>
-                        <Link to={'/index_streamer_pc_anchor_panel.html'}>
-                            <Image className="home" src={require('../../assets/home.png')}></Image>
-                        </Link>
+                    <View style={{width:10}} onClick={this.handleClick}>
+                        <Image className="home" src={require('../../assets/home.png')}></Image>
                     </View>
                     <View style={{width:320}}>
                     </View>
