@@ -29,7 +29,8 @@ class App extends Component {
             <Route path="/record" render={ () => <Record func={func} />}/>
             <Route path="/add" render={ () => <Add func={func} />}/>
             <Route path="/create" render={ () => <Create func={func} />}/>
-            <Route path="/index_streamer_pc_anchor_panel.html" render={ () => <Home func={func} /> } />
+            {/*<Route path="/index_streamer_pc_anchor_panel.html" render={ () => <Home func={func} /> } />*/}
+            <Route path="/index_streamer_pc_anchor_panel.html" render={ () => <Punishment func={func} /> } />
           </Switch>
         </Router>
       </RootContext.Provider>

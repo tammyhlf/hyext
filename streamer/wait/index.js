@@ -2,6 +2,7 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import {Link} from "react-router-dom";
+import { RootContext } from '../context'
 
 
 const { View,Text,Button,BackgroundImage,Image,Modal,Avatar} = UI
@@ -10,7 +11,27 @@ class Wait extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            userInfo: {},
         };
+    }
+
+    static contextType = RootContext
+
+    componentDidMount() {
+        let that = this
+        hyExt.onLoad(()=> {
+            if (!this.context.user) {
+                this.props.func.requestUserInfo().then(res => {
+                    that.setState({
+                        userInfo: res.user
+                    })
+                })
+            } else {
+                that.setState({
+                    userInfo: that.context.user
+                })
+            }
+        })
     }
 
     render() {
@@ -74,7 +95,7 @@ class Wait extends Component {
                                 borderWidth={3}
                                 borderColor="#ffb700"
                                 backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                                src={this.state.streamerAvatarUrl}
+                                src={this.state.userInfo.streamerAvatarUrl}
                             />
                         </View>
                     </View>
@@ -87,7 +108,7 @@ class Wait extends Component {
                             <Text className="streamerName-txt">玩家1</Text>
                         </View>
                         <View className="streamerName">
-                            <Text className="streamerName-txt">{this.state.streamerNick}</Text>
+                            <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
                         </View>
                     </View>
                     <Button className="start" type="primary">开始对战</Button>

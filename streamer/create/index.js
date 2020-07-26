@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 import copy from 'copy-to-clipboard'
 import './index.hycss'
 import {Link} from "react-router-dom";
+import { RootContext } from '../context'
 
-const {View,Text,Button,BackgroundImage,Image,Modal,Avatar} = UI
+
+const {View,Text,Button,BackgroundImage,Image,Modal,Avatar,Tip} = UI
 
 class Create extends Component {
 
@@ -12,33 +14,53 @@ class Create extends Component {
         super(props)
         this.state = {
             roomId : "",
-            streamerNick:"",
-            streamerAvatarUrl:"",
-            streamerUnionId:"",
+            userInfo: {}
         };
     }
 
     handleCopy= (e) =>{
         copy(this.state.roomId)
         console.log(this.state.roomId)
+        Tip.show('复制成功', 500, true,'top')
     }
 
-    componentWillMount() {
-    }
+
+    static contextType = RootContext
 
     componentDidMount() {
-        hyExt.onLoad(()=> {    //小程序生命周期
-            hyExt.context.getStreamerInfo().then(userInfo => {    //获取用户信息
-                console.log(userInfo,"获取主播信息");
-                // console.log(userInfo.streamerNick);
-                this.setState({
-                  streamerNick:userInfo.streamerNick,
-                  streamerAvatarUrl:userInfo.streamerAvatarUrl,
-                  streamerUnionId:userInfo.streamerUnionId,
+        // hyExt.onLoad(()=> {    //小程序生命周期
+        //     hyExt.context.getStreamerInfo().then(userInfo => {    //获取用户信息
+        //         console.log(userInfo,"获取主播信息");
+        //         // console.log(userInfo.streamerNick);
+        //         this.setState({
+        //           streamerNick:userInfo.streamerNick,
+        //           streamerAvatarUrl:userInfo.streamerAvatarUrl,
+        //           streamerUnionId:userInfo.streamerUnionId,
+        //         })
+        //         this.postData();
+        //     })
+        // });
+        let that = this
+        hyExt.onLoad(()=> {
+            if (!this.context.user) {
+                this.props.func.requestUserInfo().then(res => {
+                    that.setState({
+                        userInfo: res.user
+                    })
                 })
-                this.postData();
-            })
-        });
+            } else {
+                that.setState({
+                    userInfo: that.context.user
+                })
+            }
+            this.postData()
+
+            let args = []
+            args[0] = 'foo'
+            args[1] = (...args) => console.log('触发回调：' + JSON.stringify(args))
+            console.log('监听小程序消息：'  + JSON.stringify(args))
+            hyExt.observer.on(args[0], args[1])
+        })
     }
 
     postData = () => {
@@ -49,7 +71,7 @@ class Create extends Component {
             // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.streamerNick+"&picUrl="+this.state.streamerAvatarUrl+"&unionId="+this.state.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.userInfo.streamerNick+"&picUrl="+this.state.userInfo.streamerAvatarUrl+"&unionId="+this.state.userInfo.streamerUnionId)
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式
@@ -61,7 +83,6 @@ class Create extends Component {
         }).catch(err => {
             console.log('发送HTTP请求失败，错误信息：' + err.message)
         })
-
     }
 
     render() {
@@ -116,7 +137,7 @@ class Create extends Component {
                                 borderWidth={3}
                                 borderColor="#3a5ede"
                                 backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                                src={this.state.streamerAvatarUrl}
+                                src={this.state.userInfo.streamerAvatarUrl}
                             />
                         </View>
                         <View className="yellow-user">
@@ -134,7 +155,7 @@ class Create extends Component {
                         width:460
                     }}>
                         <View className="streamerName">
-                            <Text className="streamerName-txt">{this.state.streamerNick}</Text>
+                            <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
                         </View>
                         <View className="streamerName">
                             <Text className="streamerName-txt">等待加入</Text>
