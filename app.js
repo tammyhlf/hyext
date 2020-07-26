@@ -1,5 +1,5 @@
 import React, { Component, createContext } from 'react'
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Route, Router } from "@hyext/router";
 import Home from './streamer/home'
 import LuckDraw from './streamer/luck-draw'
 import PunishmentDraw from './streamer/punishment-draw'
@@ -19,19 +19,16 @@ class App extends Component {
   render () {
     return (
       <RootContext.Provider value={root}>
-        <Router>
-          <Switch>
-            <Route path="/punishment-draw" render={ () => <PunishmentDraw func={func} /> } />
-            <Route path="/punishment" render={ () => <Punishment func={func} /> } />
-            <Route path="/game-result" render={ () => <GameResult func={func} />} />
-            <Route path="/luck-draw" render={ () => <LuckDraw func={func} />} />
-            <Route path="/wait" render={ () => <Wait func={func} />}/>
-            <Route path="/record" render={ () => <Record func={func} />}/>
-            <Route path="/add" render={ () => <Add func={func} />}/>
-            <Route path="/create" render={ () => <Create func={func} />}/>
-            {/*<Route path="/index_streamer_pc_anchor_panel.html" render={ () => <Home func={func} /> } />*/}
-            <Route path="/index_streamer_pc_anchor_panel.html" render={ () => <Punishment func={func} /> } />
-          </Switch>
+        <Router initialEntries={['/index_streamer_pc_anchor_panel.html']}  ref={c => { this.$router = c }}>
+          <Route path="/punishment-draw" render={ (props) => <PunishmentDraw {...props} func={func} /> } />
+          <Route path="/punishment" render={ (props) => <Punishment {...props} func={func} /> } />
+          <Route path="/game-result" render={ (props) => <GameResult {...props} func={func} />} />
+          <Route path="/luck-draw" render={ (props) => <LuckDraw {...props} func={func} />} />
+          <Route path="/wait" render={ (props) => <Wait {...props} func={func} />}/>
+          <Route path="/record" render={ (props) => <Record {...props} func={func} />}/>
+          <Route path="/add" render={ (props) => <Add {...props} func={func} />}/>
+          <Route path="/create" render={ (props) => <Create {...props} func={func} />}/>
+          <Route path="/index_streamer_pc_anchor_panel.html" render={ (props) => <Home {...props} func={func} />} />
         </Router>
       </RootContext.Provider>
     )
