@@ -1,20 +1,18 @@
-import { UI, Modules } from '@hyext/hy-ui'
+import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import danceAction from './dance-action'
-import { Animated } from 'react-native'
-
-const { Animations } = Modules
+import * as Animatable from "react-native-animatable"
 
 const { View, Text, Button, Image } = UI
 let timer = null; //定时器，用于节流
 
 class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       wbId: "",
-      wb:false,
+      wb: false,
       wb_width: 1280,  //白板的分辨率，影响白板显示清晰度
       wb_height: 720,  //白板的分辨率，影响白板显示清晰度
       recognition: {
@@ -40,42 +38,37 @@ class App extends Component {
           callback: data => {
             const result = JSON.parse(data);
             this.setState({ result });
-            this.setState({wb:true});
+            this.setState({ wb: true });
           }
         })
       }
     })
   }
-  animated = new Animations.SlideAnimated({
-    duration: 5000,
-    translateYList: [500, 20],
-    directionType: ["vertical"]
-  })
 
   //在组件内加入创建白板函数
-  createWb () {
+  createWb() {
     const { recognition, wb_width, wb_height } = this.state;
     const { canvas } = recognition;
-    const { width , height } = canvas;
+    const { width, height } = canvas;
     let args = {
-      type : "EXTRA",
-      wbName : 'foo',
+      type: "EXTRA",
+      wbName: 'foo',
       offsetX: 0,
       offsetY: 0,
-      canvasWidth : width,
+      canvasWidth: width,
       canvasHeight: height,
       width: wb_width,
       height: wb_height
     }
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
-        this.setState({wbId:wbId});
+        this.setState({ wbId: wbId });
       }).catch(err => {
         console.log(err);
       })
   }
 
-  calAngle = (angle1 = {x:0, y:0}, angle2 = {x:0, y:0}, angle3 = {x:0, y:0}) => {
+  calAngle = (angle1 = { x: 0, y: 0 }, angle2 = { x: 0, y: 0 }, angle3 = { x: 0, y: 0 }) => {
     const k1 = (angle2.y - angle1.y) / (angle2.x - angle1.x)
     const k2 = (angle3.y - angle2.y) / (angle3.x - angle2.x)
     return Math.abs((k2 - k1) / (1 + k1 * k2))
@@ -98,10 +91,10 @@ class App extends Component {
     const goodValue = 1
     const perfectValue = 0.5
 
-    const result1 =  Math.abs(distinguishResult.leftArm - actionResult.leftArm) || 0
-    const result2 =  Math.abs(distinguishResult.rightArm - actionResult.rightArm) || 0
-    const result3 =  Math.abs(distinguishResult.leftLeg - actionResult.leftLeg) || 0
-    const result4 =  Math.abs(distinguishResult.rightLeg - actionResult.rightLeg) || 0
+    const result1 = Math.abs(distinguishResult.leftArm - actionResult.leftArm) || 0
+    const result2 = Math.abs(distinguishResult.rightArm - actionResult.rightArm) || 0
+    const result3 = Math.abs(distinguishResult.leftLeg - actionResult.leftLeg) || 0
+    const result4 = Math.abs(distinguishResult.rightLeg - actionResult.rightLeg) || 0
 
     if (result1 < perfectValue && result2 < perfectValue && result3 < perfectValue && result4 < perfectValue) {
       return 10
@@ -112,8 +105,8 @@ class App extends Component {
     }
   }
 
-  sendToWb (result) {
-    if(this.state.wbId){
+  sendToWb(result) {
+    if (this.state.wbId) {
       const data = JSON.stringify(result);
       hyExt.stream.sendToExtraWhiteBoard({
         wbId: this.state.wbId,
@@ -123,16 +116,16 @@ class App extends Component {
   }
 
   //节流函数
-  throttle(func,gapTime) {
-    if(!timer){
+  throttle(func, gapTime) {
+    if (!timer) {
       func.apply(this);
-      timer = setTimeout(()=>{
+      timer = setTimeout(() => {
         timer = null;
-      },gapTime);
+      }, gapTime);
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { wb_width, wb_height } = this.state;
     hyExt.reg.onHumanSkeletonDetection({
       width: wb_width,
@@ -147,14 +140,13 @@ class App extends Component {
         console.log(this.state.recognition)
         const result = this.contrastResult(this.calResult(danceAction[0]), this.calResult(keypointsList))
         this.throttle(() => this.sendToWb(result), 10000);
-        if(!this.state.wbId)
+        if (!this.state.wbId)
           this.createWb();
       }
     });
-    this.animated.toIn()
   }
 
-  renderForm () {
+  renderForm() {
     return (
       <View className='container'>
         <Text>主播屏</Text>
@@ -162,53 +154,62 @@ class App extends Component {
     )
   }
 
-  renderWb () {
+  renderWb() {
     const { result } = this.state
-    const wrapperStyle = {
-      transform: [
-        {
-          translateY: this.animated.getState().translateY
-        }
-      ]
+    const animates = {
+      0: {
+        opacity: 0,
+        scale: 1
+      },
+      0.1: {
+        opacity: 1,
+        scale: 1.2
+      },
+      0.9: {
+        opacity: 1,
+        scale: 1
+      },
+      1: {
+        opacity: 0,
+        scale: 0
+      }
+    }
+    const danceAnimates = {
+      from: {
+        translateY: 0
+      },
+      to: {
+        translateY: -1222
+      }
     }
     return (
       <View className='container'>
-        {/* <Text style={{ fontSize: '200px', color: 'white' }}>{ result } </Text> */}
-        <Animated.View style={wrapperStyle}>
-          <Image style={{
-            width: '300px',
-            height:  '400px'
-          }}
-            src={require('../../assets/dance-action/1.png')}
-          />
-           <Image style={{
-            width: '300px',
-            height:  '400px'
-          }}
-            src={require('../../assets/dance-action/2.png')}
-          />
-          <Image style={{
-            width: '300px',
-            height:  '400px'
-          }}
-            src={require('../../assets/dance-action/3.png')}
-          />
-          <Image style={{
-            width: '300px',
-            height:  '400px'
-          }}
-            src={require('../../assets/dance-action/4.png')}
-          /> 
-        </Animated.View>
-        
+        <View className='count-down'>
+          <View className="count-content">
+            <Animatable.View animation={animates} className="img-content">
+              <Image src={require('../../assets/dance-action/three.png')} className="img"></Image>
+            </Animatable.View>
+            <Animatable.View animation={animates} delay={1000} className="img-content">
+              <Image src={require('../../assets/dance-action/two.png')} className="img"></Image>
+            </Animatable.View>
+            <Animatable.View animation={animates} delay={2000} className="img-content">
+              <Image src={require('../../assets/dance-action/one.png')} className="img"></Image>
+            </Animatable.View>
+          </View>
+        </View>
+        <Animatable.View delay={3500}  animation={danceAnimates}>
+          <Image src={require('../../assets/dance-action/1.png')} className="dance-action"></Image>
+          <Image src={require('../../assets/dance-action/2.png')} className="dance-action"></Image>
+          <Image src={require('../../assets/dance-action/3.png')} className="dance-action"></Image>
+        </Animatable.View>
       </View>
     )
   }
 
-  render () {
-    if(this.state.wb){
+  render() {
+    if (this.state.wb) {
       return this.renderWb();
-    }else
+    } else
       return this.renderForm();
   }
 }

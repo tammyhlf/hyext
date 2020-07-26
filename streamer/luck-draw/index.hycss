@@ -1,3 +1,26 @@
 .container {
   flex: 1;
 }
+.count-down {
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.count-content {
+  position: relative;
+  width: 306px;
+  height: 306px;
+}
+.img-content {
+  position: absolute;
+}
+.img {
+  width: 306px;
+  height: 306px;
+}
+.dance-action {
+  width: 300px;
+  height: 400px;
+}
