@@ -1,17 +1,40 @@
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
-import {Link} from "react-router-dom";
+import { RootContext } from '../context'
 
 
-const { View,Text,Button,BackgroundImage,Image,Modal} = UI
+const { View,Text,Button,BackgroundImage,Image,Modal,Avatar} = UI
 
 class Wait extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            mytext: "",
+            userInfo: {},
         };
+    }
+
+    handleClick = () => {
+        this.props.history.push('/index_streamer_pc_anchor_panel.html')
+    }
+
+    static contextType = RootContext
+
+    componentDidMount() {
+        let that = this
+        hyExt.onLoad(()=> {
+            if (!this.context.user) {
+                this.props.func.requestUserInfo().then(res => {
+                    that.setState({
+                        userInfo: res.user
+                    })
+                })
+            } else {
+                that.setState({
+                    userInfo: that.context.user
+                })
+            }
+        })
     }
 
     render() {
@@ -23,10 +46,8 @@ class Wait extends Component {
                     height: 40,
                     padding: 20
                 }}>
-                    <View style={{width:10}}>
-                        <Link to={'/index_streamer_pc_anchor_panel.html'}>
-                            <Image className="home" src={require('../../assets/home.png')}></Image>
-                        </Link>
+                    <View style={{width:10}} onClick={this.handleClick}>
+                        <Image className="home" src={require('../../assets/home.png')}></Image>
                     </View>
                     <View style={{width:310}}>
 
@@ -57,15 +78,38 @@ class Wait extends Component {
                             <Image className="yellow-avatar-bgd" src={require('../../assets/yellow-avatar-bgd.png')}/>
                         </View>
                     </View>
-                    <View  className="pk" style={{
-                        flex:1,
+                    <View  className="pkImage" style={{
                         flexDirection: "row",
                     }}>
-                        <View>
-                            <Image className="blue-avatar" src={require('../../assets/blue-avatar.png')}/>
+                        <View className="blue-user">
+                            <Avatar
+                                size="l"
+                                borderWidth={3}
+                                borderColor="#3a5ede"
+                                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                                src={require('../../assets/fail.png')}
+                            />
                         </View>
-                        <View>
-                            <Image className="yellow-avatar" src={require('../../assets/yellow-avatar.png')}/>
+                        <View className="yellow-user">
+                            <Avatar
+                                size="l"
+                                borderWidth={3}
+                                borderColor="#ffb700"
+                                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                                src={this.state.userInfo.streamerAvatarUrl}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{
+                        flexDirection: "row",
+                        width:460
+                    }}>
+                        <View className="streamerName">
+                            <Text className="streamerName-txt">玩家1</Text>
+                        </View>
+                        <View className="streamerName">
+                            <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
                         </View>
                     </View>
                     <Button className="start" type="primary">开始对战</Button>

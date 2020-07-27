@@ -6,32 +6,10 @@
   margin-top: 40px;
   height: 212px;
 }
-.result-content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-.avatar-img {
-  width: 208px;
-  height: 208px;
-  border: 6px solid #ffb901;
-  border-radius: 50%;
-  margin-bottom: 40px;
-}
 .lose-back {
   border: 6px solid #4668fa;
   margin-top: 58px;
 }
-.crown {
-  width: 84px;
-  height: 58px;
-  margin-left: 62px;
-}
-.text {
-  color: #ffffff;
-  font-size: 36px;
-}
-
 .draw-contanier {
   position: relative;
 }
@@ -40,7 +18,6 @@
   height: 606px;
   position: relative;
   margin: 0 auto;
-  display: block;
 }
 .draw-content {
   position: absolute;
@@ -81,4 +58,27 @@
   font-weight: 700;
   color: #fee47b;
   text-shadow: 0 0 34px #b90565;
+}
+
+
+
+.streamerName{
+  width: 50%;
+}
+.streamerName-txt{
+  color: white;
+  text-align: center;
+}
+.blue-user{
+  width: 50%;
+  left: 110px;
+}
+.yellow-user{
+  width: 50%;
+  left: 110px;
+}
+.crown {
+  width: 84px;
+  height: 58px;
+  left: 150px;
 }
