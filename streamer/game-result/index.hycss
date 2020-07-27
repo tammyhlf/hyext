@@ -5,36 +5,6 @@
   width: 100%;
   margin-top: 40px;
 }
-.avatar-img {
-  width: 208px;
-  height: 208px;
-  border: 6px solid #ffb901;
-  border-radius: 50%;
-  margin-bottom: 70px;
-}
-.lose-back {
-  border: 6px solid #4668fa;
-  margin-top: 58px;
-}
-.crown {
-  width: 84px;
-  height: 58px;
-  margin-left: 62px;
-}
-.win {
-  position: absolute;
-  top: 195px;
-  z-index: 2;
-  width: 210px;
-  height: 114px;
-}
-.lose {
-  position: absolute;
-  top: 195px;
-  z-index: 2;
-  width: 230px;
-  height: 118px;
-}
 .btn-group {
   margin-top: 150px;
 }
@@ -57,12 +27,41 @@
   flex-direction: row;
   justify-content: center;
 }
-.game-icon {
-  display: inline-block;
-  margin-left: 30px;
-}
 
 .text {
   color: #ffffff;
   font-size: 36px;
+}
+
+
+.streamerName{
+  width: 50%;
+}
+.streamerName-txt{
+  color: white;
+  text-align: center;
+}
+.blue-user{
+  width: 50%;
+  left: 110px;
+}
+.yellow-user{
+  width: 50%;
+  left: 110px;
+}
+.crown {
+  margin-top: 200px;
+  width: 84px;
+  height: 58px;
+  left: 145px;
+}
+.win {
+  top: -50px;
+  width: 184px;
+  height: 100px;
+}
+.lose {
+  top: -50px;
+  width: 195px;
+  height: 100px;
 }

@@ -4,7 +4,7 @@ import "./index.hycss"
 import * as Animatable from "react-native-animatable"
 import { RootContext } from '../context'
 
-const { View, Image, Text, BackgroundImage, Modal } = UI
+const { View, Image, Text, BackgroundImage, Modal,Avatar } = UI
 
 class PunishmentDraw extends Component {
   constructor(props) {
@@ -92,23 +92,46 @@ class PunishmentDraw extends Component {
             />
           </View>
         </View>
-        <View className="result-content">
-          <View>
-            <Image className="crown" src={require("../../assets/crown.png")} />
-            <Image
-              className="avatar-img"
-              src={require("../../assets/modal.png")}
+
+        {/*zmc修改部分*/}
+
+        <Image className="crown" src={require("../../assets/crown.png")} />
+
+        <View  className="pkImage" style={{
+          flexDirection: "row",
+          width:375
+        }}>
+          <View className="blue-user">
+            <Avatar
+                size="l"
+                borderWidth={3}
+                borderColor="#3a5ede"
+                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                src={this.state.userInfo.streamerAvatarUrl}
             />
-            <Text className="text">这是一个名字</Text>
           </View>
-          <View>
-            <Image
-              className="avatar-img lose-back"
-              src={require("../../assets/modal.png")}
+          <View className="yellow-user">
+            <Avatar
+                size="l"
+                borderWidth={3}
+                borderColor="#ffb700"
+                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                src={this.state.userInfo.streamerAvatarUrl}
             />
-            <Text className="text">{this.state.userInfo.streamerNick}</Text>
           </View>
         </View>
+        <View style={{
+          flexDirection: "row",
+          width:375
+        }}>
+          <View className="streamerName">
+            <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
+          </View>
+          <View className="streamerName">
+            <Text className="streamerName-txt">另一位玩家</Text>
+          </View>
+        </View>
+
         <Modal
           ref={(c) => {
             this._modal = c;

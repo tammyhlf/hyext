@@ -2,64 +2,77 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import copy from 'copy-to-clipboard'
 import './index.hycss'
-import {Link} from "react-router-dom";
+import { RootContext } from '../context'
 
-const {View,Text,Button,BackgroundImage,Image,Modal,Avatar} = UI
+
+const {View,Text,Button,BackgroundImage,Image,Modal,Avatar,Tip} = UI
 
 class Create extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            mytext : "",
-            streamerNick:"",
-            streamerAvatarUrl:"",
-            streamerUnionId:"",
+            roomId : "",
+            userInfo: {}
         };
     }
 
     handleCopy= (e) =>{
-        copy(this.state.mytext.data)
-        console.log(this.state.mytext.data)
+        copy(this.state.roomId)
+        console.log(this.state.roomId)
+        Tip.show('复制成功', 500, true,'top')
     }
 
-    componentWillMount() {
+    handleClick = () => {
+        this.props.history.push('/index_streamer_pc_anchor_panel.html')
     }
+
+    static contextType = RootContext
 
     componentDidMount() {
-        hyExt.onLoad(()=> {    //小程序生命周期
-            hyExt.context.getStreamerInfo().then(userInfo => {    //获取用户信息
-                console.log(userInfo,"获取主播信息");
-                // console.log(userInfo.streamerNick);
-                this.setState({
-                  streamerNick:userInfo.streamerNick,
-                  streamerAvatarUrl:userInfo.streamerAvatarUrl,
-                  streamerUnionId:userInfo.streamerUnionId,
+        let that = this
+        hyExt.onLoad(()=> {
+            if (!this.context.user) {
+                this.props.func.requestUserInfo().then(res => {
+                    that.setState({
+                        userInfo: res.user
+                    })
                 })
-                this.postData();
-            })
-        });
+            } else {
+                that.setState({
+                    userInfo: that.context.user
+                })
+            }
+            this.postData()
+
+            let args = []
+            args[0] = 'foo'
+            args[1] = (...args) => console.log('触发回调：' + JSON.stringify(args))
+            console.log('监听小程序消息：'  + JSON.stringify(args))
+            hyExt.observer.on(args[0], args[1])
+        })
     }
 
     postData = () => {
         let args = []
         args[0] = {}
         args[0].header = {
-            'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-            'Accept': 'application/json',
-            // 'Content-Type': 'application/json',
+            "Content-Type":"application/json;charset=UTF-8",
+            // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.streamerNick+"&picUrl="+this.state.streamerAvatarUrl+"&unionId="+this.state.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.userInfo.streamerNick+"&picUrl="+this.state.userInfo.streamerAvatarUrl+"&unionId="+this.state.userInfo.streamerUnionId)
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式
         console.log('发送HTTP请求：' + JSON.stringify(args))
         hyExt.request(args[0]).then(resp => {
             console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+            console.log('房间号---------------->发送HTTP请求成功，返回：' + JSON.stringify(resp.data.result))
+            this.setState({roomId:JSON.stringify(resp.data.result)})
         }).catch(err => {
             console.log('发送HTTP请求失败，错误信息：' + err.message)
         })
-
     }
 
     render() {
@@ -71,10 +84,8 @@ class Create extends Component {
                     height: 40,
                     padding: 20
                 }}>
-                    <View style={{width:10}}>
-                        <Link to={'/index_streamer_pc_anchor_panel.html'}>
-                            <Image className="home" src={require('../../assets/home.png')}></Image>
-                        </Link>
+                    <View style={{width:10}} onClick={this.handleClick}>
+                        <Image className="home" src={require('../../assets/home.png')}></Image>
                     </View>
                     <View style={{width:310}}>
 
@@ -114,7 +125,7 @@ class Create extends Component {
                                 borderWidth={3}
                                 borderColor="#3a5ede"
                                 backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                                src={this.state.streamerAvatarUrl}
+                                src={this.state.userInfo.streamerAvatarUrl}
                             />
                         </View>
                         <View className="yellow-user">
@@ -132,7 +143,7 @@ class Create extends Component {
                         width:460
                     }}>
                         <View className="streamerName">
-                            <Text className="streamerName-txt">{this.state.streamerNick}</Text>
+                            <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
                         </View>
                         <View className="streamerName">
                             <Text className="streamerName-txt">等待加入</Text>
@@ -151,14 +162,13 @@ class Create extends Component {
                         <BackgroundImage src={require('../../assets/modal.png')} style={{width:300,height:235}}>
                             <View style={{borderRadius: 20,minWidth: 100, height: 200, alignItems: 'center', justifyContent: 'center'}}>
                                 <Text className="txt">您的房间号码为：</Text>
-                                <Text className="txt">{this.state.mytext.data}</Text>
+                                <Text className="txt">{this.state.roomId}</Text>
                                 <Button className="copy" size='sm' type="primary" onPress={this.handleCopy}>点击复制</Button>
                                 <Text className="txt">分享号码给好友，输入房间号即可对战</Text>
                             </View>
                         </BackgroundImage>
                     </Modal>
                     <Button className="start" type="primary" disabled>开始对战</Button>
-
                 </View>
             </BackgroundImage>
         )

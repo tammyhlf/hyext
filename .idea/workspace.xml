@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="878d83e0-78e8-4eb1-8b40-ec342627a586" name="Default Changelist" comment="" />
+    <list default="true" id="878d83e0-78e8-4eb1-8b40-ec342627a586" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project.config.json" beforeDir="false" afterPath="$PROJECT_DIR$/project.config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/game-result/index.hycss" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/game-result/index.hycss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/game-result/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/game-result/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/punishment-draw/index.hycss" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/punishment-draw/index.hycss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/punishment-draw/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/punishment-draw/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/punishment/index.hycss" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/punishment/index.hycss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/punishment/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/punishment/index.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,12 +31,13 @@
   <component name="ProjectId" id="1exhVozfI8Jt686Te4KH9Wgtadm" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hyext-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hello-world" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\77497\Desktop\hyext\assets" />
+      <recent name="C:\Users\77497\Desktop\hyext\assets\dance-action" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -42,6 +53,16 @@
     </option>
   </component>
   <component name="RunManager" selected="npm.start">
+    <configuration name="config" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="config" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="release" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -66,6 +87,7 @@
       <list>
         <item itemvalue="npm.start" />
         <item itemvalue="npm.release" />
+        <item itemvalue="npm.config" />
       </list>
     </recent_temporary>
   </component>
@@ -89,7 +111,16 @@
       <workItem from="1595519059454" duration="18973000" />
       <workItem from="1595600818508" duration="17063000" />
       <workItem from="1595649340220" duration="12735000" />
-      <workItem from="1595663320849" duration="11088000" />
+      <workItem from="1595663320849" duration="18491000" />
+      <workItem from="1595705392220" duration="22412000" />
+      <workItem from="1595760774870" duration="352000" />
+      <workItem from="1595761597048" duration="97000" />
+      <workItem from="1595763327859" duration="1115000" />
+      <workItem from="1595764622094" duration="2591000" />
+      <workItem from="1595768881937" duration="546000" />
+      <workItem from="1595769450579" duration="3312000" />
+      <workItem from="1595774786023" duration="17702000" />
+      <workItem from="1595821344820" duration="1183000" />
     </task>
     <servers />
   </component>
