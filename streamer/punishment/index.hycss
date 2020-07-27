@@ -12,13 +12,7 @@
   justify-content: space-around;
   margin-top: 80px;
 }
-.avatar-img {
-  width: 208px;
-  height: 208px;
-  border: 6px solid #ffb901;
-  border-radius: 50%;
-  margin-bottom: 70px;
-}
+
 .lose-back {
   border: 6px solid #4668fa;
   margin-top: 58px;
@@ -27,20 +21,6 @@
   width: 84px;
   height: 58px;
   margin-left: 62px;
-}
-.win {
-  position: absolute;
-  top: 195px;
-  z-index: 2;
-  width: 210px;
-  height: 114px;
-}
-.lose {
-  position: absolute;
-  top: 195px;
-  z-index: 2;
-  width: 230px;
-  height: 118px;
 }
 
 .btn-group {
@@ -65,14 +45,6 @@
   color: #ffffff;
   font-size: 36px;
 }
-.win-score {
-  color: #ffb901;
-  margin-top: 14px;
-}
-.lose-score {
-  color: #4668fa;
-  margin-top: 14px;
-}
 .animates {
   width: 712px;
   height: 712px;
@@ -80,4 +52,44 @@
 }
 .box {
   position: absolute;
+}
+
+
+.streamerName{
+  width: 50%;
+}
+.streamerName-txt{
+  color: white;
+  text-align: center;
+}
+.blue-user{
+  width: 50%;
+  left: 110px;
+}
+.yellow-user{
+  width: 50%;
+  left: 110px;
+}
+.crown {
+  width: 84px;
+  height: 58px;
+  left: 90px;
+}
+.win {
+  top: -50px;
+  width: 184px;
+  height: 100px;
+}
+.lose {
+  top: -50px;
+  width: 195px;
+  height: 100px;
+}
+.streamerScore-yellow {
+  color: #ffb901;
+  text-align: center;
+}
+.streamerScore-blue {
+  color: #4668fa;
+  text-align: center;
 }

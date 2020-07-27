@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import './index.hycss'
 import { RootContext } from '../context'
 
-const { View, Button, Image, Text, BackgroundImage } = UI
+const { View, Button, Image, Text, BackgroundImage, Avatar} = UI
 
 class Punishment extends Component {
   constructor(props) {
@@ -82,21 +82,82 @@ class Punishment extends Component {
           
           
         <Image src={require('../../assets/logo.png')} className="punish-img" />
-        <View className="result-content">
-          <View>
-            <Image className="crown" src={require('../../assets/crown.png')} />
-            <Image className="avatar-img" src={require('../../assets/modal.png')} />
-            <Image className="win" src={require('../../assets/win.png')} />
-            <Text className="text"></Text>
-            <Text className="text win-score">得分：200</Text>
+        {/*<View className="result-content">*/}
+        {/*  <View>*/}
+        {/*    <Image className="crown" src={require('../../assets/crown.png')} />*/}
+        {/*    <Image className="avatar-img" src={require('../../assets/modal.png')} />*/}
+        {/*    <Image className="win" src={require('../../assets/win.png')} />*/}
+        {/*    <Text className="text"></Text>*/}
+        {/*    <Text className="text win-score">得分：200</Text>*/}
+        {/*  </View>*/}
+        {/*  <View>*/}
+        {/*    <Image className="avatar-img lose-back" src={require('../../assets/modal.png')} />*/}
+        {/*    <Image className="lose" src={require('../../assets/lose.png')} />*/}
+        {/*    <Text className="text">这还是一个名字</Text>*/}
+        {/*    <Text className="text lose-score">得分:300</Text>*/}
+        {/*  </View>*/}
+        {/*</View>*/}
+
+
+        {/*zmc修改部分*/}
+
+        {/*皇冠*/}
+        <Image className="crown" src={require("../../assets/crown.png")} />
+
+        {/*双方头像*/}
+        <View  className="pkImage" style={{
+          flexDirection: "row",
+          width:375,
+        }}>
+          <View className="yellow-user">
+            <Avatar
+                size="l"
+                borderWidth={3}
+                borderColor="#ffb700"
+                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                src={require('../../assets/fail.png')}
+            />
           </View>
-          <View>
-            <Image className="avatar-img lose-back" src={require('../../assets/modal.png')} />
-            <Image className="lose" src={require('../../assets/lose.png')} />
-            <Text className="text">这还是一个名字</Text>
-            <Text className="text lose-score">得分:300</Text>
+          <View className="blue-user">
+            <Avatar
+                size="l"
+                borderWidth={3}
+                borderColor="#3a5ede"
+                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                src={this.state.userInfo.streamerAvatarUrl}
+            />
           </View>
         </View>
+
+        {/*获胜or失败标志*/}
+        <View style={{
+          flexDirection: "row",
+          width:375
+        }}>
+          <View className="yellow-user">
+            <Image className="win" src={require('../../assets/win.png')} />
+          </View>
+          <View className="blue-user">
+            <Image className="lose" src={require('../../assets/lose.png')} />
+          </View>
+        </View>
+
+        {/*双方名字以及得分*/}
+        <View style={{
+          flexDirection: "row",
+          width:375
+        }}>
+          <View className="streamerName">
+            <Text className="streamerName-txt">另一位玩家</Text>
+            <Text className="streamerScore-yellow">得分：200</Text>
+          </View>
+          <View className="streamerName">
+            <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
+            <Text className="streamerScore-blue">得分：300</Text>
+          </View>
+        </View>
+
+
         <View className="btn-group">
           <Button className="punish-btn" size="lg" textStyle={{color: 'white'}} onPress={this.handleClick}>抽取惩罚</Button>
           <Button className="custom-btn" size="lg" textStyle={{color: 'white'}} onPress={this.handleCustomClick}>自定义惩罚</Button>
