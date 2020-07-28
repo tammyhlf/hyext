@@ -28,7 +28,7 @@ class App extends Component {
           <Route path="/record" render={ (props) => <Record {...props} func={func} />}/>
           <Route path="/add" render={ (props) => <Add {...props} func={func} />}/>
           <Route path="/create" render={ (props) => <Create {...props} func={func} />}/>
-          <Route path="/index_streamer_pc_anchor_panel.html" render={ (props) => <GameResult {...props} func={func} />} />
+          <Route path="/index_streamer_pc_anchor_panel.html" render={ (props) => <LuckDraw {...props} func={func} />} />
         </Router>
       </RootContext.Provider>
     )

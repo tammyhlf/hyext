@@ -21,7 +21,7 @@
       "useCssLoader": true,
       "designWidth": 750,
       "https": false,
-      "host": "192.168.0.103",
+      "host": "localhost",
       "port": 18080,
       "enableLint": false,
       "buildConfig": {
