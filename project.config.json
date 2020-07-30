@@ -2,7 +2,7 @@
   "name": "hy-ext",
   "outputPath": "dist",
   "releasePath": "release",
-  "extId": "094434a5fc1183e5",
+  "extId": "cye0vuh7",
   "ignore": [
     "*.md",
     "LICENSE",
@@ -21,7 +21,7 @@
       "useCssLoader": true,
       "designWidth": 750,
       "https": false,
-      "host": "192.168.0.103",
+      "host": "localhost",
       "port": 18080,
       "enableLint": false,
       "buildConfig": {

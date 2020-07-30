@@ -10,8 +10,49 @@ class Add extends Component {
         super(p)
         this.state = {
             userInfo: {},
+            otherStreamerNick:"",
+            otherStreamerUnionId:"",
+            otherStreamerAvatarUrl:"",
         }
     }
+
+    static contextType = RootContext
+    componentDidMount() {
+        let that = this
+        hyExt.onLoad(()=> {
+            if (!this.context.user) {
+                this.props.func.requestUserInfo().then(res => {
+                    that.setState({
+                        userInfo: res.user
+                    })
+                })
+            } else {
+                that.setState({
+                    userInfo: that.context.user
+                })
+            }
+            this.monitor()
+        })
+    }
+
+    //监听小程序
+    monitor = () => {
+        let args = []
+        //监听加入信息
+        args[0] = 'join'
+        args[1] = data => {
+            console.log("----------->返回数据"+data)
+            console.log(typeof data)//检验data数据类型
+            let n = data.replace(/Player\(/g,", ").split(", "); //字符串转化为数组
+            console.log(n)
+            this.setState({
+                otherStreamerNick:n[2].toString().slice(9,n[2].length),
+                otherStreamerAvatarUrl:n[3].toString().slice(7,n[3].length),
+            })
+        }
+        hyExt.observer.on(args[0], args[1])
+    }
+
     join =() =>{
         console.log(this.state.roomId)
         let args = []
@@ -36,6 +77,8 @@ class Add extends Component {
             // success校验
             if(success == true){
                 Tip.show(result,500, false,'top')
+                //延时操作
+                setTimeout(this.goto,1000)
             }else {
                 if(message == "人数已满，无法加入！"){
                     Tip.show(message,500, false,'top')
@@ -49,25 +92,16 @@ class Add extends Component {
         })
     }
 
-    static contextType = RootContext
-    componentDidMount() {
-        let that = this
-        hyExt.onLoad(()=> {
-            if (!this.context.user) {
-                this.props.func.requestUserInfo().then(res => {
-                    that.setState({
-                        userInfo: res.user
-                    })
-                })
-            } else {
-                that.setState({
-                    userInfo: that.context.user
-                })
-            }
-        })
-    }
     handleClick = () => {
         this.props.history.push('/index_streamer_pc_anchor_panel.html')
+    }
+    goto = () =>{
+        this.props.history.push({ pathname: '/wait', state: {
+                otherStreamerNick: this.state.otherStreamerNick,
+                otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
+                otherStreamerUnionId: this.state.otherStreamerUnionId,
+                roomId: this.state.roomId,
+            } })
     }
 
     render() {
@@ -85,7 +119,8 @@ class Add extends Component {
                     <View style={{width:310}}>
 
                     </View>
-                    <View style={{width:10}}>
+                    <View style={{width:10}} onClick={this.join}>
+                        <Image className="draw-back" src={require('../../assets/draw-back.png')}></Image>
                     </View>
                 </View>
 
@@ -107,7 +142,6 @@ class Add extends Component {
                         }}
                     />
                 </View>
-                <Button onPress={this.join}>test</Button>
             </BackgroundImage>
         )
     }
