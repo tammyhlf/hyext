@@ -8,7 +8,7 @@
   padding-top: 120px;
 }
 .txt{
-  border: black;
+  color: white;
 }
 .copy{
   margin: 30px;
@@ -86,7 +86,18 @@
 .start{
   border:5px;
   border-radius: 120px;
-  margin-top: 180px;
+  margin: 50px;
+  margin-top: 0;
   border-color: #3a5ede;
   background-color: #4f7ef7;
+}
+.ready{
+  width: 135px;
+  height: 61px;
+  position: relative;
+  left:105px;
+}
+.readyImage{
+  width: 50%;
+  height: 61px;
 }

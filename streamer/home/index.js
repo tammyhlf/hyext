@@ -11,11 +11,23 @@ class Home extends Component {
 
     };
   }
-  componentWillMount() {
 
-  }
   componentDidMount() {
-
+    let that = this
+    hyExt.onLoad(()=> {
+      if (!this.context.user) {
+        this.props.func.requestUserInfo().then(res => {
+          that.setState({
+            userInfo: res.user
+          })
+          console.log("----------->打印主播号"+this.state.userInfo.streamerUnionId)
+        })
+      } else {
+        that.setState({
+          userInfo: that.context.user
+        })
+      }
+    })
   }
 
   handleClick = () => {
@@ -28,7 +40,6 @@ class Home extends Component {
     this.props.history.push('/record')
   }
 
-
   render () {
     return (
       <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
@@ -36,7 +47,7 @@ class Home extends Component {
           <Image className="groupImage" src={require('../../assets/group-image.png')}/>
             <Button className="setup"  type="primary" onPress={this.handleClick1}>创建房间</Button>
             <Button className="add" type="primary" onPress={this.handleClick}>加入房间</Button>
-            <Text className="txt" onPress={this.handleClick2}>历史战绩<Icon type='angle-right' size={10} tintColor='#ffffff'></Icon></Text>
+            {/*<Text className="txt" onPress={this.handleClick2}>历史战绩<Icon type='angle-right' size={10} tintColor='#ffffff'></Icon></Text>*/}
         </View>
       </BackgroundImage>
     )
