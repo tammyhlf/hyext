@@ -11,6 +11,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      danceAction,
+      display: 'block',
       wbId: "",
       wb: false,
       wb_width: 1280,  //白板的分辨率，影响白板显示清晰度
@@ -105,7 +107,7 @@ class App extends Component {
     }
   }
 
-  sendToWb(result) {
+  sendToWb(result, resolve) {
     if (this.state.wbId) {
       const data = JSON.stringify(result);
       hyExt.stream.sendToExtraWhiteBoard({
@@ -113,14 +115,16 @@ class App extends Component {
         data
       })
     }
+    resolve()
   }
 
   //节流函数
-  throttle(func, gapTime) {
+  throttle(func, gapTime, resolve) {
     if (!timer) {
       func.apply(this);
       timer = setTimeout(() => {
         timer = null;
+        resolve()
       }, gapTime);
     }
   }
@@ -137,8 +141,15 @@ class App extends Component {
         keypoints.map(item => {
           keypointsList[item.id] = item
         })
-        const result = this.contrastResult(this.calResult(danceAction[0]), this.calResult(keypointsList))
-        this.throttle(() => this.sendToWb(result), 1000);
+        this.state.danceAction.map((item, index) => {
+          new Promise(resolve => {
+            this.throttle(() => this.sendToWb(this.contrastResult(this.calResult(danceAction[index]), this.calResult(keypointsList)), resolve), 2000);
+          }).then(() => {
+            this.setState({
+              display: 'none'
+            })
+          })
+        })
         if (!this.state.wbId)
           this.createWb();
       }
@@ -172,18 +183,17 @@ class App extends Component {
         opacity: 0
       }
     }
-    const danceAnimates = {
+    danceAnimates = {
       from: {
-        translateY: 0
+        translateY: 600,
       },
       to: {
-        translateY: -700
+        translateY: -900,
       }
     }
     return (
       <View className='container'>
-        <Text style={{color:'red', fontSize: '200px'}}>{result}</Text>
-        <Image src={require('../../assets/dance-action/1.png')} className="dance-action"></Image>
+        <Text style={{color:'red', fontSize: '100px'}}>{result}</Text>
         {/* <View className='count-down'>
           <View className="count-content">
             <Animatable.View animation={animates} className="img-content">
@@ -197,23 +207,24 @@ class App extends Component {
             </Animatable.View>
           </View>
         </View> */}
-        {/* <Animatable.View delay={3000} duration={1000} animation={danceAnimates} easing="linear">
-          <Image src={require('../../assets/dance-action/1.png')} className="dance-action"></Image> */}
-          {/* <Image src={require('../../assets/dance-action/2.png')} className="dance-even"></Image>
-          <Image src={require('../../assets/dance-action/3.png')} className="dance-action"></Image>
-          <Image src={require('../../assets/dance-action/4.png')} className="dance-even"></Image>
-          <Image src={require('../../assets/dance-action/5.png')} className="dance-action"></Image>
-          <Image src={require('../../assets/dance-action/6.png')} className="dance-even"></Image>
-          <Image src={require('../../assets/dance-action/7.png')} className="dance-action"></Image>
-          <Image src={require('../../assets/dance-action/8.png')} className="dance-even"></Image>
-          <Image src={require('../../assets/dance-action/9.png')} className="dance-action"></Image>
-          <Image src={require('../../assets/dance-action/10.png')} className="dance-even"></Image>
-          <Image src={require('../../assets/dance-action/11.png')} className="dance-action"></Image>
-          <Image src={require('../../assets/dance-action/12.png')} className="dance-even"></Image>
-          <Image src={require('../../assets/dance-action/13.png')} className="dance-action"></Image>
-          <Image src={require('../../assets/dance-action/14.png')} className="dance-even"></Image>
-          <Image src={require('../../assets/dance-action/15.png')} className="dance-action"></Image> */}
-        {/* </Animatable.View> */}
+        <Animatable.View
+          duration={6000}
+          animation={danceAnimates}
+          easing="linear"
+        >
+          { this.state.danceAction.map((item, index)=> {
+            return (
+              <Animatable.View
+                key={index}
+                className="draw-content"
+                transition="display"
+                style={{display: this.state.display}}
+              >
+                <Image src={require(`../../assets/dance-action/${index + 1}.png`)} className="dance-action"></Image>
+              </Animatable.View>
+            )
+          }) }
+        </Animatable.View>
       </View>
     )
   }
