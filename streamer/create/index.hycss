@@ -54,9 +54,15 @@
 .streamerName{
   width: 50%;
 }
-.streamerName-txt{
-  color: white;
+.streamerName-txt-left{
+  position: relative;
   text-align: center;
+  color: white;
+}
+.streamerName-txt-right{
+  position: relative;
+  text-align: center;
+  color: white;
 }
 .spack-right{
   width: 80px;
@@ -87,4 +93,14 @@
   margin-top: 0;
   border-color: #3a5ede;
   background-color: #4f7ef7;
+}
+.ready{
+  width: 135px;
+  height: 61px;
+  position: relative;
+  left:105px;
+}
+.readyImage{
+  width: 50%;
+  height: 61px;
 }
