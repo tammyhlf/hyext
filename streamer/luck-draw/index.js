@@ -34,8 +34,9 @@ class App extends Component {
         keypoints: [[{}]]
       },
       resultObj: {
-        result: -1,
-        totalResult: 0
+        result: 0,
+        totalResult: 0,
+        danceIndex: 0
       },
       totalResult: 0
     }
@@ -151,8 +152,8 @@ class App extends Component {
     }
   }
 
-  sendToWb(result, totalResult) {
-    let resultObj = {result, totalResult}
+  sendToWb(result, totalResult, danceIndex) {
+    let resultObj = {result, totalResult, danceIndex}
     if (this.state.wbId) {
       const data = JSON.stringify(resultObj);
       hyExt.stream.sendToExtraWhiteBoard({
@@ -186,7 +187,7 @@ class App extends Component {
       danceIndex:  danceIndex + 1,
       totalResult: calResults + totalResult
     })
-    this.sendToWb(calResults, this.state.totalResult)
+    this.sendToWb(calResults, this.state.totalResult, danceIndex)
     console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${totalResult}`)
     // 舞蹈动作结束后
     if (danceIndex == 14) {
@@ -209,12 +210,12 @@ class App extends Component {
       }
       hyExt.request(params).then(res => {
         console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-        this.props.history.push({ pathname: '/punishment', state: {
-          otherStreamerNick: this.state.otherStreamerNick,
-          otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
-          otherStreamerUnionId: this.state.otherStreamerUnionId,
-          roomId: this.state.roomId,
-        }})
+        // this.props.history.push({ pathname: '/punishment', state: {
+        //   otherStreamerNick: this.state.otherStreamerNick,
+        //   otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
+        //   otherStreamerUnionId: this.state.otherStreamerUnionId,
+        //   roomId: this.state.roomId,
+        // }})
       }).catch(err => {
           console.log('发送HTTP请求失败，错误信息：' + err.message)
       })
@@ -234,7 +235,7 @@ class App extends Component {
   }
 
   renderWb() {
-    const { result, totalResult } = this.state.resultObj
+    const { result, totalResult, danceIndex } = this.state.resultObj
     const animates = {
       0: {
         opacity: 0,
@@ -255,28 +256,27 @@ class App extends Component {
     danceAnimates = {
       0: {
         translateY: 0,
-        opacity: 1
+        // opacity: 1
       },
-      0.99: {
-        translateY: -8415,
-        opacity: 1
-      },
+      // 0.99: {
+      //   translateY: -7920,
+      //   opacity: 1
+      // },
       1: {
-        translateY: -8500,
-        opacity: 0
+        translateY: -8000,
       }
     }
     return (
       <View className='container'>
-        <Image 
+        {/* <Image 
           src={this.state.resultDataMap[result]}
           style={{
             width: '300px',
             height: '300px',
             marginLeft: '400px'
           }}
-        ></Image>
-        {/* <Text
+        ></Image> */}
+        <Text
             style={{
               fontSize: '100px',
               color: 'white',
@@ -284,7 +284,7 @@ class App extends Component {
               color: 'red'
             }}>
             {totalResult}
-          </Text> */}
+          </Text>
         <View className='count-down'>
           <View className="count-content">
             <Animatable.View animation={animates} className="img-content">
@@ -312,7 +312,10 @@ class App extends Component {
                 // transition="display"
                 // style={{display: this.state.display}}
               >
-                <Image src={require(`../../assets/dance-action/${index + 1}.png`)} className="dance-action"></Image>
+                <Image
+                  src={ danceIndex == index ? this.state.resultDataMap[result] : require(`../../assets/dance-action/${index + 1}.png`)}
+                  className="dance-action"
+                ></Image>
               </Animatable.View>
             )
           }) }
