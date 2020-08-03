@@ -9,7 +9,11 @@ class Punishment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo:{}
+      userInfo:{},
+      otherStreamerNick: this.props.location.otherStreamerNick,
+      otherStreamerAvatarUrl: this.props.location.otherStreamerAvatarUrl,
+      otherStreamerUnionId: this.props.location.otherStreamerUnionId,
+      roomId: this.props.location.roomId
     }
   }
 
@@ -17,28 +21,38 @@ class Punishment extends Component {
 
   componentDidMount() {
     let that = this
-    hyExt.onLoad(()=> {
-      if (!this.context.user) {
-        this.props.func.requestUserInfo().then(res => {
-          that.setState({
-            userInfo: res.user
-          })
-        })
-      } else {
+    if (!this.context.user) {
+      this.props.func.requestUserInfo().then(res => {
         that.setState({
-          userInfo: that.context.user
+          userInfo: res.user
         })
-      }
-    })
+      })
+    } else {
+      that.setState({
+          userInfo: that.context.user
+      })
+    }
+    this.monitor() // 监听小程序发送的分数与随机数
+  }
+
+  monitor = () => {
+    const callbackFun = (res) => {
+      console.log(`监听的数据${res}`)
+    }
+    hyExt.observer.on('finish', callbackFun)
   }
   
   handleClick = () => {
-    console.log('this ->', this)
-    this.props.history.push('/punishment-draw')
+    this.props.history.push(this.props.history.push({ pathname: '/punishment', state: {
+      otherStreamerNick: this.state.otherStreamerNick,
+      otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
+      otherStreamerUnionId: this.state.otherStreamerUnionId,
+      roomId: this.state.roomId,
+    }}))
   }
 
   handleCustomClick = () => {
-    this.$router.history.push('/game-result')
+    this.props.history.push('/game-result')
   }
 
   render () {
@@ -72,34 +86,7 @@ class Punishment extends Component {
         className="backgroundImage"
         src={require("../../assets/background.png")}
       >
-      {/* <div style={{ height: "100%", position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
-          {/* <Animatable.View animation={animatesbox} duration={6000} className="box" easing="linear">
-            <Image src={require('../../assets/dance-action/three.png')} style={{ width: '306px', height: '306px' }}></Image>
-            <Image src={require('../../assets/dance-action/two.png')} style={{ width: '306px', height: '306px', marginTop: '70px' }}></Image>
-            <Image src={require('../../assets/dance-action/three.png')} style={{ width: '306px', height: '306px', marginTop: '70px' }}></Image>
-            <Image src={require('../../assets/dance-action/two.png')} style={{ width: '306px', height: '306px', marginTop: '70px' }}></Image>
-          </Animatable.View> */}
-          
-          
         <Image src={require('../../assets/logo.png')} className="punish-img" />
-        {/*<View className="result-content">*/}
-        {/*  <View>*/}
-        {/*    <Image className="crown" src={require('../../assets/crown.png')} />*/}
-        {/*    <Image className="avatar-img" src={require('../../assets/modal.png')} />*/}
-        {/*    <Image className="win" src={require('../../assets/win.png')} />*/}
-        {/*    <Text className="text"></Text>*/}
-        {/*    <Text className="text win-score">得分：200</Text>*/}
-        {/*  </View>*/}
-        {/*  <View>*/}
-        {/*    <Image className="avatar-img lose-back" src={require('../../assets/modal.png')} />*/}
-        {/*    <Image className="lose" src={require('../../assets/lose.png')} />*/}
-        {/*    <Text className="text">这还是一个名字</Text>*/}
-        {/*    <Text className="text lose-score">得分:300</Text>*/}
-        {/*  </View>*/}
-        {/*</View>*/}
-
-
-        {/*zmc修改部分*/}
 
         {/*皇冠*/}
         <Image className="crown" src={require("../../assets/crown.png")} />
@@ -115,7 +102,7 @@ class Punishment extends Component {
                 borderWidth={3}
                 borderColor="#ffb700"
                 backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                src={require('../../assets/fail.png')}
+                src={this.state.otherStreamerAvatarUrl}
             />
           </View>
           <View className="blue-user">
@@ -148,7 +135,7 @@ class Punishment extends Component {
           width:375
         }}>
           <View className="streamerName">
-            <Text className="streamerName-txt">另一位玩家</Text>
+            <Text className="streamerName-txt">{this.state.otherStreamerNick}</Text>
             <Text className="streamerScore-yellow">得分：200</Text>
           </View>
           <View className="streamerName">
