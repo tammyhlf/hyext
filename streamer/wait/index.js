@@ -51,6 +51,14 @@ class Wait extends Component {
                 break;
         }
     }
+    handleClick2 = () =>{
+        this.props.history.push({ pathname: '/luck-draw', state: {
+                otherStreamerNick: this.state.otherStreamerNick,
+                otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
+                otherStreamerUnionId: this.state.otherStreamerUnionId,
+                roomId: this.state.roomId,
+            } })
+    }
 
 
     static contextType = RootContext

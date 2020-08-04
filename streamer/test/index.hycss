@@ -1,33 +1,3 @@
-.container {
-  height: 100%;
-}
-.count-down {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.count-content {
-  position: relative;
-  width: 306px;
-  height: 306px;
-}
-.img-content {
-  position: absolute;
-}
-.img {
-  width: 306;
-  height: 306;
-}
-.dance-action {
-  width: 400;
-  height: 500;
-}
-.dance-even {
-  width: 300;
-  height: 300;
-  margin-left: 40%;
-}
 .home{
   width: 43px;
   height: 43px;
@@ -41,8 +11,8 @@
   align-items: center;
 }
 .logo1{
-  width: 520px;
-  height: 200px;
+   width: 520px;
+   height: 200px;
 }
 .blue-avatar-bgd{
   width: 344px;
