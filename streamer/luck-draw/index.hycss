@@ -23,10 +23,11 @@
   width: 400;
   height: 500;
 }
-.dance-even {
-  width: 300;
-  height: 300;
-  margin-left: 40%;
+.result-text {
+  color: white;
+  font-size: 150px;
+  font-weight: 800;
+  -webkit-text-stroke: 1px solid #ffb700;
 }
 .home{
   width: 43px;
