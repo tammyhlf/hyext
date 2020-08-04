@@ -226,6 +226,14 @@ class App extends Component {
     intervalTimer = setInterval(this.sendResult, 2000)
   }
 
+  componentWillUnmount () {
+    hyExt.stream.removeWhiteBoard().then(() => {
+      hyExt.logger.info('移除小程序普通白板成功')    
+    }).catch(err => {
+      hyExt.logger.info('移除小程序普通白板失败，错误信息：' + err.message)
+    })
+  }
+
   renderForm() {
     return (
       <View className='container'>
@@ -268,13 +276,13 @@ class App extends Component {
     }
     return (
       <View className='container'>
-        <View>
-          <Text className="result-text">115</Text>
+        <View className="progress">
+          <Text className="result-text">{totalResult}</Text>
           <Progress
             easing={true}
-            percent={60}
-            style={{height: 50, width: 400,transform: [{rotate: '-90deg'}], borderRadius: '20px' }}
-            barStyle={{height: 50, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
+            percent={totalResult / 150 * 100}
+            style={{height: 60, width: 400, marginTop: '50%', transform: [{rotate: '-90deg'}], borderRadius: '40px' }}
+            barStyle={{height: 60, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
           />
         </View>
         <View className='count-down'>
@@ -282,10 +290,10 @@ class App extends Component {
             <Animatable.View animation={animates} className="img-content">
               <Image src={require('../../assets/dance-action/three.png')} className="img"></Image>
             </Animatable.View>
-            <Animatable.View animation={animates} className="img-content">
+            <Animatable.View animation={animates} delay={1000} className="img-content">
               <Image src={require('../../assets/dance-action/two.png')} className="img"></Image>
             </Animatable.View>
-            <Animatable.View animation={animates} delay={1000} className="img-content">
+            <Animatable.View animation={animates} delay={2000} className="img-content">
               <Image src={require('../../assets/dance-action/one.png')} className="img"></Image>
             </Animatable.View>
           </View>
@@ -294,7 +302,7 @@ class App extends Component {
           duration={30000}
           animation={danceAnimates}
           easing="linear"
-          delay={1000}
+          delay={2000}
         >
           { danceAction.map((item, index)=> {
             return (

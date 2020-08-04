@@ -2,15 +2,16 @@
   height: 100%;
 }
 .count-down {
+  height: 100%;
   position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .count-content {
   position: relative;
-  width: 306px;
-  height: 306px;
+  width: 306;
+  height: 306;
 }
 .img-content {
   position: absolute;
@@ -24,8 +25,15 @@
   height: 500;
 }
 .result-text {
+  display: inline;
   color: white;
-  font-size: 150px;
-  font-weight: 800;
-  -webkit-text-stroke: 1px solid #ffb700;
+  font-size: 40px;
+  font-weight: 700;
+  text-shadow: 0 0 10px #ffb700;
+  text-align: center;
+}
+.progress {
+  position: absolute;
+  right: -10%;
+  top: 10%;
 }
