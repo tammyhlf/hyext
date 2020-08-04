@@ -6,7 +6,7 @@ import { RootContext } from '../context'
 import { ApiUrl, finish } from '../context/user'
 import * as Animatable from "react-native-animatable"
 
-const { View, Text, Button, Image } = UI
+const { View, Text, Button, Image, Progress } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
 
@@ -268,23 +268,15 @@ class App extends Component {
     }
     return (
       <View className='container'>
-        {/* <Image 
-          src={this.state.resultDataMap[result]}
-          style={{
-            width: '300px',
-            height: '300px',
-            marginLeft: '400px'
-          }}
-        ></Image> */}
-        <Text
-            style={{
-              fontSize: '100px',
-              color: 'white',
-              textAlign: 'right',
-              color: 'red'
-            }}>
-            {totalResult}
-          </Text>
+        <View>
+          <Text className="result-text">115</Text>
+          <Progress
+            easing={true}
+            percent={60}
+            style={{height: 50, width: 400,transform: [{rotate: '-90deg'}], borderRadius: '20px' }}
+            barStyle={{height: 50, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
+          />
+        </View>
         <View className='count-down'>
           <View className="count-content">
             <Animatable.View animation={animates} className="img-content">
