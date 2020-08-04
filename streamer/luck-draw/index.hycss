@@ -1,8 +1,7 @@
 .container {
-  flex: 1;
+  height: 100%;
 }
 .count-down {
-  height: 100%;
   position: relative;
   display: flex;
   align-items: center;
@@ -17,16 +16,15 @@
   position: absolute;
 }
 .img {
-  width: 306px;
-  height: 306px;
+  width: 306;
+  height: 306;
 }
 .dance-action {
-  width: 200px;
-  height: 300px;
-  margin-left: 10%;
+  width: 400;
+  height: 500;
 }
 .dance-even {
-  width: 300px;
-  height: 300px;
+  width: 300;
+  height: 300;
   margin-left: 40%;
 }
