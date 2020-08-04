@@ -59,6 +59,10 @@ class Create extends Component {
                 break;
         }
     }
+    //跳转界面
+    handleClick2 = () => {
+        this.props.history.push('/luck-draw')
+    }
 
     static contextType = RootContext
 
@@ -83,9 +87,9 @@ class Create extends Component {
         })
     }
     componentWillUnmount() {
-        alert('componentWillUnmount');
-        console.log('componentWillUnmount');
-        this.leave()
+        // alert('componentWillUnmount');
+        // console.log('componentWillUnmount');
+        // this.leave()
     }
     //监听小程序
     monitor = () => {
@@ -171,6 +175,8 @@ class Create extends Component {
                             showother:true,
                             disabled1:true,
                         })
+                        //跳转到跳舞界面
+                        setTimeout(this.handleClick2,3000)
                     }else{
                         this.setState({
                             buttonTxt:"取消准备",
@@ -196,6 +202,8 @@ class Create extends Component {
                             showother:true,
                             disabled1:true,
                         })
+                        //跳转到跳舞界面
+                        setTimeout(this.handleClick2,3000)
                     }else{
                         this.setState({
                             buttonTxt:"取消准备",
