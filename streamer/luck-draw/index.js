@@ -5,6 +5,9 @@ import danceAction from './dance-action'
 import { RootContext } from '../context'
 import { ApiUrl, finish } from '../context/user'
 import * as Animatable from "react-native-animatable"
+import { NativeModules } from '@hyext-beyond/hy-ui-native'
+
+const { createSound } = NativeModules
 
 const { View, Text, Button, Image, Progress } = UI
 let timer = null; // 定时器，用于节流
@@ -36,9 +39,11 @@ class App extends Component {
       resultObj: {
         result: 0,
         totalResult: 0,
-        danceIndex: 0
+        danceIndex: 0,
+        start: false
       },
-      totalResult: 0
+      totalResult: 0,
+      start: false
     }
 
     hyExt.env.getInitialParam().then(param => {
@@ -82,13 +87,14 @@ class App extends Component {
       callback: recognition => {
         this.setState({ 
           recognition,
-          // roomId: this.props.location.state.roomId
+          roomId: this.props.location.state.roomId
         });
         if (!this.state.wbId)
           this.createWb();
       }
     });
-    setTimeout(this.setIntervalFun, 1000)
+    setTimeout(this.setIntervalFun, 3000)
+    // this.playMusic()
   }
 
   //在组件内加入创建白板函数
@@ -112,6 +118,19 @@ class App extends Component {
       }).catch(err => {
         console.log(err);
       })
+  }
+
+  // 播放音乐
+  playMusic = () => {
+    const sound1 = createSound('https://livewebbs2.msstatic.com/qguess-countdown2.mp3', (err) => {
+      console.log(err, 'Sound1')
+      sound1.play(() => {
+        sound1.release()
+        setTimeout(() => {
+          sound1.play()
+        }, 1000);
+      })
+    })
   }
 
   calAngle = (angle1 = { x: 0, y: 0 }, angle2 = { x: 0, y: 0 }, angle3 = { x: 0, y: 0 }) => {
@@ -152,8 +171,8 @@ class App extends Component {
     }
   }
 
-  sendToWb(result, totalResult, danceIndex) {
-    let resultObj = {result, totalResult, danceIndex}
+  sendToWb(result, totalResult, danceIndex, start) {
+    let resultObj = { result, totalResult, danceIndex, start }
     if (this.state.wbId) {
       const data = JSON.stringify(resultObj);
       hyExt.stream.sendToExtraWhiteBoard({
@@ -175,7 +194,7 @@ class App extends Component {
   }
 
   sendResult = () => {
-    const { danceIndex, totalResult, userInfo, roomId } = this.state
+    const { danceIndex, totalResult, userInfo, roomId, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId } = this.state
     const { streamerUnionId } = userInfo
     const keypoints = this.state.recognition.keypoints[0] || []
     let keypointsList = {}
@@ -185,9 +204,10 @@ class App extends Component {
     const calResults = this.contrastResult(this.calResult(danceAction[danceIndex]), this.calResult(keypointsList))
     this.setState({
       danceIndex:  danceIndex + 1,
-      totalResult: calResults + totalResult
+      totalResult: calResults + totalResult,
+      start: true
     })
-    this.sendToWb(calResults, this.state.totalResult, danceIndex)
+    this.sendToWb(calResults, this.state.totalResult, danceIndex, this.state.start)
     console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${totalResult}`)
     // 舞蹈动作结束后
     if (danceIndex == 14) {
@@ -210,12 +230,12 @@ class App extends Component {
       }
       hyExt.request(params).then(res => {
         console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-        // this.props.history.push({ pathname: '/punishment', state: {
-        //   otherStreamerNick: this.state.otherStreamerNick,
-        //   otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
-        //   otherStreamerUnionId: this.state.otherStreamerUnionId,
-        //   roomId: this.state.roomId,
-        // }})
+        this.props.history.push({ pathname: '/punishment', state: {
+          otherStreamerNick,
+          otherStreamerAvatarUrl,
+          otherStreamerUnionId,
+          roomId
+        }})
       }).catch(err => {
           console.log('发送HTTP请求失败，错误信息：' + err.message)
       })
@@ -226,7 +246,7 @@ class App extends Component {
     intervalTimer = setInterval(this.sendResult, 2000)
   }
 
-  componentWillUnmount () {
+  handleBoard = () => {
     hyExt.stream.removeWhiteBoard().then(() => {
       hyExt.logger.info('移除小程序普通白板成功')    
     }).catch(err => {
@@ -238,12 +258,16 @@ class App extends Component {
     return (
       <View className='container'>
         <Text>主播屏</Text>
+        <Button onClick={this.handleBoard}>111</Button>
       </View>
     )
   }
 
   renderWb() {
-    const { result, totalResult, danceIndex } = this.state.resultObj
+    let { result, totalResult, danceIndex, start } = this.state.resultObj
+    if (!start) {
+      danceIndex = danceIndex || -1
+    }
     const animates = {
       0: {
         opacity: 0,
@@ -263,7 +287,7 @@ class App extends Component {
     }
     danceAnimates = {
       0: {
-        translateY: 0,
+        translateY: 720,
         // opacity: 1
       },
       // 0.99: {
@@ -271,17 +295,20 @@ class App extends Component {
       //   opacity: 1
       // },
       1: {
-        translateY: -8000,
+        translateY: -8220,
       }
     }
     return (
       <View className='container'>
-        <View className="progress">
+        <View className="progress-content">
           <Text className="result-text">{totalResult}</Text>
           <Progress
             easing={true}
             percent={totalResult / 150 * 100}
-            style={{height: 60, width: 400, marginTop: '50%', transform: [{rotate: '-90deg'}], borderRadius: '40px' }}
+            className="progress"
+            style={{
+              transform: [{rotate: '-90deg'}]
+            }}
             barStyle={{height: 60, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
           />
         </View>
@@ -302,12 +329,12 @@ class App extends Component {
           duration={30000}
           animation={danceAnimates}
           easing="linear"
-          delay={2000}
+          delay={3000}
         >
           { danceAction.map((item, index)=> {
             return (
               <Animatable.View
-                // key={index}
+                key={index}
                 // className="draw-content"
                 // transition="display"
                 // style={{display: this.state.display}}

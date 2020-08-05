@@ -2,7 +2,6 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 
-
 const { View, Button, Text, Icon, Image, BackgroundImage} = UI
 class Home extends Component {
   constructor(props) {
@@ -14,20 +13,18 @@ class Home extends Component {
 
   componentDidMount() {
     let that = this
-    hyExt.onLoad(()=> {
-      if (!this.context.user) {
-        this.props.func.requestUserInfo().then(res => {
-          that.setState({
-            userInfo: res.user
-          })
-          console.log("----------->打印主播号"+this.state.userInfo.streamerUnionId)
-        })
-      } else {
+    if (!this.context.user) {
+      this.props.func.requestUserInfo().then(res => {
         that.setState({
-          userInfo: that.context.user
+          userInfo: res.user
         })
-      }
-    })
+        console.log("----------->打印主播号"+this.state.userInfo.streamerUnionId)
+      })
+    } else {
+      that.setState({
+        userInfo: that.context.user
+      })
+    }
   }
 
   handleClick = () => {

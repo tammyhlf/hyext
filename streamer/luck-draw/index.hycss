@@ -27,13 +27,20 @@
 .result-text {
   display: inline;
   color: white;
-  font-size: 40px;
+  font-size: 40;
   font-weight: 700;
   text-shadow: 0 0 10px #ffb700;
   text-align: center;
 }
-.progress {
+.progress-content {
   position: absolute;
   right: -10%;
   top: 10%;
+}
+.progress {
+  height: 60;
+  width: 400;
+  margin-top: 50%;
+  box-shadow: 2px 2px 6px #888;
+  border-radius: 40px;
 }
