@@ -2,9 +2,11 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import danceAction from './dance-action'
+import { RootContext } from '../context'
+import { ApiUrl, finish } from '../context/user'
 import * as Animatable from "react-native-animatable"
 
-const { View, Text, Button, Image } = UI
+const { View, Text, Button, Image, Progress } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
 
@@ -12,7 +14,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      display: 'block',
+      userInfo: {},
+      roomId: '', //游戏房间号
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -32,7 +35,8 @@ class App extends Component {
       },
       resultObj: {
         result: 0,
-        totalResult: 0
+        totalResult: 0,
+        danceIndex: 0
       },
       totalResult: 0
     }
@@ -54,6 +58,37 @@ class App extends Component {
         })
       }
     })
+  }
+
+  static contextType = RootContext
+
+  componentDidMount() {
+    let that = this
+    const { wb_width, wb_height } = this.state;
+    if (!this.context.user) {
+      this.props.func.requestUserInfo().then(res => {
+        that.setState({
+          userInfo: res.user
+        })
+      })
+    } else {
+      that.setState({
+        userInfo: that.context.user
+      })
+    }
+    hyExt.reg.onHumanSkeletonDetection({
+      width: wb_width,
+      height: wb_height,
+      callback: recognition => {
+        this.setState({ 
+          recognition,
+          // roomId: this.props.location.state.roomId
+        });
+        if (!this.state.wbId)
+          this.createWb();
+      }
+    });
+    setTimeout(this.setIntervalFun, 1000)
   }
 
   //在组件内加入创建白板函数
@@ -117,8 +152,8 @@ class App extends Component {
     }
   }
 
-  sendToWb(result, totalResult) {
-    let resultObj = {result, totalResult}
+  sendToWb(result, totalResult, danceIndex) {
+    let resultObj = {result, totalResult, danceIndex}
     if (this.state.wbId) {
       const data = JSON.stringify(resultObj);
       hyExt.stream.sendToExtraWhiteBoard({
@@ -140,7 +175,8 @@ class App extends Component {
   }
 
   sendResult = () => {
-    const {danceIndex, totalResult} = this.state
+    const { danceIndex, totalResult, userInfo, roomId } = this.state
+    const { streamerUnionId } = userInfo
     const keypoints = this.state.recognition.keypoints[0] || []
     let keypointsList = {}
     keypoints.map(item => {
@@ -151,8 +187,9 @@ class App extends Component {
       danceIndex:  danceIndex + 1,
       totalResult: calResults + totalResult
     })
-    this.sendToWb(calResults, this.state.totalResult)
+    this.sendToWb(calResults, this.state.totalResult, danceIndex)
     console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${totalResult}`)
+    // 舞蹈动作结束后
     if (danceIndex == 14) {
       clearInterval(intervalTimer);
       this.setState({
@@ -161,20 +198,31 @@ class App extends Component {
           result: -1
         }
       })
+      let params = {
+        header: {
+          "Content-Type":"application/json;charset=UTF-8",
+          'Accept': 'application/json'
+        },
+        url: `${ApiUrl}${finish}?roomID=${roomId}&score=${this.state.totalResult}&unionId=${streamerUnionId}`,
+        method: "POST",
+        data: {},
+        dataType: "json"
+      }
+      hyExt.request(params).then(res => {
+        console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
+        // this.props.history.push({ pathname: '/punishment', state: {
+        //   otherStreamerNick: this.state.otherStreamerNick,
+        //   otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
+        //   otherStreamerUnionId: this.state.otherStreamerUnionId,
+        //   roomId: this.state.roomId,
+        // }})
+      }).catch(err => {
+          console.log('发送HTTP请求失败，错误信息：' + err.message)
+      })
     }
   }
 
-  componentDidMount() {
-    const { wb_width, wb_height } = this.state;
-    hyExt.reg.onHumanSkeletonDetection({
-      width: wb_width,
-      height: wb_height,
-      callback: recognition => {
-        this.setState({ recognition });
-        if (!this.state.wbId)
-          this.createWb();
-      }
-    });
+  setIntervalFun = () => {
     intervalTimer = setInterval(this.sendResult, 2000)
   }
 
@@ -187,7 +235,7 @@ class App extends Component {
   }
 
   renderWb() {
-    const { result, totalResult } = this.state.resultObj
+    const { result, totalResult, danceIndex } = this.state.resultObj
     const animates = {
       0: {
         opacity: 0,
@@ -208,41 +256,32 @@ class App extends Component {
     danceAnimates = {
       0: {
         translateY: 0,
-        opacity: 1
+        // opacity: 1
       },
-      0.99: {
-        translateY: -8415,
-        opacity: 1
-      },
+      // 0.99: {
+      //   translateY: -7920,
+      //   opacity: 1
+      // },
       1: {
-        translateY: -8500,
-        opacity: 0
+        translateY: -8000,
       }
     }
     return (
       <View className='container'>
-        <Image 
-          src={this.state.resultDataMap[result]}
-          style={{
-            width: '300px',
-            height: '300px',
-            marginLeft: '400px'
-          }}
-        ></Image>
-        <Text
-            style={{
-              fontSize: '100px',
-              color: 'white',
-              textAlign: 'right',
-              color: 'red'
-            }}>
-            {totalResult}
-          </Text>
+        <View>
+          <Text className="result-text">115</Text>
+          <Progress
+            easing={true}
+            percent={60}
+            style={{height: 50, width: 400,transform: [{rotate: '-90deg'}], borderRadius: '20px' }}
+            barStyle={{height: 50, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
+          />
+        </View>
         <View className='count-down'>
           <View className="count-content">
-            {/* <Animatable.View animation={animates} className="img-content">
+            <Animatable.View animation={animates} className="img-content">
               <Image src={require('../../assets/dance-action/three.png')} className="img"></Image>
-            </Animatable.View> */}
+            </Animatable.View>
             <Animatable.View animation={animates} className="img-content">
               <Image src={require('../../assets/dance-action/two.png')} className="img"></Image>
             </Animatable.View>
@@ -255,6 +294,7 @@ class App extends Component {
           duration={30000}
           animation={danceAnimates}
           easing="linear"
+          delay={1000}
         >
           { danceAction.map((item, index)=> {
             return (
@@ -264,7 +304,10 @@ class App extends Component {
                 // transition="display"
                 // style={{display: this.state.display}}
               >
-                <Image src={require(`../../assets/dance-action/${index + 1}.png`)} className="dance-action"></Image>
+                <Image
+                  src={ danceIndex == index ? this.state.resultDataMap[result] : require(`../../assets/dance-action/${index + 1}.png`)}
+                  className="dance-action"
+                ></Image>
               </Animatable.View>
             )
           }) }

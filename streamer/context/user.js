@@ -10,3 +10,7 @@ export const requestUserInfo = () => {
   })
   
 }
+
+export const ApiUrl = 'http://121.196.176.201:8082'
+
+export const finish = '/game/status/finish'
