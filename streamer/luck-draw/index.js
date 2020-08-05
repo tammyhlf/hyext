@@ -260,9 +260,9 @@ class App extends Component {
 
   renderForm() {
     return (
-      <View className='container'>
-        {/* <Button onClick={this.handleBoard}>移除白板</Button> */}
-      </View>
+      // <View className='container'>
+      //   <Button onClick={this.handleBoard}>移除白板</Button>
+      // </View>
         <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
           {/*首页、下一步图标*/}
           <View style={{
