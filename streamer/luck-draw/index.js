@@ -9,7 +9,7 @@ import { NativeModules } from '@hyext-beyond/hy-ui-native'
 
 const { createSound } = NativeModules
 
-const { View, Text, Button, Image, Progress } = UI
+const { View, Text, Button, Image, Progress,BackgroundImage,Avatar } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
 
@@ -17,8 +17,15 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      roomId:this.props.location.state.roomId,
       userInfo: {},
+<<<<<<< HEAD
       roomId: 5, //游戏房间号
+=======
+      otherStreamerNick:this.props.location.state.otherStreamerNick,
+      otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
+      otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
+>>>>>>> ac4db03c900ffcfe57ec0779ef0087269e4f4db2
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -258,9 +265,90 @@ class App extends Component {
   renderForm() {
     return (
       <View className='container'>
-        <Text>主播屏</Text>
-        <Button onClick={this.handleBoard}>移除白板</Button>
+        {/* <Button onClick={this.handleBoard}>移除白板</Button> */}
       </View>
+        <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
+          {/*首页、下一步图标*/}
+          <View style={{
+            flexDirection: "row",
+            height: 40,
+            padding: 20
+          }}>
+            <View style={{width:10}}>
+              {/*<Image className="home" src={require('../../assets/home.png')}></Image>*/}
+            </View>
+            <View style={{width:310}}>
+
+            </View>
+            <View style={{width:10}}>
+            </View>
+          </View>
+
+          <View  className="container">
+            {/*logo图标*/}
+            <Image className="logo1" src={require('../../assets/logo1.png')}/>
+            <View style={{
+              flexDirection: "row",
+              height: 150,
+              padding: 50
+            }}>
+              <View>
+                <Image className="blue-avatar-bgd" src={require('../../assets/blue-avatar-bgd.png')}/>
+              </View>
+              <View>
+                <Image className="spack-left" src={require('../../assets/spark-left.png')}/>
+              </View>
+              <View className="blue-user">
+                <Avatar
+                    size="l"
+                    borderWidth={3}
+                    borderColor="#3a5ede"
+                    backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                    src={this.state.otherStreamerAvatarUrl}
+                />
+              </View>
+            </View>
+            {/*VS图片*/}
+            <Image className="vs" src={require('../../assets/vs.png')}/>
+            <View style={{
+              flexDirection: "row",
+              height: 150,
+            }}>
+              <View>
+                <Image className="spack-right" src={require('../../assets/spark-right.png')}/>
+              </View>
+              <View>
+                <Image className="yellow-avatar-bgd" src={require('../../assets/yellow-avatar-bgd.png')}/>
+              </View>
+              <View className="yellow-user">
+                <Avatar
+                    size="l"
+                    borderWidth={3}
+                    borderColor="#ffb700"
+                    backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
+                    src={this.state.userInfo.streamerAvatarUrl}
+                />
+              </View>
+            </View>
+            <View style={{
+              flexDirection: "row",
+              width:375
+            }}>
+              {/*蓝方姓名*/}
+              <View className="streamerName-left">
+                <Text className="streamerName-txt">
+                  {this.state.otherStreamerNick}
+                </Text>
+              </View>
+              {/*黄方姓名*/}
+              <View className="streamerName-right">
+                <Text className="streamerName-txt">
+                  {this.state.userInfo.streamerNick}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </BackgroundImage>
     )
   }
 
