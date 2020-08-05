@@ -17,11 +17,12 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      roomId:this.props.location.state.roomId,
+      // roomId:this.props.location.state.roomId,
+      roomId: 5,
       userInfo: {},
-      otherStreamerNick:this.props.location.state.otherStreamerNick,
-      otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
-      otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
+      // otherStreamerNick:this.props.location.state.otherStreamerNick,
+      // otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
+      // otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -90,7 +91,7 @@ class App extends Component {
       callback: recognition => {
         this.setState({ 
           recognition,
-          roomId: this.props.location.state.roomId
+          // roomId: this.props.location.state.roomId
         });
         if (!this.state.wbId)
           this.createWb();
@@ -372,7 +373,7 @@ class App extends Component {
     }
     danceAnimates = {
       0: {
-        translateY: 0,
+        translateY: 720,
         // opacity: 1
       },
       // 0.99: {
@@ -380,7 +381,7 @@ class App extends Component {
       //   opacity: 1
       // },
       1: {
-        translateY: -8220,
+        translateY: -6780
       }
     }
     return (
@@ -415,11 +416,28 @@ class App extends Component {
           animation={danceAnimates}
           easing="linear"
           delay={3000}
+          className="dance-contanier"
         >
           { danceAction.map((item, index)=> {
             return (
               <Animatable.View
                 key={index}
+                animation={ danceIndex == index ? {
+                  0: {
+                    scale: 0.4,
+                    opacity: 1
+                  },
+                  0.5: {
+                    scale: 1,
+                    opacity: 1
+                  },
+                  0.6: {
+                    opacity: 0.5
+                  },
+                  0.7: {
+                    opacity: 0
+                  }
+                } : null}
                 // className="draw-content"
                 // transition="display"
                 // style={{display: this.state.display}}
