@@ -13,7 +13,8 @@ class Punishment extends Component {
       otherStreamerNick: this.props.location.otherStreamerNick,
       otherStreamerAvatarUrl: this.props.location.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.otherStreamerUnionId,
-      roomId: this.props.location.roomId
+      roomId: this.props.location.roomId,
+      score: this.props.location.score
     }
   }
 
@@ -43,11 +44,12 @@ class Punishment extends Component {
   }
   
   handleClick = () => {
+    const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
     this.props.history.push(this.props.history.push({ pathname: '/punishment', state: {
-      otherStreamerNick: this.state.otherStreamerNick,
-      otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
-      otherStreamerUnionId: this.state.otherStreamerUnionId,
-      roomId: this.state.roomId,
+      otherStreamerNick,
+      otherStreamerAvatarUrl,
+      otherStreamerUnionId,
+      roomId
     }}))
   }
 
@@ -140,7 +142,7 @@ class Punishment extends Component {
           </View>
           <View className="streamerName">
             <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
-            <Text className="streamerScore-blue">得分：300</Text>
+            <Text className="streamerScore-blue">得分：{this.state.score}</Text>
           </View>
         </View>
 

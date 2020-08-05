@@ -21,7 +21,11 @@ class PunishmentDraw extends Component {
         7: '真心话'
       },
       gameResult: '唱歌',
-      userInfo: {}
+      userInfo: {},
+      otherStreamerNick: this.props.location.otherStreamerNick,
+      otherStreamerAvatarUrl: this.props.location.otherStreamerAvatarUrl,
+      otherStreamerUnionId: this.props.location.otherStreamerUnionId,
+      roomId: this.props.location.roomId
     }
   }
 
@@ -29,26 +33,24 @@ class PunishmentDraw extends Component {
 
   componentDidMount() {
     let that = this
-    hyExt.onLoad(()=> {
-      if (!this.context.user) {
-        this.props.func.requestUserInfo().then(res => {
-          that.setState({
-            userInfo: res.user
-          })
-        })
-      } else {
+    if (!this.context.user) {
+      this.props.func.requestUserInfo().then(res => {
         that.setState({
-          userInfo: that.context.user
+          userInfo: res.user
         })
-      }
-    })
+      })
+    } else {
+      that.setState({
+        userInfo: that.context.user
+      })
+    }
   }
   handleDraw = (ref) => (this.view = ref);
 
   handleStart = () => {
-    const random = Math.floor(Math.random() * 10)
+    const random = Math.floor(Math.random() * 10) // 后端返回
     this.setState({ gameResult: this.state.dataMap[random % 8] })
-    const angle = 720 + (random % 8) * (360 / 8)
+    const angle = 720 + (random % 7) * (360 / 7)
     let promise = new Promise(resolve => {
       this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
       this.timer = setTimeout(() => resolve(), 2000)
@@ -128,7 +130,7 @@ class PunishmentDraw extends Component {
             <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
           </View>
           <View className="streamerName">
-            <Text className="streamerName-txt">另一位玩家</Text>
+            <Text className="streamerName-txt">{this.state.otherStreamerNick}</Text>
           </View>
         </View>
 

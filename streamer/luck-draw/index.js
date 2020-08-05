@@ -18,7 +18,7 @@ class App extends Component {
     super(props)
     this.state = {
       userInfo: {},
-      roomId: '', //游戏房间号
+      roomId: 5, //游戏房间号
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -234,7 +234,8 @@ class App extends Component {
           otherStreamerNick,
           otherStreamerAvatarUrl,
           otherStreamerUnionId,
-          roomId
+          roomId,
+          score: this.state.totalResult
         }})
       }).catch(err => {
           console.log('发送HTTP请求失败，错误信息：' + err.message)
@@ -247,7 +248,7 @@ class App extends Component {
   }
 
   handleBoard = () => {
-    hyExt.stream.removeWhiteBoard().then(() => {
+    hyExt.stream.removeWB().then(() => {
       hyExt.logger.info('移除小程序普通白板成功')    
     }).catch(err => {
       hyExt.logger.info('移除小程序普通白板失败，错误信息：' + err.message)
@@ -258,7 +259,7 @@ class App extends Component {
     return (
       <View className='container'>
         <Text>主播屏</Text>
-        <Button onClick={this.handleBoard}>111</Button>
+        <Button onClick={this.handleBoard}>移除白板</Button>
       </View>
     )
   }
@@ -287,7 +288,7 @@ class App extends Component {
     }
     danceAnimates = {
       0: {
-        translateY: 720,
+        translateY: 0,
         // opacity: 1
       },
       // 0.99: {
