@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="878d83e0-78e8-4eb1-8b40-ec342627a586" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamer/luck-draw/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/luck-draw/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/add/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/add/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/create/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/create/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/wait/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/wait/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -132,12 +133,22 @@
       <workItem from="1596533904965" duration="2052000" />
       <workItem from="1596538322198" duration="8580000" />
       <workItem from="1596633986835" duration="1156000" />
-      <workItem from="1596635984224" duration="372000" />
+      <workItem from="1596635984224" duration="1728000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

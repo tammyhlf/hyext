@@ -96,12 +96,19 @@ class Add extends Component {
         this.props.history.push('/index_streamer_pc_anchor_panel.html')
     }
     goto = () =>{
-        this.props.history.push({ pathname: '/wait', state: {
-                otherStreamerNick: this.state.otherStreamerNick,
-                otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
-                otherStreamerUnionId: this.state.otherStreamerUnionId,
-                roomId: this.state.roomId,
-            } })
+        const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+        this.props.history.push(this.props.history.push({ pathname: '/wait', state: {
+                otherStreamerNick,
+                otherStreamerAvatarUrl,
+                otherStreamerUnionId,
+                roomId
+            }}))
+        // this.props.history.push({ pathname: '/wait', state: {
+        //         otherStreamerNick: this.state.otherStreamerNick,
+        //         otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
+        //         otherStreamerUnionId: this.state.otherStreamerUnionId,
+        //         roomId: this.state.roomId,
+        //     } })
     }
 
     render() {
