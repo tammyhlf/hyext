@@ -19,13 +19,9 @@ class App extends Component {
     this.state = {
       roomId:this.props.location.state.roomId,
       userInfo: {},
-<<<<<<< HEAD
-      roomId: 5, //游戏房间号
-=======
       otherStreamerNick:this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
->>>>>>> ac4db03c900ffcfe57ec0779ef0087269e4f4db2
       wbId: "",
       danceIndex: 0,
       wb: false,
