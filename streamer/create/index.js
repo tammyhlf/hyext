@@ -43,7 +43,7 @@ class Create extends Component {
                 console.log("----->准备对战"+this.state.roomId)
                 this.ready()
                 this.setState({
-                    buttonTxt:"取消对战"
+                    buttonTxt:"取消准备"
                 })
                 break;
             case "取消准备":
@@ -61,20 +61,20 @@ class Create extends Component {
     }
     //跳转界面
     handleClick2 = () => {
-        const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-        this.props.history.push(this.props.history.push({ pathname: '/luck-draw', state: {
-                otherStreamerNick,
-                otherStreamerAvatarUrl,
-                otherStreamerUnionId,
-                roomId
-            }}))
+        // const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+        // this.props.history.push(this.props.history.push({ pathname: '/luck-draw', state: {
+        //         otherStreamerNick,
+        //         otherStreamerAvatarUrl,
+        //         otherStreamerUnionId,
+        //         roomId
+        //     }}))
 
-        // this.props.history.push({ pathname: '/luck-draw', state: {
-        //         otherStreamerNick: this.state.otherStreamerNick,
-        //         otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
-        //         otherStreamerUnionId: this.state.otherStreamerUnionId,
-        //         roomId: this.state.roomId,
-        //     } })
+        this.props.history.push({ pathname: '/luck-draw', state: {
+                otherStreamerNick: this.state.otherStreamerNick,
+                otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
+                otherStreamerUnionId: this.state.otherStreamerUnionId,
+                roomId: this.state.roomId,
+            } })
     }
 
     static contextType = RootContext
@@ -202,7 +202,7 @@ class Create extends Component {
                     })
                 }
             }
-            if(n0[0]===this.state.otherStreameUnionId){
+            if(n0[0]===this.state.otherStreamerUnionId){
                 console.log("--->n1是我的id"+n0[0])
                 console.log("我的状态"+n1[1])
                 if(n1[1]==="READY"){
@@ -266,7 +266,7 @@ class Create extends Component {
                     })
                 }
             }
-            if(n0[0]===this.state.otherStreameUnionId){
+            if(n0[0]===this.state.otherStreamerUnionId){
                 if(n0[1]==="IN_ROOM"){
                     this.setState({
                         showother:false,

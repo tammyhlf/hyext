@@ -17,12 +17,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // roomId:this.props.location.state.roomId,
-      roomId: 5,
+      roomId:this.props.location.state.roomId,
       userInfo: {},
-      // otherStreamerNick:this.props.location.state.otherStreamerNick,
-      // otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
-      // otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
+      otherStreamerNick:this.props.location.state.otherStreamerNick,
+      otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
+      otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -91,13 +90,13 @@ class App extends Component {
       callback: recognition => {
         this.setState({ 
           recognition,
-          // roomId: this.props.location.state.roomId
+          roomId: this.props.location.state.roomId
         });
         if (!this.state.wbId)
           this.createWb();
       }
     });
-    setTimeout(this.setIntervalFun, 3860) // 延迟倒计时的三秒动画与第一个动作上移的时间660ms
+    setTimeout(this.setIntervalFun, 3000)
     this.playMusic()
   }
 
