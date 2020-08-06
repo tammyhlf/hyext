@@ -12,6 +12,7 @@ const { createSound } = NativeModules
 const { View, Text, Button, Image, Progress,BackgroundImage,Avatar } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
+let TimeoutTimer = null; //延时的
 
 class App extends Component {
   constructor(props) {
@@ -96,8 +97,11 @@ class App extends Component {
           this.createWb();
       }
     });
-    setTimeout(this.setIntervalFun, 3000)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 3000)
     this.playMusic()
+  }
+  componentWillUnmount() {
+    clearTimeout(TimeoutTimer)
   }
 
   //在组件内加入创建白板函数
@@ -210,7 +214,7 @@ class App extends Component {
     console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${totalResult}`)
     // 舞蹈动作结束后
     if (danceIndex == 14) {
-      clearInterval(intervalTimer);
+    clearInterval(intervalTimer);
       this.setState({
         resultObj: {
           ...this.state.resultObj,

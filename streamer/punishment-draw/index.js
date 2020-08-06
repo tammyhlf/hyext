@@ -83,7 +83,7 @@ class PunishmentDraw extends Component {
             <Image className="home" src={require('../../assets/home.png')}></Image>
           </View>
         </View>
-        {/* <Image src={require("../../assets/logo.png")} className="punish-img" /> */}
+        <Image src={require("../../assets/logo.png")} className="punish-img" />
         <View className="draw-contanier">
           <Image
             src={require("../../assets/draw-bgd.png")}
