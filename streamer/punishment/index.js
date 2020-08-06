@@ -10,11 +10,11 @@ class Punishment extends Component {
     super(props)
     this.state = {
       userInfo:{},
-      otherStreamerNick: this.props.location.otherStreamerNick,
-      otherStreamerAvatarUrl: this.props.location.otherStreamerAvatarUrl,
-      otherStreamerUnionId: this.props.location.otherStreamerUnionId,
-      roomId: this.props.location.roomId,
-      score: this.props.location.score
+      otherStreamerNick: this.props.location.state.otherStreamerNick,
+      otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
+      otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
+      roomId: this.props.location.state.roomId,
+      score: this.props.location.state.score
     }
   }
 
@@ -37,6 +37,7 @@ class Punishment extends Component {
   }
 
   monitor = () => {
+    debugger
     const callbackFun = (res) => {
       console.log(`监听的数据${res}`)
     }
@@ -45,12 +46,12 @@ class Punishment extends Component {
   
   handleClick = () => {
     const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-    this.props.history.push(this.props.history.push({ pathname: '/punishment', state: {
+    this.props.history.push({ pathname: '/punishment-draw', state: {
       otherStreamerNick,
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
       roomId
-    }}))
+    }})
   }
 
   handleCustomClick = () => {
