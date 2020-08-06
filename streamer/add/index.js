@@ -48,6 +48,7 @@ class Add extends Component {
             this.setState({
                 otherStreamerNick:n[2].toString().slice(9,n[2].length),
                 otherStreamerAvatarUrl:n[3].toString().slice(7,n[3].length),
+                otherStreamerUnionId:n[1].toString().slice(8,n[1].length)
             })
         }
         hyExt.observer.on(args[0], args[1])

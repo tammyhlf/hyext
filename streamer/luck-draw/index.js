@@ -127,12 +127,7 @@ class App extends Component {
   playMusic = () => {
     const sound1 = createSound('https://livewebbs2.msstatic.com/qguess-countdown2.mp3', (err) => {
       console.log(err, 'Sound1')
-      sound1.play(() => {
-        sound1.release()
-        setTimeout(() => {
-          sound1.play()
-        }, 1000);
-      })
+      sound1.play()
     })
   }
 
@@ -247,7 +242,7 @@ class App extends Component {
   }
 
   setIntervalFun = () => {
-    intervalTimer = setInterval(this.sendResult, 2000)
+    intervalTimer = setInterval(this.sendResult, 1500)
   }
 
   handleBoard = () => {
@@ -256,6 +251,10 @@ class App extends Component {
     }).catch(err => {
       hyExt.logger.info('移除小程序普通白板失败，错误信息：' + err.message)
     })
+  }
+
+  handleClickHome = () => {
+    this.props.history.push('/index_streamer_pc_anchor_panel.html')
   }
 
   renderForm() {
@@ -270,13 +269,8 @@ class App extends Component {
             height: 40,
             padding: 20
           }}>
-            <View style={{width:10}}>
-              {/*<Image className="home" src={require('../../assets/home.png')}></Image>*/}
-            </View>
-            <View style={{width:310}}>
-
-            </View>
-            <View style={{width:10}}>
+            <View style={{width:10}} onClick={this.handleClickHome}>
+              <Image className="home" src={require('../../assets/home.png')}></Image>
             </View>
           </View>
 
@@ -372,7 +366,7 @@ class App extends Component {
     }
     danceAnimates = {
       0: {
-        translateY: 0,
+        translateY: 720,
         // opacity: 1
       },
       // 0.99: {
@@ -380,12 +374,39 @@ class App extends Component {
       //   opacity: 1
       // },
       1: {
-        translateY: -8220,
+        translateY: -7200 //动画最终停留的位置， 一共移动的距离为15*500 + 720-500 = 7720
+      }
+    },
+    resultAnimate = {
+      0: {
+        scale: 0.8,
+        opacity: 1
+      },
+      0.5: {
+        scale: 1,
+        opacity: 1
+      },
+      0.6: {
+        opacity: 0.5,
+        scale: 1
+      },
+      0.7: {
+        opacity: 0,
+        scale: 1
       }
     }
     return (
       <View className='container'>
-        <View className="progress-content">
+        <Animatable.View delay={3000}
+        animation={{
+          from: {
+            opacity: 0
+          },
+          to: {
+            opacity: 1
+          }
+        }}
+        className="progress-content">
           <Text className="result-text">{totalResult}</Text>
           <Progress
             easing={true}
@@ -396,7 +417,7 @@ class App extends Component {
             }}
             barStyle={{height: 60, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
           />
-        </View>
+        </Animatable.View>
         <View className='count-down'>
           <View className="count-content">
             <Animatable.View animation={animates} className="img-content">
@@ -411,24 +432,31 @@ class App extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={30000}
+          duration={23360}
           animation={danceAnimates}
           easing="linear"
           delay={3000}
+          className="dance-contanier"
         >
           { danceAction.map((item, index)=> {
             return (
-              <Animatable.View
-                key={index}
-                // className="draw-content"
-                // transition="display"
-                // style={{display: this.state.display}}
-              >
-                <Image
-                  src={ danceIndex == index ? this.state.resultDataMap[result] : require(`../../assets/dance-action/${index + 1}.png`)}
-                  className="dance-action"
-                ></Image>
-              </Animatable.View>
+              <View style={{
+                width: 400,
+                height: 500
+              }}>
+                <Animatable.View
+                  key={index}
+                  animation={ danceIndex == index ? resultAnimate : null }
+                  // className="draw-content"
+                  // transition="display"
+                  // style={{display: this.state.display}}
+                >
+                  <Image
+                    src={ danceIndex == index ? this.state.resultDataMap[result] : require(`../../assets/dance-action/${index + 1}.png`)}
+                    className="dance-action"
+                  ></Image>
+                </Animatable.View>
+              </View>
             )
           }) }
         </Animatable.View>

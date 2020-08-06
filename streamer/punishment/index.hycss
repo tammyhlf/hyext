@@ -93,3 +93,7 @@
   color: #4668fa;
   text-align: center;
 }
+.home{
+  width: 43px;
+  height: 43px;
+}

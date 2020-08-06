@@ -9,7 +9,6 @@ import Add from "./streamer/add";
 import Create from "./streamer/create";
 import Wait from "./streamer/wait";
 import Record from "./streamer/record";
-import Test from "./streamer/test";
 import { root, RootContext, requestUserInfo } from './streamer/context'
 
 const func = {
