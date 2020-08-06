@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/streamer/add/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/add/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/streamer/create/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/create/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/luck-draw/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/luck-draw/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/streamer/wait/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/wait/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -133,7 +134,10 @@
       <workItem from="1596533904965" duration="2052000" />
       <workItem from="1596538322198" duration="8580000" />
       <workItem from="1596633986835" duration="1156000" />
-      <workItem from="1596635984224" duration="1728000" />
+      <workItem from="1596635984224" duration="6119000" />
+      <workItem from="1596696410451" duration="5130000" />
+      <workItem from="1596706361119" duration="2263000" />
+      <workItem from="1596714937594" duration="1467000" />
     </task>
     <servers />
   </component>

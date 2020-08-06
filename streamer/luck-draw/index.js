@@ -97,7 +97,7 @@ class App extends Component {
       }
     });
     setTimeout(this.setIntervalFun, 3000)
-    // this.playMusic()
+    this.playMusic()
   }
 
   //在组件内加入创建白板函数
