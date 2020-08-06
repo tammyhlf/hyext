@@ -447,18 +447,23 @@ class App extends Component {
         >
           { danceAction.map((item, index)=> {
             return (
-              <Animatable.View
-                key={index}
-                animation={ danceIndex == index ? resultAnimate : null }
-                // className="draw-content"
-                // transition="display"
-                // style={{display: this.state.display}}
-              >
-                <Image
-                  src={ danceIndex == index ? this.state.resultDataMap[result] : require(`../../assets/dance-action/${index + 1}.png`)}
-                  className="dance-action"
-                ></Image>
-              </Animatable.View>
+              <View style={{
+                width: 400,
+                height: 500
+              }}>
+                <Animatable.View
+                  key={index}
+                  animation={ danceIndex == index ? resultAnimate : null }
+                  // className="draw-content"
+                  // transition="display"
+                  // style={{display: this.state.display}}
+                >
+                  <Image
+                    src={ danceIndex == index ? this.state.resultDataMap[result] : require(`../../assets/dance-action/${index + 1}.png`)}
+                    className="dance-action"
+                  ></Image>
+                </Animatable.View>
+              </View>
             )
           }) }
         </Animatable.View>
