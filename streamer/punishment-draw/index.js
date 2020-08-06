@@ -64,12 +64,25 @@ class PunishmentDraw extends Component {
     clearTimeout(this.timer)
   }
 
+  handleClickHome = () => {
+    this.props.history.push('/index_streamer_pc_anchor_panel.html')
+  }
+
   render() {
     return (
       <BackgroundImage
         className="backgroundImage"
         src={require("../../assets/background.png")}
       >
+        <View style={{
+          flexDirection: "row",
+          height: 40,
+          padding: 20
+        }}>
+          <View style={{width:10}} onClick={this.handleClickHome}>
+            <Image className="home" src={require('../../assets/home.png')}></Image>
+          </View>
+        </View>
         <Image src={require("../../assets/logo.png")} className="punish-img" />
         <View className="draw-contanier">
           <Image

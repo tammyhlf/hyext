@@ -61,7 +61,10 @@
 }
 
 
-
+.home{
+  width: 43px;
+  height: 43px;
+}
 .streamerName{
   width: 50%;
 }

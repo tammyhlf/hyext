@@ -128,12 +128,7 @@ class App extends Component {
   playMusic = () => {
     const sound1 = createSound('https://livewebbs2.msstatic.com/qguess-countdown2.mp3', (err) => {
       console.log(err, 'Sound1')
-      sound1.play(() => {
-        sound1.release()
-        setTimeout(() => {
-          sound1.play()
-        }, 1000);
-      })
+      sound1.play()
     })
   }
 
@@ -259,6 +254,10 @@ class App extends Component {
     })
   }
 
+  handleClickHome = () => {
+    this.props.history.push('/index_streamer_pc_anchor_panel.html')
+  }
+
   renderForm() {
     return (
       // <View className='container'>
@@ -271,13 +270,8 @@ class App extends Component {
             height: 40,
             padding: 20
           }}>
-            <View style={{width:10}}>
-              {/*<Image className="home" src={require('../../assets/home.png')}></Image>*/}
-            </View>
-            <View style={{width:310}}>
-
-            </View>
-            <View style={{width:10}}>
+            <View style={{width:10}} onClick={this.handleClickHome}>
+              <Image className="home" src={require('../../assets/home.png')}></Image>
             </View>
           </View>
 

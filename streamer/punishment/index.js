@@ -57,40 +57,26 @@ class Punishment extends Component {
     this.props.history.push('/game-result')
   }
 
+  handleClickHome = () => {
+    this.props.history.push('/index_streamer_pc_anchor_panel.html')
+  }
+
   render () {
-    const animates = {
-      0: {
-        opacity: 0,
-        scale: 1
-      },
-      0.2: {
-        opacity: 1,
-        scale: 1.2
-      },
-      0.9: {
-        opacity: 1,
-        scale: 1
-      },
-      1: {
-        opacity: 0
-      }
-    }
-    const animatesbox = {
-      from: {
-        translateY: 0
-      },
-      to: {
-        translateY: -1222
-      }
-    }
     return (
       <BackgroundImage
         className="backgroundImage"
         src={require("../../assets/background.png")}
       >
+        <View style={{
+          flexDirection: "row",
+          height: 40,
+          padding: 20
+        }}>
+          <View style={{width:10}} onClick={this.handleClickHome}>
+            <Image className="home" src={require('../../assets/home.png')}></Image>
+          </View>
+        </View>
         <Image src={require('../../assets/logo.png')} className="punish-img" />
-
-        {/*皇冠*/}
         <Image className="crown" src={require("../../assets/crown.png")} />
 
         {/*双方头像*/}
@@ -148,8 +134,8 @@ class Punishment extends Component {
 
 
         <View className="btn-group">
-          <Button className="punish-btn" size="lg" textStyle={{color: 'white'}} onPress={this.handleClick}>抽取惩罚</Button>
-          <Button className="custom-btn" size="lg" textStyle={{color: 'white'}} onPress={this.handleCustomClick}>自定义惩罚</Button>
+          <Button className="punish-btn" textStyle={{color: 'white'}} onPress={this.handleClick}>抽取惩罚</Button>
+          <Button className="custom-btn" textStyle={{color: 'white'}} onPress={this.handleCustomClick}>自定义惩罚</Button>
         </View>
       </BackgroundImage>
     )
