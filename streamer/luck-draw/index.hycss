@@ -27,7 +27,7 @@
 .result-text {
   display: inline;
   color: white;
-  font-size: 40;
+  font-size: 50;
   font-weight: 700;
   text-shadow: 0 0 10px #ffb700;
   text-align: center;
@@ -42,8 +42,8 @@
   left: 0px;
 }
 .progress {
-  height: 60;
-  width: 400;
+  height: 65;
+  width: 450;
   margin-top: 50%;
   box-shadow: -2px 2px 6px #888;
   border-radius: 40px;

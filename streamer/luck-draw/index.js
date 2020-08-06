@@ -97,8 +97,8 @@ class App extends Component {
           this.createWb();
       }
     });
-    setTimeout(this.setIntervalFun, 3000)
-    // this.playMusic()
+    setTimeout(this.setIntervalFun, 3860) // 延迟倒计时的三秒动画与第一个动作上移的时间660ms
+    this.playMusic()
   }
 
   //在组件内加入创建白板函数
@@ -248,7 +248,7 @@ class App extends Component {
   }
 
   setIntervalFun = () => {
-    intervalTimer = setInterval(this.sendResult, 2000)
+    intervalTimer = setInterval(this.sendResult, 1500)
   }
 
   handleBoard = () => {
@@ -381,12 +381,39 @@ class App extends Component {
       //   opacity: 1
       // },
       1: {
-        translateY: -6780
+        translateY: -7200 //动画最终停留的位置， 一共移动的距离为15*500 + 720-500 = 7720
+      }
+    },
+    resultAnimate = {
+      0: {
+        scale: 0.8,
+        opacity: 1
+      },
+      0.5: {
+        scale: 1,
+        opacity: 1
+      },
+      0.6: {
+        opacity: 0.5,
+        scale: 1
+      },
+      0.7: {
+        opacity: 0,
+        scale: 1
       }
     }
     return (
       <View className='container'>
-        <View className="progress-content">
+        <Animatable.View delay={3000}
+        animation={{
+          from: {
+            opacity: 0
+          },
+          to: {
+            opacity: 1
+          }
+        }}
+        className="progress-content">
           <Text className="result-text">{totalResult}</Text>
           <Progress
             easing={true}
@@ -397,7 +424,7 @@ class App extends Component {
             }}
             barStyle={{height: 60, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
           />
-        </View>
+        </Animatable.View>
         <View className='count-down'>
           <View className="count-content">
             <Animatable.View animation={animates} className="img-content">
@@ -412,7 +439,7 @@ class App extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={30000}
+          duration={23360}
           animation={danceAnimates}
           easing="linear"
           delay={3000}
@@ -422,22 +449,7 @@ class App extends Component {
             return (
               <Animatable.View
                 key={index}
-                animation={ danceIndex == index ? {
-                  0: {
-                    scale: 0.4,
-                    opacity: 1
-                  },
-                  0.5: {
-                    scale: 1,
-                    opacity: 1
-                  },
-                  0.6: {
-                    opacity: 0.5
-                  },
-                  0.7: {
-                    opacity: 0
-                  }
-                } : null}
+                animation={ danceIndex == index ? resultAnimate : null }
                 // className="draw-content"
                 // transition="display"
                 // style={{display: this.state.display}}
