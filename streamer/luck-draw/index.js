@@ -205,6 +205,7 @@ class App extends Component {
       totalResult: calResults + totalResult,
       start: true
     })
+    let scores = this.state.totalResult
     this.sendToWb(calResults, this.state.totalResult, danceIndex, this.state.start)
     console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${totalResult}`)
     // 舞蹈动作结束后
@@ -233,7 +234,7 @@ class App extends Component {
           otherStreamerAvatarUrl,
           otherStreamerUnionId,
           roomId,
-          score: this.state.totalResult
+          score: scores
         }})
       }).catch(err => {
           console.log('发送HTTP请求失败，错误信息：' + err.message)
