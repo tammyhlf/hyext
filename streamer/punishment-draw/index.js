@@ -2,6 +2,7 @@ import { UI } from "@hyext/hy-ui"
 import React, { Component } from "react"
 import "./index.hycss"
 import * as Animatable from "react-native-animatable"
+import { ApiUrl, circle } from '../context/user'
 import { RootContext } from '../context'
 
 const { View, Image, Text, BackgroundImage, Modal,Avatar } = UI
@@ -22,10 +23,12 @@ class PunishmentDraw extends Component {
       },
       gameResult: '唱歌',
       userInfo: {},
-      otherStreamerNick: this.props.location.otherStreamerNick,
-      otherStreamerAvatarUrl: this.props.location.otherStreamerAvatarUrl,
-      otherStreamerUnionId: this.props.location.otherStreamerUnionId,
-      roomId: this.props.location.roomId
+      otherStreamerNick: this.props.location.state.otherStreamerNick,
+      otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
+      otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
+      roomId: this.props.location.state.roomId,
+      randomMath: this.props.location.state.randomMath,
+      winner: this.props.location.state.winner
     }
   }
 
@@ -48,16 +51,46 @@ class PunishmentDraw extends Component {
   handleDraw = (ref) => (this.view = ref);
 
   handleStart = () => {
-    const random = Math.floor(Math.random() * 10) // 后端返回
-    this.setState({ gameResult: this.state.dataMap[random % 8] })
-    const angle = 720 + (random % 7) * (360 / 7)
-    let promise = new Promise(resolve => {
-      this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
-      this.timer = setTimeout(() => resolve(), 2000)
-    })
-    promise.then(() => {
-      this._modal.open()
-    })
+    const {userInfo, winner} = this.state
+    if (winner == userInfo.streamerUnionId) {
+      const random = Math.floor(Math.random() * 10)
+      const { roomId } = this.state
+      let params = {
+        header: {
+          "Content-Type":"application/json;charset=UTF-8",
+          'Accept': 'application/json'
+        },
+        url: `${ApiUrl}${circle}?roomID=${roomId}&punishmentID=${random}`,
+        method: "POST",
+        data: {},
+        dataType: "json"
+      }
+      hyExt.request(params).then(res => {
+        console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
+        this.setState({ gameResult: this.state.dataMap[random % 8] })
+        const angle = 720 + (random % 8) * (360 / 8)
+        let promise = new Promise(resolve => {
+          this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
+          this.timer = setTimeout(() => resolve(), 2000)
+        })
+        promise.then(() => {
+          this._modal.open()
+        })
+      }).catch(err => {
+          console.log('发送HTTP请求失败，错误信息：' + err.message)
+      })
+    } else {
+        const {randomMath} = this.state
+        this.setState({ gameResult: this.state.dataMap[randomMath % 8] })
+        const angle = 720 + (randomMath % 8) * (360 / 8)
+        let promise = new Promise(resolve => {
+          this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
+          this.timer = setTimeout(() => resolve(), 2000)
+        })
+        promise.then(() => {
+          this._modal.open()
+        })
+    }
   }
 
   handleClosed = () => {
@@ -131,7 +164,7 @@ class PunishmentDraw extends Component {
                 borderWidth={3}
                 borderColor="#ffb700"
                 backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                src={this.state.userInfo.streamerAvatarUrl}
+                src={this.state.otherStreamerAvatarUrl}
             />
           </View>
         </View>

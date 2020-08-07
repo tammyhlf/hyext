@@ -12,6 +12,7 @@ const { createSound } = NativeModules
 const { View, Text, Button, Image, Progress,BackgroundImage,Avatar } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
+let TimeoutTimer = null; //延时的
 
 class App extends Component {
   constructor(props) {
@@ -96,8 +97,12 @@ class App extends Component {
           this.createWb();
       }
     });
-    setTimeout(this.setIntervalFun, 3000)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 3000)
     this.playMusic()
+    this.monitor() // 监听小程序发送的分数与随机数
+  }
+  componentWillUnmount() {
+    clearTimeout(TimeoutTimer)
   }
 
   //在组件内加入创建白板函数
@@ -121,6 +126,35 @@ class App extends Component {
       }).catch(err => {
         console.log(err);
       })
+  }
+
+  // 监听游戏结果
+  monitor = () => {
+    const callbackFun = (res) => {
+      const { roomId, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, totalResult } = this.state
+      console.log(`监听的数据${JSON.stringify(res)}`)
+      const formDataResult = JSON.stringify(res).split('=')
+      const dataObj = {
+        [formDataResult[7].split(',')[0]]: {
+          score: formDataResult[10].split(')')[0]
+        },
+        [formDataResult[11].split(',')[0]]: {
+          score: formDataResult[14].split(')')[0]
+        },
+        winner: formDataResult[2].split(',')[0],
+        equal: formDataResult[15].split(')')[0]  //这是字符串类型的true/fasle!
+      }
+      // const otherScore = xx // 根据res获得对方的分数
+      this.props.history.push({ pathname: '/punishment', state: {
+        otherStreamerNick,
+        otherStreamerAvatarUrl,
+        otherStreamerUnionId,
+        roomId,
+        score: totalResult,
+        dataObj
+      }})
+    }
+    hyExt.observer.on('finish', callbackFun)
   }
 
   // 播放音乐
@@ -209,7 +243,7 @@ class App extends Component {
     console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${totalResult}`)
     // 舞蹈动作结束后
     if (danceIndex == 14) {
-      clearInterval(intervalTimer);
+    clearInterval(intervalTimer);
       this.setState({
         resultObj: {
           ...this.state.resultObj,
@@ -228,13 +262,6 @@ class App extends Component {
       }
       hyExt.request(params).then(res => {
         console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-        this.props.history.push({ pathname: '/punishment', state: {
-          otherStreamerNick,
-          otherStreamerAvatarUrl,
-          otherStreamerUnionId,
-          roomId,
-          score: this.state.totalResult
-        }})
       }).catch(err => {
           console.log('发送HTTP请求失败，错误信息：' + err.message)
       })

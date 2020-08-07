@@ -1,6 +1,7 @@
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
+import { ApiUrl, circle } from '../context/user'
 import { RootContext } from '../context'
 
 const { View, Button, Image, Text, BackgroundImage, Avatar} = UI
@@ -10,11 +11,13 @@ class Punishment extends Component {
     super(props)
     this.state = {
       userInfo:{},
-      otherStreamerNick: this.props.location.otherStreamerNick,
-      otherStreamerAvatarUrl: this.props.location.otherStreamerAvatarUrl,
-      otherStreamerUnionId: this.props.location.otherStreamerUnionId,
-      roomId: this.props.location.roomId,
-      score: this.props.location.score
+      otherStreamerNick: this.props.location.state.otherStreamerNick,
+      otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
+      otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
+      roomId: this.props.location.state.roomId,
+      score: this.props.location.state.score,
+      dataObj: this.props.location.state.dataObj,
+      otherScore: 0,
     }
   }
 
@@ -33,28 +36,61 @@ class Punishment extends Component {
           userInfo: that.context.user
       })
     }
-    this.monitor() // 监听小程序发送的分数与随机数
+    this.monitor()
   }
-
+  
+  // 监听胜利方选择
   monitor = () => {
-    const callbackFun = (res) => {
-      console.log(`监听的数据${res}`)
+    const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+    if (userInfo.streamerUnionId != dataObj.winner) {
+      const callback = (res) => {
+        console.log(`监听的数据${JSON.parse(JSON.stringify(res))}`)
+        // const randomMath = res.xxx
+        // if (randomMath == -1) {
+        //   this.props.history.push('/game-result')
+        // } else if (randomMath >= 0) {
+        //   this.props.history.push({ pathname: '/punishment-draw', state: {
+        //     otherStreamerNick,
+        //     otherStreamerAvatarUrl,
+        //     otherStreamerUnionId,
+        //     roomId,
+        //     randomMath,
+        //     winner: dataObj.winner
+        //   }})
+        // }
+      }
+      hyExt.observer.on('circle', callback)
     }
-    hyExt.observer.on('finish', callbackFun)
   }
   
   handleClick = () => {
     const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-    this.props.history.push(this.props.history.push({ pathname: '/punishment', state: {
+    this.props.history.push({ pathname: '/punishment-draw', state: {
       otherStreamerNick,
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
       roomId
-    }}))
+    }})
   }
 
   handleCustomClick = () => {
-    this.props.history.push('/game-result')
+    const { roomId } = this.state
+    let params = {
+      header: {
+        "Content-Type":"application/json;charset=UTF-8",
+        'Accept': 'application/json'
+      },
+      url: `${ApiUrl}${circle}?roomID=${roomId}&punishmentID=-1`,
+      method: "POST",
+      data: {},
+      dataType: "json"
+    }
+    hyExt.request(params).then(res => {
+      console.log('发送HTTP请求成功，返回：' + JSON.parse(JSON.stringify(res)))
+      this.props.history.push('/game-result')
+    }).catch(err => {
+        console.log('发送HTTP请求失败，错误信息：' + err.message)
+    })
   }
 
   handleClickHome = () => {
@@ -62,6 +98,7 @@ class Punishment extends Component {
   }
 
   render () {
+    const { dataObj, otherStreamerUnionId, score, otherStreamerNick, userInfo } = this.state
     return (
       <BackgroundImage
         className="backgroundImage"
@@ -77,7 +114,8 @@ class Punishment extends Component {
           </View>
         </View>
         <Image src={require('../../assets/logo.png')} className="punish-img" />
-        <Image className="crown" src={require("../../assets/crown.png")} />
+        {/* <Image className="crown" src={require("../../assets/crown.png")} /> */}
+        {/* 皇冠样式需要调整，先删除 */}
 
         {/*双方头像*/}
         <View  className="pkImage" style={{
@@ -110,10 +148,18 @@ class Punishment extends Component {
           width:375
         }}>
           <View className="yellow-user">
-            <Image className="win" src={require('../../assets/win.png')} />
+            {
+              dataObj.winner == otherStreamerUnionId ? <Image className="win" src={require('../../assets/win.png')} /> :
+              <Image className="lose" src={require('../../assets/lose.png')} />
+            }
+            {/* <Image className="win" src={require('../../assets/win.png')} /> */}
           </View>
           <View className="blue-user">
-            <Image className="lose" src={require('../../assets/lose.png')} />
+            {
+              dataObj.winner == userInfo.streamerUnionId? <Image className="win" src={require('../../assets/win.png')} /> :
+              <Image className="lose" src={require('../../assets/lose.png')} />
+            }
+            {/* <Image className="lose" src={require('../../assets/lose.png')} /> */}
           </View>
         </View>
 
@@ -123,19 +169,29 @@ class Punishment extends Component {
           width:375
         }}>
           <View className="streamerName">
-            <Text className="streamerName-txt">{this.state.otherStreamerNick}</Text>
-            <Text className="streamerScore-yellow">得分：200</Text>
+            <Text className="streamerName-txt">{otherStreamerNick}</Text>
+            <Text className="streamerScore-yellow">得分：{dataObj[otherStreamerUnionId]}</Text>
           </View>
           <View className="streamerName">
-            <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
-            <Text className="streamerScore-blue">得分：{this.state.score}</Text>
+            <Text className="streamerName-txt">{userInfo.streamerNick}</Text>
+            <Text className="streamerScore-blue">得分：{score}</Text>
           </View>
         </View>
 
 
         <View className="btn-group">
-          <Button className="punish-btn" textStyle={{color: 'white'}} onPress={this.handleClick}>抽取惩罚</Button>
-          <Button className="custom-btn" textStyle={{color: 'white'}} onPress={this.handleCustomClick}>自定义惩罚</Button>
+          <Button
+            disabled={dataObj.winner == otherStreamerUnionId}
+            className="punish-btn"
+            textStyle={{color: 'white'}}
+            onPress={this.handleClick}
+          >抽取惩罚</Button>
+          <Button
+            disabled={dataObj.winner == userInfo.streamerUnionId}
+            className="custom-btn"
+            textStyle={{color: 'white'}}
+            onPress={this.handleCustomClick}
+          >自定义惩罚</Button>
         </View>
       </BackgroundImage>
     )

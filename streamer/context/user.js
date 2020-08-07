@@ -13,4 +13,6 @@ export const requestUserInfo = () => {
 
 export const ApiUrl = 'http://121.196.176.201:8082'
 
-export const finish = '/game/status/finish'
+export const finish = '/game/status/finish' // 提交分数
+
+export const circle = '/game/punishment/circle' // 抽取惩罚
