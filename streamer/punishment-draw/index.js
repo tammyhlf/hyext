@@ -51,6 +51,7 @@ class PunishmentDraw extends Component {
   handleDraw = (ref) => (this.view = ref);
 
   handleStart = () => {
+    debugger
     const {userInfo, winner} = this.state
     if (winner == userInfo.streamerUnionId) {
       const random = Math.floor(Math.random() * 10)

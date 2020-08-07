@@ -23,6 +23,12 @@
   margin-left: 62px;
 }
 
+.right-crown {
+  width: 84px;
+  height: 58px;
+  margin-left: 562px;
+}
+
 .btn-group {
   margin-top: 150px;
 }
