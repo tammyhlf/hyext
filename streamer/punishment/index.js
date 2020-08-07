@@ -45,21 +45,21 @@ class Punishment extends Component {
     if (this.context.user.streamerUnionId != dataObj.winner) {
       const callback = (res) => {
         console.log(`punishment监听的数据${JSON.parse(JSON.stringify(res))}`)
-        // const randomMath = res.xxx
-        // if (randomMath == -1) {
-        //   this.props.history.push('/game-result')
-        // } else if (randomMath >= 0) {
-        //   this.props.history.push({ pathname: '/punishment-draw', state: {
-        //     otherStreamerNick,
-        //     otherStreamerAvatarUrl,
-        //     otherStreamerUnionId,
-        //     roomId,
-        //     randomMath,
-        //     winner: dataObj.winner
-        //   }})
-        // }
+        const randomMath = res
+        if (randomMath == -1) {
+          this.props.history.push('/game-result')
+        } else if (randomMath >= 0) {
+          this.props.history.push({ pathname: '/punishment-draw', state: {
+            otherStreamerNick,
+            otherStreamerAvatarUrl,
+            otherStreamerUnionId,
+            roomId,
+            randomMath,
+            winner: dataObj.winner
+          }})
+        }
       }
-      hyExt.observer.on('circle', callback)
+      hyExt.observer.on('result', callback)
     }
   }
   
@@ -69,7 +69,6 @@ class Punishment extends Component {
       otherStreamerNick,
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
-      roomId,
       winner: dataObj.winner
     }})
   }
@@ -88,7 +87,13 @@ class Punishment extends Component {
     }
     hyExt.request(params).then(res => {
       console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-      this.props.history.push('/game-result')
+      this.props.history.push({ pathname: '/game-result', state: {
+        otherStreamerNick,
+        otherStreamerAvatarUrl,
+        otherStreamerUnionId,
+        roomId,
+        winner: dataObj.winner
+      }})
     }).catch(err => {
         console.log('发送HTTP请求失败，错误信息：' + err.message)
     })

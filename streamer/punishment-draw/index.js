@@ -47,11 +47,19 @@ class PunishmentDraw extends Component {
         userInfo: that.context.user
       })
     }
+    this.setState({ gameResult: this.state.dataMap[this.state.randomMath % 8] })
+    const angle = 720 + (this.state.randomMath % 8) * (360 / 8)
+    let promise = new Promise(resolve => {
+    this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
+      this.timer = setTimeout(() => resolve(), 2000)
+    })
+    promise.then(() => {
+      this._modal.open()
+    })
   }
   handleDraw = (ref) => (this.view = ref);
 
   handleStart = () => {
-    debugger
     const {userInfo, winner} = this.state
     if (winner == userInfo.streamerUnionId) {
       const random = Math.floor(Math.random() * 10)
@@ -81,16 +89,7 @@ class PunishmentDraw extends Component {
           console.log('发送HTTP请求失败，错误信息：' + err.message)
       })
     } else {
-        const {randomMath} = this.state
-        this.setState({ gameResult: this.state.dataMap[randomMath % 8] })
-        const angle = 720 + (randomMath % 8) * (360 / 8)
-        let promise = new Promise(resolve => {
-          this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
-          this.timer = setTimeout(() => resolve(), 2000)
-        })
-        promise.then(() => {
-          this._modal.open()
-        })
+        return
     }
   }
 
