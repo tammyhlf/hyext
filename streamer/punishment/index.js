@@ -42,7 +42,7 @@ class Punishment extends Component {
   // 监听胜利方选择
   monitor = () => {
     const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-    if (userInfo.streamerUnionId != dataObj.winner) {
+    if (this.context.userInfo.streamerUnionId != dataObj.winner) {
       const callback = (res) => {
         console.log(`punishment监听的数据${JSON.parse(JSON.stringify(res))}`)
         // const randomMath = res.xxx
@@ -116,7 +116,7 @@ class Punishment extends Component {
           </View>
         </View>
         <Image src={require('../../assets/logo.png')} className="punish-img" />
-        {score == otherScore ? '' : 
+        {score == otherScore ? null :
           <Image className={dataObj.winner == otherStreamerUnionId ? "crown" : "right-crown" } src={require("../../assets/crown.png")} />
         }
         {/*双方头像*/}
@@ -151,14 +151,14 @@ class Punishment extends Component {
         }}>
           <View className="yellow-user">
             {
-              score == otherScore ? '' : dataObj.winner == otherStreamerUnionId ? <Image className="win" src={require('../../assets/win.png')} /> :
+              score == otherScore ? null : dataObj.winner == otherStreamerUnionId ? <Image className="win" src={require('../../assets/win.png')} /> :
               <Image className="lose" src={require('../../assets/lose.png')} />
             }
             {/* <Image className="win" src={require('../../assets/win.png')} /> */}
           </View>
           <View className="blue-user">
             {
-              score == otherScore ? '' : dataObj.winner == userInfo.streamerUnionId? <Image className="win" src={require('../../assets/win.png')} /> :
+              score == otherScore ? null : dataObj.winner == userInfo.streamerUnionId? <Image className="win" src={require('../../assets/win.png')} /> :
               <Image className="lose" src={require('../../assets/lose.png')} />
             }
             {/* <Image className="lose" src={require('../../assets/lose.png')} /> */}
