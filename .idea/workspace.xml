@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="878d83e0-78e8-4eb1-8b40-ec342627a586" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamer/add/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/add/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamer/create/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/create/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamer/luck-draw/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/luck-draw/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamer/wait/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/wait/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/test/index.hycss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/test/index.js" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -138,6 +137,8 @@
       <workItem from="1596696410451" duration="5130000" />
       <workItem from="1596706361119" duration="2263000" />
       <workItem from="1596714937594" duration="1467000" />
+      <workItem from="1596730477192" duration="4250000" />
+      <workItem from="1596775891587" duration="1342000" />
     </task>
     <servers />
   </component>
