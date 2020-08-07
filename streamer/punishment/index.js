@@ -10,7 +10,6 @@ class Punishment extends Component {
 
   constructor(props) {
     super(props)
-    debugger
     this.state = {
       userInfo: {},
       otherStreamerNick: this.props.location.state.otherStreamerNick,
@@ -43,7 +42,6 @@ class Punishment extends Component {
   // 监听胜利方选择x
   monitor = () => {
     const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-    debugger
     if (this.context.user.streamerUnionId != dataObj.winner) {
       const callback = (res) => {
         console.log(`punishment监听的数据${JSON.parse(JSON.stringify(res))}`)
