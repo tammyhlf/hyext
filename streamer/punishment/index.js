@@ -7,10 +7,11 @@ import { RootContext } from '../context'
 const { View, Button, Image, Text, BackgroundImage, Avatar} = UI
 
 class Punishment extends Component {
+
   constructor(props) {
     super(props)
     this.state = {
-      userInfo:{},
+      userInfo: {},
       otherStreamerNick: this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
@@ -20,29 +21,28 @@ class Punishment extends Component {
       otherScore: 0,
     }
   }
-
   static contextType = RootContext
 
   componentDidMount() {
-    let that = this
     if (!this.context.user) {
       this.props.func.requestUserInfo().then(res => {
-        that.setState({
+        this.setState({
           userInfo: res.user
         })
+        this.monitor()
       })
     } else {
-      that.setState({
-          userInfo: that.context.user
+      this.setState({
+          userInfo: this.context.user
       })
+      this.monitor()
     }
-    this.monitor()
   }
   
-  // 监听胜利方选择
+  // 监听胜利方选择x
   monitor = () => {
     const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-    if (this.context.userInfo.streamerUnionId != dataObj.winner) {
+    if (this.context.user.streamerUnionId != dataObj.winner) {
       const callback = (res) => {
         console.log(`punishment监听的数据${JSON.parse(JSON.stringify(res))}`)
         // const randomMath = res.xxx
@@ -75,7 +75,6 @@ class Punishment extends Component {
   }
 
   handleCustomClick = () => {
-    debugger
     const { roomId } = this.state
     let params = {
       header: {
@@ -183,13 +182,13 @@ class Punishment extends Component {
 
         <View className="btn-group">
           <Button
-            disabled={dataObj.winner == otherStreamerUnionId}
+            disabled={ score == otherScore || dataObj.winner == otherStreamerUnionId}
             className="punish-btn"
             textStyle={{color: 'white'}}
             onPress={this.handleClick}
           >抽取惩罚</Button>
           <Button
-            disabled={dataObj.winner == otherStreamerUnionId}
+            disabled={ score == otherScore || dataObj.winner == otherStreamerUnionId}
             className="custom-btn"
             textStyle={{color: 'white'}}
             onPress={this.handleCustomClick}
