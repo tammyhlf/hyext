@@ -44,7 +44,7 @@ class Punishment extends Component {
     const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
     if (userInfo.streamerUnionId != dataObj.winner) {
       const callback = (res) => {
-        console.log(`监听的数据${JSON.parse(JSON.stringify(res))}`)
+        console.log(`punishment监听的数据${JSON.parse(JSON.stringify(res))}`)
         // const randomMath = res.xxx
         // if (randomMath == -1) {
         //   this.props.history.push('/game-result')
@@ -64,16 +64,18 @@ class Punishment extends Component {
   }
   
   handleClick = () => {
-    const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+    const {dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
     this.props.history.push({ pathname: '/punishment-draw', state: {
       otherStreamerNick,
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
-      roomId
+      roomId,
+      winner: dataObj.winner
     }})
   }
 
   handleCustomClick = () => {
+    debugger
     const { roomId } = this.state
     let params = {
       header: {
@@ -86,7 +88,7 @@ class Punishment extends Component {
       dataType: "json"
     }
     hyExt.request(params).then(res => {
-      console.log('发送HTTP请求成功，返回：' + JSON.parse(JSON.stringify(res)))
+      console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
       this.props.history.push('/game-result')
     }).catch(err => {
         console.log('发送HTTP请求失败，错误信息：' + err.message)
@@ -98,7 +100,7 @@ class Punishment extends Component {
   }
 
   render () {
-    const { dataObj, otherStreamerUnionId, score, otherStreamerNick, userInfo } = this.state
+    const { dataObj, otherStreamerUnionId, otherScore, score, otherStreamerNick, userInfo } = this.state
     return (
       <BackgroundImage
         className="backgroundImage"
@@ -114,9 +116,9 @@ class Punishment extends Component {
           </View>
         </View>
         <Image src={require('../../assets/logo.png')} className="punish-img" />
-        {/* <Image className="crown" src={require("../../assets/crown.png")} /> */}
-        {/* 皇冠样式需要调整，先删除 */}
-
+        {score == otherScore ? '' : 
+          <Image className={dataObj.winner == otherStreamerUnionId ? "crown" : "right-crown" } src={require("../../assets/crown.png")} />
+        }
         {/*双方头像*/}
         <View  className="pkImage" style={{
           flexDirection: "row",
@@ -149,14 +151,14 @@ class Punishment extends Component {
         }}>
           <View className="yellow-user">
             {
-              dataObj.winner == otherStreamerUnionId ? <Image className="win" src={require('../../assets/win.png')} /> :
+              score == otherScore ? '' : dataObj.winner == otherStreamerUnionId ? <Image className="win" src={require('../../assets/win.png')} /> :
               <Image className="lose" src={require('../../assets/lose.png')} />
             }
             {/* <Image className="win" src={require('../../assets/win.png')} /> */}
           </View>
           <View className="blue-user">
             {
-              dataObj.winner == userInfo.streamerUnionId? <Image className="win" src={require('../../assets/win.png')} /> :
+              score == otherScore ? '' : dataObj.winner == userInfo.streamerUnionId? <Image className="win" src={require('../../assets/win.png')} /> :
               <Image className="lose" src={require('../../assets/lose.png')} />
             }
             {/* <Image className="lose" src={require('../../assets/lose.png')} /> */}
@@ -187,7 +189,7 @@ class Punishment extends Component {
             onPress={this.handleClick}
           >抽取惩罚</Button>
           <Button
-            disabled={dataObj.winner == userInfo.streamerUnionId}
+            disabled={dataObj.winner == otherStreamerUnionId}
             className="custom-btn"
             textStyle={{color: 'white'}}
             onPress={this.handleCustomClick}

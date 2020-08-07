@@ -135,12 +135,8 @@ class App extends Component {
       console.log(`监听的数据${JSON.stringify(res)}`)
       const formDataResult = JSON.stringify(res).split('=')
       const dataObj = {
-        [formDataResult[7].split(',')[0]]: {
-          score: formDataResult[10].split(')')[0]
-        },
-        [formDataResult[11].split(',')[0]]: {
-          score: formDataResult[14].split(')')[0]
-        },
+        [formDataResult[7].split(',')[0]]: formDataResult[10].split(')')[0],
+        [formDataResult[11].split(',')[0]]: formDataResult[14].split(')')[0],
         winner: formDataResult[2].split(',')[0],
         equal: formDataResult[15].split(')')[0]  //这是字符串类型的true/fasle!
       }
