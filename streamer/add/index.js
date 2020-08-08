@@ -149,7 +149,7 @@ class Add extends Component {
                             })
                         }}
                     />
-                    <Button className="add" type="primary" onPress={this.goto}>加入房间</Button>
+                    <Button className="add" type="primary" onPress={this.join}>加入房间</Button>
                 </View>
             </BackgroundImage>
         )
