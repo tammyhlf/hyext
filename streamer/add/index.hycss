@@ -65,3 +65,10 @@
 .user{
   width: 40%;
 }
+.add{
+  border:5px;
+  border-radius: 120px;
+  margin: 50px;
+  border-color: #3a5ede;
+  background-color: #4f7ef7;
+}

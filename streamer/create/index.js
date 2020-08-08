@@ -30,6 +30,7 @@ class Create extends Component {
         copy(this.state.roomId)
         console.log(this.state.roomId)
         Tip.show('复制成功', 500, true,'top')
+        this._modal.close()
     }
 
     handleClick = () => {

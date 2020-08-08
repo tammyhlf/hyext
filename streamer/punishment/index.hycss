@@ -23,8 +23,14 @@
   margin-left: 62px;
 }
 
+.right-crown {
+  width: 84px;
+  height: 58px;
+  margin-left: 526px;
+}
+
 .btn-group {
-  margin-top: 180px;
+  margin-top: 150px;
 }
 
 .punish-btn {
@@ -92,4 +98,8 @@
 .streamerScore-blue {
   color: #4668fa;
   text-align: center;
+}
+.home{
+  width: 43px;
+  height: 43px;
 }

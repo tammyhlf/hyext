@@ -12,6 +12,7 @@ const { createSound } = NativeModules
 const { View, Text, Button, Image, Progress,BackgroundImage,Avatar } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
+let TimeoutTimer = null; //延时的
 
 class App extends Component {
   constructor(props) {
@@ -96,8 +97,12 @@ class App extends Component {
           this.createWb();
       }
     });
-    setTimeout(this.setIntervalFun, 3000)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 4360)
     this.playMusic()
+    this.monitor() // 监听小程序发送的分数与随机数
+  }
+  componentWillUnmount() {
+    clearTimeout(TimeoutTimer)
   }
 
   //在组件内加入创建白板函数
@@ -123,16 +128,35 @@ class App extends Component {
       })
   }
 
+  // 监听游戏结果
+  monitor = () => {
+    const callbackFun = (res) => {
+      const { roomId, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, totalResult } = this.state
+      console.log(`监听的数据${JSON.stringify(res)}`)
+      const formDataResult = JSON.stringify(res).split('=')
+      const dataObj = {
+        [formDataResult[7].split(',')[0]]: formDataResult[10].split(')')[0],
+        [formDataResult[11].split(',')[0]]: formDataResult[14].split(')')[0],
+        winner: formDataResult[2].split(',')[0],
+        equal: formDataResult[15].split(')')[0]  //这是字符串类型的true/fasle!
+      }
+      this.props.history.push({ pathname: '/punishment', state: {
+        otherStreamerNick,
+        otherStreamerAvatarUrl,
+        otherStreamerUnionId,
+        roomId,
+        score: totalResult,
+        dataObj
+      }})
+    }
+    hyExt.observer.on('finish', callbackFun)
+  }
+
   // 播放音乐
   playMusic = () => {
     const sound1 = createSound('https://livewebbs2.msstatic.com/qguess-countdown2.mp3', (err) => {
       console.log(err, 'Sound1')
-      sound1.play(() => {
-        sound1.release()
-        setTimeout(() => {
-          sound1.play()
-        }, 1000);
-      })
+      sound1.play()
     })
   }
 
@@ -156,8 +180,8 @@ class App extends Component {
    * @return { Number } 
    */
   contrastResult = (actionResult = {}, distinguishResult = {}) => {
-    const goodValue = 3.2
-    const perfectValue = 1.5
+    const goodValue = 3.5
+    const perfectValue = 1.6
 
     const result1 = Math.abs(distinguishResult.leftArm - actionResult.leftArm) || 10  // 左手
     const result2 = Math.abs(distinguishResult.rightArm - actionResult.rightArm) || 10 // 右手
@@ -214,7 +238,7 @@ class App extends Component {
     console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${totalResult}`)
     // 舞蹈动作结束后
     if (danceIndex == 14) {
-      clearInterval(intervalTimer);
+    clearInterval(intervalTimer);
       this.setState({
         resultObj: {
           ...this.state.resultObj,
@@ -233,13 +257,6 @@ class App extends Component {
       }
       hyExt.request(params).then(res => {
         console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-        this.props.history.push({ pathname: '/punishment', state: {
-          otherStreamerNick,
-          otherStreamerAvatarUrl,
-          otherStreamerUnionId,
-          roomId,
-          score: this.state.totalResult
-        }})
       }).catch(err => {
           console.log('发送HTTP请求失败，错误信息：' + err.message)
       })
@@ -247,15 +264,19 @@ class App extends Component {
   }
 
   setIntervalFun = () => {
-    intervalTimer = setInterval(this.sendResult, 2000)
+    intervalTimer = setInterval(this.sendResult, 1500)
   }
 
-  handleBoard = () => {
-    hyExt.stream.removeWB().then(() => {
+  componentWillUnmount() {
+    hyExt.stream.removeWhiteBoard().then(() => {
       hyExt.logger.info('移除小程序普通白板成功')    
     }).catch(err => {
       hyExt.logger.info('移除小程序普通白板失败，错误信息：' + err.message)
     })
+  }
+
+  handleClickHome = () => {
+    this.props.history.push('/index_streamer_pc_anchor_panel.html')
   }
 
   renderForm() {
@@ -270,13 +291,8 @@ class App extends Component {
             height: 40,
             padding: 20
           }}>
-            <View style={{width:10}}>
-              {/*<Image className="home" src={require('../../assets/home.png')}></Image>*/}
-            </View>
-            <View style={{width:310}}>
-
-            </View>
-            <View style={{width:10}}>
+            <View style={{width:10}} onClick={this.handleClickHome}>
+              <Image className="home" src={require('../../assets/home.png')}></Image>
             </View>
           </View>
 
@@ -300,7 +316,7 @@ class App extends Component {
                     borderWidth={3}
                     borderColor="#3a5ede"
                     backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                    src={this.state.otherStreamerAvatarUrl}
+                    // src={this.state.otherStreamerAvatarUrl}
                 />
               </View>
             </View>
@@ -333,7 +349,7 @@ class App extends Component {
               {/*蓝方姓名*/}
               <View className="streamerName-left">
                 <Text className="streamerName-txt">
-                  {this.state.otherStreamerNick}
+                  {/* {this.state.otherStreamerNick} */}
                 </Text>
               </View>
               {/*黄方姓名*/}
@@ -372,7 +388,7 @@ class App extends Component {
     }
     danceAnimates = {
       0: {
-        translateY: 0,
+        translateY: 720,
         // opacity: 1
       },
       // 0.99: {
@@ -380,12 +396,39 @@ class App extends Component {
       //   opacity: 1
       // },
       1: {
-        translateY: -8220,
+        translateY: -7200 //动画最终停留的位置， 一共移动的距离为15*500 + 720-500 = 7720
+      }
+    },
+    resultAnimate = {
+      0: {
+        scale: 0.8,
+        opacity: 1
+      },
+      0.5: {
+        scale: 1,
+        opacity: 1
+      },
+      0.6: {
+        opacity: 0.5,
+        scale: 1
+      },
+      0.7: {
+        opacity: 0,
+        scale: 1
       }
     }
     return (
       <View className='container'>
-        <View className="progress-content">
+        <Animatable.View delay={3000}
+        animation={{
+          from: {
+            opacity: 0
+          },
+          to: {
+            opacity: 1
+          }
+        }}
+        className="progress-content">
           <Text className="result-text">{totalResult}</Text>
           <Progress
             easing={true}
@@ -394,9 +437,9 @@ class App extends Component {
             style={{
               transform: [{rotate: '-90deg'}]
             }}
-            barStyle={{height: 60, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
+            barStyle={{height: 65, width: 450, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
           />
-        </View>
+        </Animatable.View>
         <View className='count-down'>
           <View className="count-content">
             <Animatable.View animation={animates} className="img-content">
@@ -411,24 +454,29 @@ class App extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={30000}
+          duration={23260}
           animation={danceAnimates}
           easing="linear"
           delay={3000}
+          className="dance-contanier"
         >
           { danceAction.map((item, index)=> {
+            const context = require.context("../../assets/dance-action/", true, /\.png$/)
             return (
-              <Animatable.View
-                key={index}
-                // className="draw-content"
-                // transition="display"
-                // style={{display: this.state.display}}
-              >
-                <Image
-                  src={ danceIndex == index ? this.state.resultDataMap[result] : require(`../../assets/dance-action/${index + 1}.png`)}
-                  className="dance-action"
-                ></Image>
-              </Animatable.View>
+              <View style={{
+                width: 400,
+                height: 500
+              }}>
+                <Animatable.View
+                  key={index}
+                  animation={ danceIndex == index ? resultAnimate : null }
+                >
+                  <Image
+                    src={ danceIndex == index ? this.state.resultDataMap[result] : context(`./${index + 1}.png`)}
+                    className="dance-action"
+                  ></Image>
+                </Animatable.View>
+              </View>
             )
           }) }
         </Animatable.View>
