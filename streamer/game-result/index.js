@@ -13,7 +13,6 @@ class GameResult extends Component {
       otherStreamerNick: this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
-      // roomId: this.props.location.state.roomId,
       winner: this.props.location.state.winner
     };
   }
@@ -35,9 +34,10 @@ class GameResult extends Component {
       }
     });
   }
-  handleClick = () => {
-    this.props.history.push("/punishment-draw");
-  };
+
+  handleClickHome = () => {
+    this.props.history.push('/index_streamer_pc_anchor_panel.html')
+  }
 
   render() {
     const {otherStreamerAvatarUrl, userInfo, otherStreamerNick} = this.state
@@ -46,6 +46,16 @@ class GameResult extends Component {
         className="backgroundImage"
         src={require("../../assets/background.png")}
       >
+        <View style={{
+          flexDirection: "row",
+          height: 40,
+          padding: 20
+        }}>
+          <View style={{width:10}} onClick={this.handleClickHome}>
+            <Image className="home" src={require('../../assets/home.png')}></Image>
+          </View>
+        </View>
+        <Image src={require('../../assets/logo.png')} className="punish-img" />
         {/*皇冠*/}
         {/* <Image className="crown" src={require("../../assets/crown.png")} /> */}
 
@@ -113,12 +123,12 @@ class GameResult extends Component {
           <Button
             className="punish-btn"
             textStyle={{ color: "white" }}
-            onPress={this.handleClick}
+            onPress={this.handleClickHome}
           >
-            再来一局
+            退出房间
           </Button>
         </View>
-        <View className="game-restart">
+        {/* <View className="game-restart">
           <Text className="text">退出房间</Text>
           <Icon
             type="angle-right"
@@ -126,7 +136,7 @@ class GameResult extends Component {
             tintColor="#ffffff"
             className="game-icon"
           />
-        </View>
+        </View> */}
       </BackgroundImage>
     );
   }

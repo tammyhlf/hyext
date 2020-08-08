@@ -47,7 +47,12 @@ class Punishment extends Component {
         console.log(`punishment监听的数据${JSON.parse(JSON.stringify(res))}`)
         const randomMath = res
         if (randomMath == -1) {
-          this.props.history.push('/game-result')
+          this.props.history.push({ pathname: '/game-result', state: {
+            otherStreamerNick,
+            otherStreamerAvatarUrl,
+            otherStreamerUnionId,
+            winner: dataObj.winner
+          }})
         } else if (randomMath >= 0) {
           this.props.history.push({ pathname: '/punishment-draw', state: {
             otherStreamerNick,
@@ -75,7 +80,7 @@ class Punishment extends Component {
   }
 
   handleCustomClick = () => {
-    const { roomId } = this.state
+    const {dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
     let params = {
       header: {
         "Content-Type":"application/json;charset=UTF-8",
