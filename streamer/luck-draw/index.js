@@ -18,11 +18,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // roomId:this.props.location.state.roomId,
+      roomId:this.props.location.state.roomId,
       userInfo: {},
-      // otherStreamerNick:this.props.location.state.otherStreamerNick,
-      // otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
-      // otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
+      otherStreamerNick:this.props.location.state.otherStreamerNick,
+      otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
+      otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -91,7 +91,7 @@ class App extends Component {
       callback: recognition => {
         this.setState({ 
           recognition,
-          // roomId: this.props.location.state.roomId
+          roomId: this.props.location.state.roomId
         });
         if (!this.state.wbId)
           this.createWb();
@@ -99,7 +99,7 @@ class App extends Component {
     });
     TimeoutTimer = setTimeout(this.setIntervalFun, 4360)
     this.playMusic()
-    // this.monitor() // 监听小程序发送的分数与随机数
+    this.monitor() // 监听小程序发送的分数与随机数
   }
   componentWillUnmount() {
     clearTimeout(TimeoutTimer)
@@ -140,7 +140,6 @@ class App extends Component {
         winner: formDataResult[2].split(',')[0],
         equal: formDataResult[15].split(')')[0]  //这是字符串类型的true/fasle!
       }
-      // const otherScore = xx // 根据res获得对方的分数
       this.props.history.push({ pathname: '/punishment', state: {
         otherStreamerNick,
         otherStreamerAvatarUrl,
@@ -181,8 +180,8 @@ class App extends Component {
    * @return { Number } 
    */
   contrastResult = (actionResult = {}, distinguishResult = {}) => {
-    const goodValue = 3.2
-    const perfectValue = 1.5
+    const goodValue = 3.5
+    const perfectValue = 1.6
 
     const result1 = Math.abs(distinguishResult.leftArm - actionResult.leftArm) || 10  // 左手
     const result2 = Math.abs(distinguishResult.rightArm - actionResult.rightArm) || 10 // 右手
@@ -268,8 +267,8 @@ class App extends Component {
     intervalTimer = setInterval(this.sendResult, 1500)
   }
 
-  handleBoard = () => {
-    hyExt.stream.removeWB().then(() => {
+  componentWillUnmount() {
+    hyExt.stream.removeWhiteBoard().then(() => {
       hyExt.logger.info('移除小程序普通白板成功')    
     }).catch(err => {
       hyExt.logger.info('移除小程序普通白板失败，错误信息：' + err.message)
@@ -462,6 +461,7 @@ class App extends Component {
           className="dance-contanier"
         >
           { danceAction.map((item, index)=> {
+            const context = require.context("../../assets/dance-action/", true, /\.png$/)
             return (
               <View style={{
                 width: 400,
@@ -470,12 +470,9 @@ class App extends Component {
                 <Animatable.View
                   key={index}
                   animation={ danceIndex == index ? resultAnimate : null }
-                  // className="draw-content"
-                  // transition="display"
-                  // style={{display: this.state.display}}
                 >
                   <Image
-                    src={ danceIndex == index ? this.state.resultDataMap[result] : require(`../../assets/dance-action/${index + 1}.png`)}
+                    src={ danceIndex == index ? this.state.resultDataMap[result] : context(`./${index + 1}.png`)}
                     className="dance-action"
                   ></Image>
                 </Animatable.View>

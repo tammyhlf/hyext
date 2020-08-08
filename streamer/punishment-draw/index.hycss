@@ -85,3 +85,7 @@
   height: 58px;
   left: 150px;
 }
+.text {
+  color: #ffffff;
+  font-size: 36px;
+}
