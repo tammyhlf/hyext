@@ -47,37 +47,39 @@ class PunishmentDraw extends Component {
         userInfo: that.context.user
       })
     }
-    this.setState({ gameResult: this.state.dataMap[this.state.randomMath % 8] })
-    const angle = 720 + (this.state.randomMath % 8) * (360 / 8)
-    let promise = new Promise(resolve => {
-    this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
-      this.timer = setTimeout(() => resolve(), 2000)
-    })
-    promise.then(() => {
-      this._modal.open()
-    })
+    if (this.state.winner != this.state.userInfo.streamerUnionId) {
+      this.setState({ gameResult: this.state.dataMap[this.state.randomMath % 8] })
+      const angle = 720 + (this.state.randomMath % 8) * (360 / 8)
+      let promise = new Promise(resolve => {
+      this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
+        this.timer = setTimeout(() => resolve(), 2000)
+      })
+      promise.then(() => {
+        this._modal.open()
+      })
+    }
   }
   handleDraw = (ref) => (this.view = ref);
 
   handleStart = () => {
     const {userInfo, winner} = this.state
     if (winner == userInfo.streamerUnionId) {
-      const random = Math.floor(Math.random() * 10)
+      const randoms = Math.floor(Math.random() * 10)
       const { roomId } = this.state
       let params = {
         header: {
           "Content-Type":"application/json;charset=UTF-8",
           'Accept': 'application/json'
         },
-        url: `${ApiUrl}${circle}?roomID=${roomId}&punishmentID=${random}`,
+        url: `${ApiUrl}${circle}?roomID=${roomId}&punishmentID=${randoms}`,
         method: "POST",
         data: {},
         dataType: "json"
       }
       hyExt.request(params).then(res => {
         console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-        this.setState({ gameResult: this.state.dataMap[random % 8] })
-        const angle = 720 + (random % 8) * (360 / 8)
+        this.setState({ gameResult: this.state.dataMap[randoms % 8] })
+        const angle = 720 + (randoms % 8) * (360 / 8)
         let promise = new Promise(resolve => {
           this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
           this.timer = setTimeout(() => resolve(), 2000)

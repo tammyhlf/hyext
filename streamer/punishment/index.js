@@ -69,7 +69,8 @@ class Punishment extends Component {
       otherStreamerNick,
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
-      winner: dataObj.winner
+      winner: dataObj.winner,
+      roomId
     }})
   }
 
