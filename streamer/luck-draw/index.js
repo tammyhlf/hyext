@@ -316,7 +316,7 @@ class App extends Component {
                     borderWidth={3}
                     borderColor="#3a5ede"
                     backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                    // src={this.state.otherStreamerAvatarUrl}
+                    src={this.state.otherStreamerAvatarUrl}
                 />
               </View>
             </View>
@@ -349,7 +349,7 @@ class App extends Component {
               {/*蓝方姓名*/}
               <View className="streamerName-left">
                 <Text className="streamerName-txt">
-                  {/* {this.state.otherStreamerNick} */}
+                  {this.state.otherStreamerNick}
                 </Text>
               </View>
               {/*黄方姓名*/}

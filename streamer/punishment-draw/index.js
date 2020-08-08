@@ -18,7 +18,7 @@ class PunishmentDraw extends Component {
         3: '喝水跳舞',
         4: '叫爸爸',
         5: '吃柠檬',
-        6: '模仿五种动物叫',
+        6: '模仿动物叫声',
         7: '真心话'
       },
       gameResult: '唱歌',
