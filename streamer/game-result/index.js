@@ -10,6 +10,11 @@ class GameResult extends Component {
     super(props);
     this.state = {
       userInfo: {},
+      otherStreamerNick: this.props.location.state.otherStreamerNick,
+      otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
+      otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
+      // roomId: this.props.location.state.roomId,
+      winner: this.props.location.state.winner
     };
   }
 
@@ -35,13 +40,14 @@ class GameResult extends Component {
   };
 
   render() {
+    const {otherStreamerAvatarUrl, userInfo, otherStreamerNick} = this.state
     return (
       <BackgroundImage
         className="backgroundImage"
         src={require("../../assets/background.png")}
       >
         {/*皇冠*/}
-        <Image className="crown" src={require("../../assets/crown.png")} />
+        {/* <Image className="crown" src={require("../../assets/crown.png")} /> */}
 
         {/*双方头像*/}
         <View
@@ -57,7 +63,7 @@ class GameResult extends Component {
               borderWidth={3}
               borderColor="#ffb700"
               backupSrc={require("../../assets/fail.png")} // 网络错误显示默认图
-              src={require("../../assets/fail.png")}
+              src={otherStreamerAvatarUrl}
             />
           </View>
           <View className="blue-user">
@@ -66,7 +72,7 @@ class GameResult extends Component {
               borderWidth={3}
               borderColor="#3a5ede"
               backupSrc={require("../../assets/fail.png")} // 网络错误显示默认图
-              src={this.state.userInfo.streamerAvatarUrl}
+              src={userInfo.streamerAvatarUrl}
             />
           </View>
         </View>
@@ -79,10 +85,10 @@ class GameResult extends Component {
           }}
         >
           <View className="yellow-user">
-            <Image className="win" src={require("../../assets/win.png")} />
+            {/* <Image className="win" src={require("../../assets/win.png")} /> */}
           </View>
           <View className="blue-user">
-            <Image className="lose" src={require("../../assets/lose.png")} />
+            {/* <Image className="lose" src={require("../../assets/lose.png")} /> */}
           </View>
         </View>
 
@@ -94,11 +100,11 @@ class GameResult extends Component {
           }}
         >
           <View className="streamerName">
-            <Text className="streamerName-txt">另一位玩家</Text>
+          <Text className="streamerName-txt">{otherStreamerNick}</Text>
           </View>
           <View className="streamerName">
             <Text className="streamerName-txt">
-              {this.state.userInfo.streamerNick}
+              {userInfo.streamerNick}
             </Text>
           </View>
         </View>

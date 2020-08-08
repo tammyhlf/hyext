@@ -69,7 +69,6 @@ class Punishment extends Component {
       otherStreamerNick,
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
-      roomId,
       winner: dataObj.winner
     }})
   }
@@ -88,7 +87,13 @@ class Punishment extends Component {
     }
     hyExt.request(params).then(res => {
       console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-      this.props.history.push('/game-result')
+      this.props.history.push({ pathname: '/game-result', state: {
+        otherStreamerNick,
+        otherStreamerAvatarUrl,
+        otherStreamerUnionId,
+        roomId,
+        winner: dataObj.winner
+      }})
     }).catch(err => {
         console.log('发送HTTP请求失败，错误信息：' + err.message)
     })
