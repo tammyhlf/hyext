@@ -18,8 +18,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      roomId:this.props.location.state.roomId,
       userInfo: {},
+      roomId:this.props.location.state.roomId,
       otherStreamerNick:this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
