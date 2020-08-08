@@ -127,8 +127,8 @@ class Add extends Component {
                     <View style={{width:310}}>
 
                     </View>
-                    <View style={{width:10}} onClick={this.join}>
-                        <Image className="draw-back" src={require('../../assets/draw-back.png')}></Image>
+                    <View style={{width:10}}>
+                        {/*<Image className="draw-back" src={require('../../assets/draw-back.png')}></Image>*/}
                     </View>
                 </View>
 
@@ -149,6 +149,7 @@ class Add extends Component {
                             })
                         }}
                     />
+                    <Button className="add" type="primary" onPress={this.join}>加入房间</Button>
                 </View>
             </BackgroundImage>
         )
