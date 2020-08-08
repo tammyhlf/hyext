@@ -18,11 +18,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      // roomId:this.props.location.state.roomId,
       userInfo: {},
-      roomId:this.props.location.state.roomId,
-      otherStreamerNick:this.props.location.state.otherStreamerNick,
-      otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
-      otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
+      // otherStreamerNick:this.props.location.state.otherStreamerNick,
+      // otherStreamerAvatarUrl:this.props.location.state.otherStreamerAvatarUrl,
+      // otherStreamerUnionId:this.props.location.state.otherStreamerUnionId,
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -91,15 +91,15 @@ class App extends Component {
       callback: recognition => {
         this.setState({ 
           recognition,
-          roomId: this.props.location.state.roomId
+          // roomId: this.props.location.state.roomId
         });
         if (!this.state.wbId)
           this.createWb();
       }
     });
-    TimeoutTimer = setTimeout(this.setIntervalFun, 3000)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 4360)
     this.playMusic()
-    this.monitor() // 监听小程序发送的分数与随机数
+    // this.monitor() // 监听小程序发送的分数与随机数
   }
   componentWillUnmount() {
     clearTimeout(TimeoutTimer)
@@ -317,7 +317,7 @@ class App extends Component {
                     borderWidth={3}
                     borderColor="#3a5ede"
                     backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                    src={this.state.otherStreamerAvatarUrl}
+                    // src={this.state.otherStreamerAvatarUrl}
                 />
               </View>
             </View>
@@ -350,7 +350,7 @@ class App extends Component {
               {/*蓝方姓名*/}
               <View className="streamerName-left">
                 <Text className="streamerName-txt">
-                  {this.state.otherStreamerNick}
+                  {/* {this.state.otherStreamerNick} */}
                 </Text>
               </View>
               {/*黄方姓名*/}
@@ -438,7 +438,7 @@ class App extends Component {
             style={{
               transform: [{rotate: '-90deg'}]
             }}
-            barStyle={{height: 60, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
+            barStyle={{height: 65, width: 450, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
           />
         </Animatable.View>
         <View className='count-down'>
@@ -455,7 +455,7 @@ class App extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23360}
+          duration={23260}
           animation={danceAnimates}
           easing="linear"
           delay={3000}
