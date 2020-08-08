@@ -4,7 +4,7 @@ import './index.hycss'
 import { ApiUrl, circle } from '../context/user'
 import { RootContext } from '../context'
 
-const { View, Button, Image, Text, BackgroundImage, Avatar} = UI
+const { View, Button, Image, Text, BackgroundImage, Avatar, Tip} = UI
 
 class Punishment extends Component {
 
@@ -36,6 +36,19 @@ class Punishment extends Component {
           userInfo: this.context.user
       })
       this.monitor()
+    }
+    this.setState({
+      otherScore: this.props.location.state.dataObj.otherStreamerUnionId
+    })
+    if (this.state.score == this.state.otherScore) {
+      const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+      Tip.show("双方已成平手，游戏结束", 1000, false,'top')
+      this.props.history.push({ pathname: '/game-result', state: {
+        otherStreamerNick,
+        otherStreamerAvatarUrl,
+        otherStreamerUnionId,
+        winner: dataObj.winner
+      }})
     }
   }
   

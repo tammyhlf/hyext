@@ -85,6 +85,14 @@ class App extends Component {
         userInfo: that.context.user
       })
     }
+    hyExt.stream.getStreamResolution().then(res => {
+      const {width, height} = res
+      this.createWb(width, height);
+      console.log('获取图层画布布局信息成功')
+    }).catch(err => {
+      hyExt.logger.info('获取图层画布布局信息失败，错误信息：' + err.message)
+    })
+
     hyExt.reg.onHumanSkeletonDetection({
       width: wb_width,
       height: wb_height,
@@ -93,39 +101,44 @@ class App extends Component {
           recognition,
           roomId: this.props.location.state.roomId
         });
-        if (!this.state.wbId)
-          this.createWb();
       }
     });
-    TimeoutTimer = setTimeout(this.setIntervalFun, 4360)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 4260)
     this.playMusic()
     this.monitor() // 监听小程序发送的分数与随机数
   }
   componentWillUnmount() {
     clearTimeout(TimeoutTimer)
+    hyExt.stream.deleteWB({wbId: this.state.wbId}).then(() => {
+      hyExt.logger.info('移除小程序普通白板成功')
+    }).catch(err => {
+      hyExt.logger.info('移除小程序普通白板失败，错误信息：' + err.message)
+    })
   }
 
   //在组件内加入创建白板函数
-  createWb() {
-    const { recognition, wb_width, wb_height } = this.state;
-    const { canvas } = recognition;
-    const { width, height } = canvas;
+  createWb(width, height) {
+    const {  wb_width, wb_height } = this.state;
     let args = {
-      type: "EXTRA",
+      type : "EXTRA",
       wbName: 'foo',
       offsetX: 0,
       offsetY: 0,
-      canvasWidth: width,
+      canvasWidth : width,
       canvasHeight: height,
       width: wb_width,
-      height: wb_height
+      height: wb_height,
+      x: 0,
+      y: 0,
+      force: true
     }
+    console.log('创建白板', JSON.stringify(args))
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
-        this.setState({ wbId: wbId });
+        this.setState({ wbId });
       }).catch(err => {
         console.log(err);
-      })
+    })
   }
 
   // 监听游戏结果
@@ -154,8 +167,7 @@ class App extends Component {
 
   // 播放音乐
   playMusic = () => {
-    const sound1 = createSound('https://livewebbs2.msstatic.com/qguess-countdown2.mp3', (err) => {
-      console.log(err, 'Sound1')
+    const sound1 = createSound('https://fastdfs-download.pagoda.com.cn/group1/M10/1A/7C/CggEDl8uoBOATNjlAAc9ahB3_AA371.mp3', (err) => {
       sound1.play()
     })
   }
@@ -200,10 +212,11 @@ class App extends Component {
 
   sendToWb(result, totalResult, danceIndex, start) {
     let resultObj = { result, totalResult, danceIndex, start }
-    if (this.state.wbId) {
+    const {wbId} = this.state
+    if (wbId) {
       const data = JSON.stringify(resultObj);
       hyExt.stream.sendToExtraWhiteBoard({
-        wbId: this.state.wbId,
+        wbId,
         data
       })
     }
@@ -267,23 +280,12 @@ class App extends Component {
     intervalTimer = setInterval(this.sendResult, 1500)
   }
 
-  componentWillUnmount() {
-    hyExt.stream.removeWhiteBoard().then(() => {
-      hyExt.logger.info('移除小程序普通白板成功')    
-    }).catch(err => {
-      hyExt.logger.info('移除小程序普通白板失败，错误信息：' + err.message)
-    })
-  }
-
   handleClickHome = () => {
     this.props.history.push('/index_streamer_pc_anchor_panel.html')
   }
 
   renderForm() {
     return (
-      // <View className='container'>
-      //   <Button onClick={this.handleBoard}>移除白板</Button>
-      // </View>
         <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
           {/*首页、下一步图标*/}
           <View style={{
@@ -454,7 +456,7 @@ class App extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23260}
+          duration={23160}
           animation={danceAnimates}
           easing="linear"
           delay={3000}
