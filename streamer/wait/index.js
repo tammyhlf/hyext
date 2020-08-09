@@ -52,11 +52,12 @@ class Wait extends Component {
         }
     }
     handleClick2 = () =>{
+        const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
         this.props.history.push({ pathname: '/luck-draw', state: {
-                otherStreamerNick: this.state.otherStreamerNick,
-                otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
-                otherStreamerUnionId: this.state.otherStreamerUnionId,
-                roomId: this.state.roomId,
+                otherStreamerNick: otherStreamerNick,
+                otherStreamerAvatarUrl: otherStreamerAvatarUrl,
+                otherStreamerUnionId: otherStreamerUnionId,
+                roomId: roomId,
             } })
     }
 
@@ -86,22 +87,7 @@ class Wait extends Component {
         // console.log('componentWillUnmount');
         // this.leave()
     }
-    //跳转界面
-    handleClick2 = () => {
-        // const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-        // this.props.history.push(this.props.history.push({ pathname: '/luck-draw', state: {
-        //         otherStreamerNick,
-        //         otherStreamerAvatarUrl,
-        //         otherStreamerUnionId,
-        //         roomId
-        //     }}))
-        this.props.history.push({ pathname: '/luck-draw', state: {
-            otherStreamerNick: this.state.otherStreamerNick,
-            otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
-            otherStreamerUnionId: this.state.otherStreamerUnionId,
-            roomId: this.state.roomId,
-        } })
-    }
+    
     //监听小程序
     monitor = () => {
         let args = []

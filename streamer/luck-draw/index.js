@@ -81,7 +81,7 @@ class App extends Component {
         });
       }
     });
-    TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 5340)
     // this.playMusic()
     this.monitor() // 监听小程序发送的分数与随机数
   }

@@ -36,9 +36,9 @@ class Punishment extends Component {
       })
       this.monitor()
     }
-    const { dataObj, otherStreamerUnionId } = this.state
+    const { dataObj, otherStreamerUnionId, score } = this.state
     console.log(this.state.score, dataObj[otherStreamerUnionId])
-    if (this.state.score == dataObj[otherStreamerUnionId]) {
+    if (score == dataObj[otherStreamerUnionId]) {
       Tip.show("双方已成平手，游戏结束", 2000, false,'top')
       setTimeout(this.handlePushResult, 2000)
     }
