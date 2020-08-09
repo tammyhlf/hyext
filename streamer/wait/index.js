@@ -51,6 +51,15 @@ class Wait extends Component {
                 break;
         }
     }
+    handleClick2 = () =>{
+        const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+        this.props.history.push({ pathname: '/luck-draw', state: {
+                otherStreamerNick: otherStreamerNick,
+                otherStreamerAvatarUrl: otherStreamerAvatarUrl,
+                otherStreamerUnionId: otherStreamerUnionId,
+                roomId: roomId,
+            } })
+    }
 
 
     static contextType = RootContext
@@ -78,16 +87,7 @@ class Wait extends Component {
         // console.log('componentWillUnmount');
         // this.leave()
     }
-    //跳转界面
-    handleClick2 = () => {
-        const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-        this.props.history.push(this.props.history.push({ pathname: '/luck-draw', state: {
-                otherStreamerNick,
-                otherStreamerAvatarUrl,
-                otherStreamerUnionId,
-                roomId
-            }}))
-    }
+    
     //监听小程序
     monitor = () => {
         let args = []

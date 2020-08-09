@@ -63,12 +63,12 @@ class Create extends Component {
     //跳转界面
     handleClick2 = () => {
         const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-        this.props.history.push(this.props.history.push({ pathname: '/luck-draw', state: {
-                otherStreamerNick,
-                otherStreamerAvatarUrl,
-                otherStreamerUnionId,
-                roomId
-            }}))
+        this.props.history.push({ pathname: '/luck-draw', state: {
+                otherStreamerNick: otherStreamerNick,
+                otherStreamerAvatarUrl: otherStreamerAvatarUrl,
+                otherStreamerUnionId: otherStreamerUnionId,
+                roomId: roomId,
+            } })
     }
 
     static contextType = RootContext

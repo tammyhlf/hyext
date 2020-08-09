@@ -96,7 +96,7 @@ export default class WhiteBoard extends Component {
           }
         }}
         className="progress-content">
-          <Text className="result-text">得分：{totalResult}</Text>
+          <Text className="result-text">得分:{totalResult}</Text>
           <Progress
             easing={true}
             percent={totalResult / 150 * 100}
@@ -121,7 +121,7 @@ export default class WhiteBoard extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23150}
+          duration={23140}
           animation={danceAnimates}
           easing="linear"
           delay={4000}
