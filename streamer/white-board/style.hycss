@@ -29,7 +29,7 @@
   color: #67339c;
   font-size: 40;
   font-weight: 600;
-  margin: -20px 0 50px 90px;
+  margin: -20px 0 50px 82px;
   /* text-shadow: 0 0 10px #ffb700; */
 }
 .progress-content {

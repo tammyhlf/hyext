@@ -45,13 +45,14 @@ class Punishment extends Component {
   }
 
   handlePushResult = () => {
-    const {dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId} = this.state
+    const {dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
     this.props.history.push({ pathname: '/game-result', state: {
       otherStreamerNick,
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
       winner: dataObj.winner,
-      dataObj
+      dataObj,
+      roomId
     }})
   }
   
@@ -68,7 +69,8 @@ class Punishment extends Component {
             otherStreamerAvatarUrl,
             otherStreamerUnionId,
             winner: dataObj.winner,
-            dataObj
+            dataObj,
+            roomId
           }})
         } else if (randomMath >= 0) {
           this.props.history.push({ pathname: '/punishment-draw', state: {
@@ -77,7 +79,8 @@ class Punishment extends Component {
             otherStreamerUnionId,
             roomId,
             randomMath,
-            winner: dataObj.winner
+            winner: dataObj.winner,
+            dataObj
           }})
         }
       }
@@ -92,7 +95,8 @@ class Punishment extends Component {
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
       winner: dataObj.winner,
-      roomId
+      roomId,
+      dataObj
     }})
   }
 
@@ -115,7 +119,8 @@ class Punishment extends Component {
         otherStreamerAvatarUrl,
         otherStreamerUnionId,
         winner: dataObj.winner,
-        dataObj
+        dataObj,
+        roomId
       }})
     }).catch(err => {
         console.log('发送HTTP请求失败，错误信息：' + err.message)

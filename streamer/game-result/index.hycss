@@ -7,7 +7,7 @@
   margin: 40px 0;
 }
 .btn-group {
-  margin-top: 300px;
+  margin-top: 340px;
 }
 .punish-btn {
   width: 55%;
@@ -15,6 +15,13 @@
   border-radius: 120px;
   margin: 0 auto;
   background-color: #ffb700;
+}
+.custom-btn {
+  width: 55%;
+  border: 5px solid #4a56cd;
+  border-radius: 120px;
+  margin: 60px auto;
+  background-color: #6badf2;
 }
 .result-content {
   display: flex;

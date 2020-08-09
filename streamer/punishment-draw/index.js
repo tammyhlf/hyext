@@ -103,6 +103,18 @@ class PunishmentDraw extends Component {
     this.props.history.push('/index_streamer_pc_anchor_panel.html')
   }
 
+  handlePushResult = () => {
+    const {dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+    this.props.history.push({ pathname: '/game-result', state: {
+      otherStreamerNick,
+      otherStreamerAvatarUrl,
+      otherStreamerUnionId,
+      winner: dataObj.winner,
+      dataObj,
+      roomId
+    }})
+  }
+
   render() {
     return (
       <BackgroundImage
@@ -116,6 +128,10 @@ class PunishmentDraw extends Component {
         }}>
           <View style={{width:10}} onClick={this.handleClickHome}>
             <Image className="home" src={require('../../assets/home.png')}></Image>
+          </View>
+          <View style={{width:10}} onClick={this.handlePushResult}>
+            {/* 下一步的图标以及样式 */}
+            {/* <Image className="home" src={require('../../assets/home.png')}></Image> */}
           </View>
         </View>
         <Image src={require("../../assets/logo.png")} className="punish-img" />
