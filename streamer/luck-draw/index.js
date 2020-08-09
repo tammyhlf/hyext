@@ -51,6 +51,8 @@ class App extends Component {
     }
 
     hyExt.env.getInitialParam().then(param => {
+      console.log("param.wb-------------"+param.wb)
+      console.log(JSON.stringify(param))
       if (param.wb) {
         // 初始化参数包含wb参数，说明处于独立白板模式
         this.setState({

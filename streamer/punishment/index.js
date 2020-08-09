@@ -40,16 +40,16 @@ class Punishment extends Component {
     this.setState({
       otherScore: this.props.location.state.dataObj.otherStreamerUnionId
     })
-    if (this.state.score == this.state.otherScore) {
-      const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-      Tip.show("双方已成平手，游戏结束", 1000, false,'top')
-      this.props.history.push({ pathname: '/game-result', state: {
-        otherStreamerNick,
-        otherStreamerAvatarUrl,
-        otherStreamerUnionId,
-        winner: dataObj.winner
-      }})
-    }
+    // if (this.state.score == this.state.otherScore) {
+    //   const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+    //   Tip.show("双方已成平手，游戏结束", 1000, false,'top')
+    //   this.props.history.push({ pathname: '/game-result', state: {
+    //     otherStreamerNick,
+    //     otherStreamerAvatarUrl,
+    //     otherStreamerUnionId,
+    //     winner: dataObj.winner
+    //   }})
+    // }
   }
   
   // 监听胜利方选择x
