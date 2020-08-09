@@ -4,10 +4,10 @@
 .punish-img {
   width: 100%;
   height: 212px;
-  margin-top: 40px;
+  margin: 40px 0;
 }
 .btn-group {
-  margin-top: 150px;
+  margin-top: 300px;
 }
 .punish-btn {
   width: 55%;
@@ -28,7 +28,11 @@
   flex-direction: row;
   justify-content: center;
 }
-
+.right-crown {
+  width: 84px;
+  height: 58px;
+  margin-left: 526px;
+}
 .text {
   color: #ffffff;
   font-size: 36px;

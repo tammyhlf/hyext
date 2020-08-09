@@ -17,8 +17,7 @@ class Punishment extends Component {
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
       roomId: this.props.location.state.roomId,
       score: this.props.location.state.score,
-      dataObj: this.props.location.state.dataObj,
-      otherScore: 0,
+      dataObj: this.props.location.state.dataObj
     }
   }
   static contextType = RootContext
@@ -37,19 +36,23 @@ class Punishment extends Component {
       })
       this.monitor()
     }
-    this.setState({
-      otherScore: this.props.location.state.dataObj.otherStreamerUnionId
-    })
-    if (this.state.score == this.state.otherScore) {
-      const { userInfo, dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-      Tip.show("双方已成平手，游戏结束", 1000, false,'top')
-      this.props.history.push({ pathname: '/game-result', state: {
-        otherStreamerNick,
-        otherStreamerAvatarUrl,
-        otherStreamerUnionId,
-        winner: dataObj.winner
-      }})
+    const { dataObj, otherStreamerUnionId } = this.state
+    console.log(this.state.score, dataObj[otherStreamerUnionId])
+    if (this.state.score == dataObj[otherStreamerUnionId]) {
+      Tip.show("双方已成平手，游戏结束", 2000, false,'top')
+      setTimeout(this.handlePushResult, 2000)
     }
+  }
+
+  handlePushResult = () => {
+    const {dataObj, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId} = this.state
+    this.props.history.push({ pathname: '/game-result', state: {
+      otherStreamerNick,
+      otherStreamerAvatarUrl,
+      otherStreamerUnionId,
+      winner: dataObj.winner,
+      dataObj
+    }})
   }
   
   // 监听胜利方选择x
@@ -64,7 +67,8 @@ class Punishment extends Component {
             otherStreamerNick,
             otherStreamerAvatarUrl,
             otherStreamerUnionId,
-            winner: dataObj.winner
+            winner: dataObj.winner,
+            dataObj
           }})
         } else if (randomMath >= 0) {
           this.props.history.push({ pathname: '/punishment-draw', state: {
@@ -110,8 +114,8 @@ class Punishment extends Component {
         otherStreamerNick,
         otherStreamerAvatarUrl,
         otherStreamerUnionId,
-        roomId,
-        winner: dataObj.winner
+        winner: dataObj.winner,
+        dataObj
       }})
     }).catch(err => {
         console.log('发送HTTP请求失败，错误信息：' + err.message)
@@ -123,7 +127,8 @@ class Punishment extends Component {
   }
 
   render () {
-    const { dataObj, otherStreamerUnionId, otherScore, score, otherStreamerNick, userInfo } = this.state
+    const { dataObj, otherStreamerUnionId, score, otherStreamerNick, userInfo } = this.state
+    const otherScore = dataObj[otherStreamerUnionId]
     return (
       <BackgroundImage
         className="backgroundImage"

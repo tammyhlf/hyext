@@ -97,19 +97,16 @@
   left: 40px;
   top: 25px;
 }
-.streamerName-txt{
-  color: white;
-  text-align: center;
-}
 .streamerName-left{
-  width: 50%;
-  top: -380px;
-  left: -40px;
+  color: white;
+  position: absolute;
+  top: 312px;
 }
 .streamerName-right{
-  width: 50%;
-  left: 60px;
-  top: -100px;
+  position: absolute;
+  color: white;
+  top: 220px;
+  left: 500px;
 }
 .vs{
   width: 162px;

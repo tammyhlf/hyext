@@ -1,13 +1,14 @@
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
+import WhiteBoard from '../white-board'
 
 const { View, Button, Text, Icon, Image, BackgroundImage} = UI
 class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      path: ''
     };
   }
 
@@ -25,6 +26,12 @@ class Home extends Component {
         userInfo: that.context.user
       })
     }
+    global.hyExt.env.getInitialParam().then(param => {
+      console.log(JSON.stringify(param))
+      this.setState({
+        path: param.wb ? 'wb' : ''
+      })
+    })
   }
 
   handleClick = () => {
@@ -37,7 +44,7 @@ class Home extends Component {
     this.props.history.push('/record')
   }
 
-  render () {
+  renderHome () {
     return (
       <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
         <View className="container">
@@ -48,6 +55,15 @@ class Home extends Component {
         </View>
       </BackgroundImage>
     )
+  }
+
+  render () {
+    const { path } = this.state
+    if (path === '') {
+      return this.renderHome()
+    } else if (path === 'wb') {
+      return <WhiteBoard />
+    }
   }
 }
 

@@ -13,7 +13,8 @@ class GameResult extends Component {
       otherStreamerNick: this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
-      winner: this.props.location.state.winner
+      winner: this.props.location.state.winner,
+      dataObj: this.props.location.state.dataObj
     };
   }
 
@@ -40,7 +41,9 @@ class GameResult extends Component {
   }
 
   render() {
-    const {otherStreamerAvatarUrl, userInfo, otherStreamerNick} = this.state
+    const {otherStreamerAvatarUrl, userInfo, otherStreamerNick, otherStreamerUnionId, winner, dataObj} = this.state
+    const otherScore = dataObj[otherStreamerUnionId]
+    const score = dataObj[winner]
     return (
       <BackgroundImage
         className="backgroundImage"
@@ -57,7 +60,9 @@ class GameResult extends Component {
         </View>
         <Image src={require('../../assets/logo.png')} className="punish-img" />
         {/*皇冠*/}
-        {/* <Image className="crown" src={require("../../assets/crown.png")} /> */}
+        {score == otherScore ? null :
+          <Image className={dataObj.winner == otherStreamerUnionId ? "crown" : "right-crown" } src={require("../../assets/crown.png")} />
+        }
 
         {/*双方头像*/}
         <View
@@ -95,10 +100,16 @@ class GameResult extends Component {
           }}
         >
           <View className="yellow-user">
-            {/* <Image className="win" src={require("../../assets/win.png")} /> */}
+            {
+              score == otherScore ? null : dataObj.winner == otherStreamerUnionId ? <Image className="win" src={require('../../assets/win.png')} /> :
+              <Image className="lose" src={require('../../assets/lose.png')} />
+            }
           </View>
           <View className="blue-user">
-            {/* <Image className="lose" src={require("../../assets/lose.png")} /> */}
+            {
+              score == otherScore ? null : dataObj.winner == userInfo.streamerUnionId? <Image className="win" src={require('../../assets/win.png')} /> :
+              <Image className="lose" src={require('../../assets/lose.png')} />
+            }
           </View>
         </View>
 
