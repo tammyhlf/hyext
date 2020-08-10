@@ -89,3 +89,7 @@
   color: #ffffff;
   font-size: 36px;
 }
+.draw-back{
+  width: 23px;
+  height: 41px;
+}
