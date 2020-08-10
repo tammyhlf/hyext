@@ -100,7 +100,7 @@ class Punishment extends Component {
               roomId,
               randomMath,
               winner: dataObj.winner,
-              dataObj,
+              dataObj
             },
           });
         }
@@ -305,7 +305,7 @@ class Punishment extends Component {
           </Button>
         </View>
         { dataObj.winner == otherStreamerUnionId ? 
-          <Text className="text">正在等待对方选择惩罚...</Text> : null
+          <Text className="text">等待赢家选择惩罚方式...</Text> : null
         }
       </BackgroundImage>
     );

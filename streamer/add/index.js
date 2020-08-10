@@ -89,7 +89,7 @@ class Add extends Component {
             }
 
         }).catch(err => {
-            console.log('发送HTTP请求失败，错误信息：' + err.message)
+            Tip.show('发送HTTP请求失败，错误信息：' + err.message)
         })
     }
 

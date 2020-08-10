@@ -29,6 +29,7 @@ class PunishmentDraw extends Component {
       roomId: this.props.location.state.roomId,
       randomMath: this.props.location.state.randomMath,
       winner: this.props.location.state.winner,
+      dataObj: this.props.location.state.dataObj
     };
   }
 
@@ -118,7 +119,7 @@ class PunishmentDraw extends Component {
       otherStreamerNick,
       otherStreamerAvatarUrl,
       otherStreamerUnionId,
-      roomId,
+      roomId
     } = this.state;
     this.props.history.push({
       pathname: "/game-result",

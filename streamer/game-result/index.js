@@ -43,7 +43,7 @@ class GameResult extends Component {
 
   handlePlayAgain = () => {
     const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-    this.props.history.push({ pathname: '/luck-draw', state: {
+    this.props.history.push({ pathname: '/wait', state: {
       otherStreamerNick: otherStreamerNick,
       otherStreamerAvatarUrl: otherStreamerAvatarUrl,
       otherStreamerUnionId: otherStreamerUnionId,

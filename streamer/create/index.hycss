@@ -80,19 +80,19 @@
 }
 
 .invite{
-  border:5px;
+  border:4px;
   border-radius: 120px;
   margin: 50px;
   border-color: #d2a017;
-  background-color: #ffb700;
+  background-image: linear-gradient( #FFEA00,#FF9900);
 }
 .start{
-  border:5px;
+  border:4px;
   border-radius: 120px;
   margin: 50px;
   margin-top: 0;
   border-color: #3a5ede;
-  background-color: #4f7ef7;
+  background-image: linear-gradient(#6FBCEB, #3851FF);
 }
 .ready{
   width: 135px;

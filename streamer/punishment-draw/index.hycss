@@ -87,9 +87,9 @@
 }
 .text {
   color: #ffffff;
-  font-size: 36px;
+  font-size: 34px;
 }
 .draw-back{
-  width: 23px;
-  height: 41px;
+  width: 20px;
+  height: 36px;
 }
