@@ -304,7 +304,7 @@ class Punishment extends Component {
             自定义惩罚
           </Button>
         </View>
-        { dataObj.winner == otherStreamerUnionId ? 
+        { score == otherScore && dataObj.winner == otherStreamerUnionId ? 
           <Text className="text">等待赢家选择惩罚方式...</Text> : null
         }
       </BackgroundImage>
