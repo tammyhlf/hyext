@@ -82,7 +82,7 @@ class App extends Component {
       }
     });
     TimeoutTimer = setTimeout(this.setIntervalFun, 5340)
-    // this.playMusic()
+    this.playMusic()
     this.monitor() // 监听小程序发送的分数与随机数
   }
 
@@ -153,7 +153,7 @@ class App extends Component {
 
   // 播放音乐
   playMusic = () => {
-    const sound1 = createSound('https://fastdfs-download.pagoda.com.cn/group1/M10/1A/7C/CggEDl8uoBOATNjlAAc9ahB3_AA371.mp3', (err) => {
+    const sound1 = createSound('https://vb14674090674c43-cye0vuh7.hyext.com/extResource/dance/dance.mp3', (err) => {
       sound1.play()
     })
   }

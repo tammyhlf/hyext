@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="878d83e0-78e8-4eb1-8b40-ec342627a586" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamer/create/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/create/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamer/punishment/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/punishment/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamer/wait/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/wait/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/luck-draw/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/luck-draw/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/white-board/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/white-board/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -143,17 +142,14 @@
       <workItem from="1596851492550" duration="3835000" />
       <workItem from="1596862007762" duration="9772000" />
       <workItem from="1596903464634" duration="5655000" />
-      <workItem from="1596945896272" duration="5053000" />
+      <workItem from="1596945896272" duration="6092000" />
+      <workItem from="1596981719200" duration="1295000" />
+      <workItem from="1597047573390" duration="1999000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/release/hy-ext/node_modules/react-native-svg/src/index.d.ts" />
-      </list>
-    </option>
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
