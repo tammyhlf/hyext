@@ -14,7 +14,8 @@ class GameResult extends Component {
       otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
       winner: this.props.location.state.winner,
-      dataObj: this.props.location.state.dataObj
+      dataObj: this.props.location.state.dataObj,
+      roomId: this.props.location.state.roomId
     };
   }
 
@@ -38,6 +39,16 @@ class GameResult extends Component {
 
   handleClickHome = () => {
     this.props.history.push('/index_streamer_pc_anchor_panel.html')
+  }
+
+  handlePlayAgain = () => {
+    const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+    this.props.history.push({ pathname: '/wait', state: {
+      otherStreamerNick: otherStreamerNick,
+      otherStreamerAvatarUrl: otherStreamerAvatarUrl,
+      otherStreamerUnionId: otherStreamerUnionId,
+      roomId
+    }})
   }
 
   render() {
@@ -134,20 +145,18 @@ class GameResult extends Component {
           <Button
             className="punish-btn"
             textStyle={{ color: "white" }}
+            onPress={this.handlePlayAgain}
+          >
+            再来一局
+          </Button>
+          <Button
+            className="custom-btn"
+            textStyle={{ color: "white" }}
             onPress={this.handleClickHome}
           >
             退出房间
           </Button>
         </View>
-        {/* <View className="game-restart">
-          <Text className="text">退出房间</Text>
-          <Icon
-            type="angle-right"
-            size={24}
-            tintColor="#ffffff"
-            className="game-icon"
-          />
-        </View> */}
       </BackgroundImage>
     );
   }

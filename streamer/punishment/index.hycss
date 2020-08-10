@@ -2,9 +2,9 @@
   height: 100%;
 }
 .punish-img {
-  width: 100%;
-  height: 212px;
-  margin-top: 40px;
+  width: 90%;
+  margin: 20px auto;
+  height: 195px;
 }
 .result-content {
   display: flex;
@@ -30,26 +30,27 @@
 }
 
 .btn-group {
-  margin-top: 150px;
+  margin-top: 80px;
 }
 
 .punish-btn {
   width: 55%;
-  border: 5px solid #d2a017;
+  border: 4px solid #d2a017;
   border-radius: 120px;
   margin: 0 auto;
-  background-color: #ffb700;
+  background-image: linear-gradient(#FFEA00,#FF9900);
 }
 .custom-btn {
   width: 55%;
-  border: 5px solid #4a56cd;
+  border: 4px solid #4a56cd;
   border-radius: 120px;
   margin: 60px auto;
-  background-color: #6badf2;
+  background-image: linear-gradient(#6FBCEB, #3851FF);
 }
 .text {
   color: #ffffff;
-  font-size: 36px;
+  font-size: 28px;
+  text-align: center;
 }
 .animates {
   width: 712px;

@@ -1,107 +1,138 @@
-import { UI } from "@hyext/hy-ui"
-import React, { Component } from "react"
-import "./index.hycss"
-import * as Animatable from "react-native-animatable"
-import { ApiUrl, circle } from '../context/user'
-import { RootContext } from '../context'
+import { UI } from "@hyext/hy-ui";
+import React, { Component } from "react";
+import "./index.hycss";
+import * as Animatable from "react-native-animatable";
+import { ApiUrl, circle } from "../context/user";
+import { RootContext } from "../context";
 
-const { View, Image, Text, BackgroundImage, Modal,Avatar } = UI
+const { View, Image, Text, BackgroundImage, Modal, Avatar } = UI;
 
 class PunishmentDraw extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       dataMap: {
-        0: '唱歌',
-        1: '表白对面傍一',
-        2: '大冒险',
-        3: '喝水跳舞',
-        4: '叫爸爸',
-        5: '吃柠檬',
-        6: '模仿动物叫声',
-        7: '真心话'
+        0: "唱歌",
+        1: "表白对面傍一",
+        2: "大冒险",
+        3: "喝水跳舞",
+        4: "叫爸爸",
+        5: "吃柠檬",
+        6: "模仿动物叫声",
+        7: "真心话",
       },
-      gameResult: '唱歌',
+      gameResult: "唱歌",
       userInfo: {},
       otherStreamerNick: this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
       roomId: this.props.location.state.roomId,
       randomMath: this.props.location.state.randomMath,
-      winner: this.props.location.state.winner
-    }
+      winner: this.props.location.state.winner,
+      dataObj: this.props.location.state.dataObj
+    };
   }
 
-  static contextType = RootContext
+  static contextType = RootContext;
 
   componentDidMount() {
-    let that = this
+    let that = this;
     if (!this.context.user) {
-      this.props.func.requestUserInfo().then(res => {
+      this.props.func.requestUserInfo().then((res) => {
         that.setState({
-          userInfo: res.user
-        })
-      })
+          userInfo: res.user,
+        });
+      });
     } else {
       that.setState({
-        userInfo: that.context.user
-      })
+        userInfo: that.context.user,
+      });
     }
     if (this.state.winner != this.state.userInfo.streamerUnionId) {
-      this.setState({ gameResult: this.state.dataMap[this.state.randomMath % 8] })
-      const angle = 720 + (this.state.randomMath % 8) * (360 / 8)
-      let promise = new Promise(resolve => {
-      this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
-        this.timer = setTimeout(() => resolve(), 2000)
-      })
+      this.setState({
+        gameResult: this.state.dataMap[this.state.randomMath % 8],
+      });
+      const angle = 720 + (this.state.randomMath % 8) * (360 / 8);
+      let promise = new Promise((resolve) => {
+        this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
+        this.timer = setTimeout(() => resolve(), 2000);
+      });
       promise.then(() => {
-        this._modal.open()
-      })
+        this._modal.open();
+      });
     }
   }
   handleDraw = (ref) => (this.view = ref);
 
   handleStart = () => {
-    const {userInfo, winner} = this.state
+    const { userInfo, winner } = this.state;
     if (winner == userInfo.streamerUnionId) {
-      const randoms = Math.floor(Math.random() * 10)
-      const { roomId } = this.state
+      const randoms = Math.floor(Math.random() * 10);
+      const { roomId } = this.state;
       let params = {
         header: {
-          "Content-Type":"application/json;charset=UTF-8",
-          'Accept': 'application/json'
+          "Content-Type": "application/json;charset=UTF-8",
+          Accept: "application/json",
         },
         url: `${ApiUrl}${circle}?roomID=${roomId}&punishmentID=${randoms}`,
         method: "POST",
         data: {},
-        dataType: "json"
-      }
-      hyExt.request(params).then(res => {
-        console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-        this.setState({ gameResult: this.state.dataMap[randoms % 8] })
-        const angle = 720 + (randoms % 8) * (360 / 8)
-        let promise = new Promise(resolve => {
-          this.view.transitionTo({ rotate: `${angle}deg` }, 2000, "ease-in-out");
-          this.timer = setTimeout(() => resolve(), 2000)
+        dataType: "json",
+      };
+      hyExt
+        .request(params)
+        .then((res) => {
+          console.log("发送HTTP请求成功，返回：" + JSON.stringify(res));
+          this.setState({ gameResult: this.state.dataMap[randoms % 8] });
+          const angle = 720 + (randoms % 8) * (360 / 8);
+          let promise = new Promise((resolve) => {
+            this.view.transitionTo(
+              { rotate: `${angle}deg` },
+              2000,
+              "ease-in-out"
+            );
+            this.timer = setTimeout(() => resolve(), 2000);
+          });
+          promise.then(() => {
+            this._modal.open();
+          });
         })
-        promise.then(() => {
-          this._modal.open()
-        })
-      }).catch(err => {
-          console.log('发送HTTP请求失败，错误信息：' + err.message)
-      })
+        .catch((err) => {
+          console.log("发送HTTP请求失败，错误信息：" + err.message);
+        });
     } else {
-        return
+      return;
     }
-  }
+  };
 
   handleClosed = () => {
-    clearTimeout(this.timer)
-  }
+    clearTimeout(this.timer);
+  };
 
   handleClickHome = () => {
-    this.props.history.push('/index_streamer_pc_anchor_panel.html')
-  }
+    this.props.history.push("/index_streamer_pc_anchor_panel.html");
+  };
+
+  handlePushResult = () => {
+    const {
+      dataObj,
+      otherStreamerNick,
+      otherStreamerAvatarUrl,
+      otherStreamerUnionId,
+      roomId
+    } = this.state;
+    this.props.history.push({
+      pathname: "/game-result",
+      state: {
+        otherStreamerNick,
+        otherStreamerAvatarUrl,
+        otherStreamerUnionId,
+        winner: dataObj.winner,
+        dataObj,
+        roomId,
+      },
+    });
+  };
 
   render() {
     return (
@@ -109,13 +140,25 @@ class PunishmentDraw extends Component {
         className="backgroundImage"
         src={require("../../assets/background.png")}
       >
-        <View style={{
-          flexDirection: "row",
-          height: 40,
-          padding: 20
-        }}>
-          <View style={{width:10}} onClick={this.handleClickHome}>
-            <Image className="home" src={require('../../assets/home.png')}></Image>
+        <View
+          style={{
+            flexDirection: "row",
+            height: 40,
+            padding: 20,
+          }}
+        >
+          <View style={{ width: 10 }} onClick={this.handleClickHome}>
+            <Image
+              className="home"
+              src={require("../../assets/home.png")}
+            ></Image>
+          </View>
+          <View style={{ width: 310 }}></View>
+          <View style={{ width: 10 }} onClick={this.handlePushResult}>
+            <Image
+              className="draw-back"
+              src={require("../../assets/draw-back.png")}
+            ></Image>
           </View>
         </View>
         <Image src={require("../../assets/logo.png")} className="punish-img" />
@@ -147,38 +190,47 @@ class PunishmentDraw extends Component {
 
         <Image className="crown" src={require("../../assets/crown.png")} />
 
-        <View  className="pkImage" style={{
-          flexDirection: "row",
-          width:375
-        }}>
+        <View
+          className="pkImage"
+          style={{
+            flexDirection: "row",
+            width: 375,
+          }}
+        >
           <View className="blue-user">
             <Avatar
-                size="l"
-                borderWidth={3}
-                borderColor="#3a5ede"
-                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                src={this.state.userInfo.streamerAvatarUrl}
+              size="l"
+              borderWidth={3}
+              borderColor="#3a5ede"
+              backupSrc={require("../../assets/fail.png")} // 网络错误显示默认图
+              src={this.state.userInfo.streamerAvatarUrl}
             />
           </View>
           <View className="yellow-user">
             <Avatar
-                size="l"
-                borderWidth={3}
-                borderColor="#ffb700"
-                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                src={this.state.otherStreamerAvatarUrl}
+              size="l"
+              borderWidth={3}
+              borderColor="#ffb700"
+              backupSrc={require("../../assets/fail.png")} // 网络错误显示默认图
+              src={this.state.otherStreamerAvatarUrl}
             />
           </View>
         </View>
-        <View style={{
-          flexDirection: "row",
-          width:375
-        }}>
+        <View
+          style={{
+            flexDirection: "row",
+            width: 375,
+          }}
+        >
           <View className="streamerName">
-            <Text className="streamerName-txt">{this.state.userInfo.streamerNick}</Text>
+            <Text className="streamerName-txt">
+              {this.state.userInfo.streamerNick}
+            </Text>
           </View>
           <View className="streamerName">
-            <Text className="streamerName-txt">{this.state.otherStreamerNick}</Text>
+            <Text className="streamerName-txt">
+              {this.state.otherStreamerNick}
+            </Text>
           </View>
         </View>
 
@@ -206,7 +258,7 @@ class PunishmentDraw extends Component {
               }}
             >
               <Text className="text">惩罚结果为：</Text>
-              <Text className="game-result">{this.state.gameResult}</Text> 
+              <Text className="game-result">{this.state.gameResult}</Text>
             </View>
           </BackgroundImage>
         </Modal>
@@ -215,4 +267,4 @@ class PunishmentDraw extends Component {
   }
 }
 
-export default PunishmentDraw
+export default PunishmentDraw;

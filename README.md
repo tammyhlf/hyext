@@ -1,4 +1,7 @@
-# 虎牙小程序
+# 虎牙小程序 - PK跳舞机
+
+## 预览地址
+[虎牙小程序商店]()
 
 ## 运行
 ```
@@ -14,12 +17,3 @@
 ```
   npm run config
 ```
-
-## 组件库
-  [HY-UI](http://hd.huya.com/web/hy-ui-doc/)
-
-## 更多
-- [开发者中心](https://ext.huya.com/)
-- [SDK文档](http://dev.huya.com/docs#/sdk/SDK%E6%96%87%E6%A1%A3)
-- [小程序商店](https://appstore.huya.com/)
-- [vscode插件](https://marketplace.visualstudio.com/items?itemName=mogewcy.hyextvscode)
