@@ -86,6 +86,7 @@ export default class WhiteBoard extends Component {
     }
     return (
       <View className='container'>
+        <Image src={require('../../assets/dance-action/logo.gif')} className="dance-logo"></Image>
         <Animatable.View delay={4000}
         animation={{
           from: {
@@ -104,7 +105,7 @@ export default class WhiteBoard extends Component {
             style={{
               transform: [{rotate: '-90deg'}]
             }}
-            barStyle={{height: 60, width: 450, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
+            barStyle={{height: 50, width: 400, backgroundImage: 'linear-gradient(to right, #FC8F04, #FFBF00)' }}
           />
         </Animatable.View>
         <View className='count-down'>

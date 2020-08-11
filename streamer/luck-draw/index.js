@@ -128,22 +128,24 @@ class App extends Component {
   // 监听游戏结果
   monitor = () => {
     const callbackFun = (res) => {
-      const { roomId, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, totalResult } = this.state
+      const { roomId, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, resultObj, userInfo } = this.state
       console.log(`监听的数据${JSON.stringify(res)}`)
       const formDataResult = JSON.stringify(res).split('=')
+      const equal = formDataResult[15].split(')')[0] // 这是字符串类型的true/fasle!
       const dataObj = {
         [formDataResult[7].split(',')[0]]: formDataResult[10].split(')')[0],
         [formDataResult[11].split(',')[0]]: formDataResult[14].split(')')[0],
-        winner: formDataResult[2].split(',')[0],
-        equal: formDataResult[15].split(')')[0]  //这是字符串类型的true/fasle!
+        winner: equal == 'true' ? '' : formDataResult[2].split(',')[0]
       }
+      const scoreData = dataObj[userInfo.streamerUnionId]
+      console.log('监听游戏结果', scoreData)
       this.props.history.push({
         pathname: '/punishment', state: {
           otherStreamerNick,
           otherStreamerAvatarUrl,
           otherStreamerUnionId,
           roomId,
-          score: totalResult,
+          score: scoreData,
           dataObj
         }
       })
@@ -234,7 +236,7 @@ class App extends Component {
       start: true
     })
     this.sendToWb(calResults, this.state.totalResult, danceIndex, this.state.start)
-    console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${totalResult}`)
+    console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${this.state.totalResult}`)
     // 舞蹈动作结束后
     if (danceIndex == 14) {
       clearInterval(intervalTimer);
