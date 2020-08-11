@@ -122,7 +122,7 @@ export default class WhiteBoard extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23140}
+          duration={23150}
           animation={danceAnimates}
           easing="linear"
           delay={4000}
