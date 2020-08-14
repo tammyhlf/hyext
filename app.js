@@ -10,6 +10,7 @@ import Create from "./streamer/create";
 import Wait from "./streamer/wait";
 import Record from "./streamer/record";
 import { root, RootContext, requestUserInfo } from './streamer/context'
+import SingleDance from './streamer/single-dance';
 
 const func = {
   requestUserInfo,
@@ -24,6 +25,7 @@ class App extends Component {
           <Route path="/punishment" render={ (props) => <Punishment {...props} func={func} /> } />
           <Route path="/game-result" render={ (props) => <GameResult {...props} func={func} />} />
           <Route path="/luck-draw" render={ (props) => <LuckDraw {...props} func={func} />} />
+          <Route path="/single-dance" render={ (props) => <SingleDance {...props} func={func} />} />
           <Route path="/wait" render={ (props) => <Wait {...props} func={func} />}/>
           {/* <Route path="/record" render={ (props) => <Record {...props} func={func} />}/> */}
           <Route path="/add" render={ (props) => <Add {...props} func={func} />}/>
