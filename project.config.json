@@ -58,13 +58,13 @@
             "platform": "web"
           },
           {
-            "entry": "index_streamer.js",
-            "extType": "pc_anchor_panel",
+            "entry": "index.js",
+            "extType": "pc_panel",
             "platform": "pc"
           },
           {
-            "entry": "index.js",
-            "extType": "pc_panel",
+            "entry": "index_streamer.js",
+            "extType": "pc_anchor_panel",
             "platform": "pc"
           }
         ]

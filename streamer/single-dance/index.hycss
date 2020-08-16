@@ -20,33 +20,9 @@
   width: 306;
   height: 306;
 }
-.dance-action {
-  width: 400;
-  height: 500;
-}
-.result-text {
-  display: inline;
-  color: white;
-  font-size: 50;
-  font-weight: 700;
-  text-shadow: 0 0 10px #ffb700;
-  text-align: center;
-}
-.progress-content {
-  position: absolute;
-  right: -10%;
-  top: 10%;
-}
 .dance-contanier {
   position: absolute;
   left: 0px;
-}
-.progress {
-  height: 65;
-  width: 450;
-  margin-top: 50%;
-  box-shadow: -2px 2px 6px #888;
-  border-radius: 40px;
 }
 .home{
   width: 43px;

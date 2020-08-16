@@ -1,5 +1,6 @@
 .container {
   height: 100%;
+  position: relative;
 }
 .count-down {
   height: 100%;
@@ -24,6 +25,10 @@
   width: 400;
   height: 500;
 }
+.action-contanier {
+  width: 400;
+  height: 500;
+}
 .result-text {
   display: inline-block;
   color: #67339c;
@@ -41,7 +46,12 @@
 }
 .dance-contanier {
   position: absolute;
-  left: 0px;
+  left: 100;
+}
+.dance-second {
+  width: 400;
+  height: 500;
+  left: 500;
 }
 .progress {
   height: 50;
@@ -51,9 +61,15 @@
   border-radius: 40px;
 }
 .dance-logo {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: 200;
   height: 200;
+}
+.logo-left {
+  position: fixed;
+  top: 0;
+  width: 190;
+  height: 131;
 }

@@ -8,7 +8,8 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      path: ''
+      path: '',
+      model: ''
     };
   }
 
@@ -43,14 +44,28 @@ class Home extends Component {
   handleClick2 = () => {
     this.props.history.push('/record')
   }
+  handleSingle = () => {
+    this.props.history.push('/single-dance')
+  }
+  handlePkModel = () => {
+    this.setState({
+      model: 'pk'
+    })
+  }
 
   renderHome () {
+    const { model } = this.state
     return (
       <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
         <View className="container">
           <Image className="groupImage" src={require('../../assets/group-image.png')}/>
-            <Button className="setup"  type="primary" onPress={this.handleClick1}>创建房间</Button>
-            <Button className="add" type="primary" onPress={this.handleClick}>加入房间</Button>
+            {
+              model == 'pk' ? 
+              (<><Button className="setup"  type="primary" onPress={this.handleClick1}>创建房间</Button>
+              <Button className="add" type="primary" onPress={this.handleClick}>加入房间</Button></>) :
+              (<><Button className="setup" type="primary" onPress={this.handlePkModel}>PK模式</Button>
+              <Button className="add" type="primary" onPress={this.handleSingle}>单人模式</Button></>)
+            }
             {/*<Text className="txt" onPress={this.handleClick2}>历史战绩<Icon type='angle-right' size={10} tintColor='#ffffff'></Icon></Text>*/}
         </View>
       </BackgroundImage>

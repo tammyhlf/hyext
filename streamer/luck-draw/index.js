@@ -267,9 +267,28 @@ class App extends Component {
   setIntervalFun = () => {
     intervalTimer = setInterval(this.sendResult, 1500)
   }
+  //离开房间
+  leave = () => {
+    let args = {
+      header: {
+        "Content-Type": "application/json;charset=UTF-8",
+        'Accept': 'application/json'
+      },
+      url: ("http://121.196.176.201:8082/game/leave?roomID=" + this.state.roomId + "&unionId=" + this.state.userInfo.streamerUnionId),
+      method: "POST",
+      dataType: "json"
+    }
+    console.log('发送HTTP请求：' + JSON.stringify(args))
+    hyExt.request(args).then(resp => {
+      console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+    }).catch(err => {
+      console.log('发送HTTP请求失败，错误信息：' + err.message)
+    })
+  }
 
   handleClickHome = () => {
     this.props.history.push('/index_streamer_pc_anchor_panel.html')
+    this.leave()
   }
 
   render() {
