@@ -133,7 +133,7 @@ class SingleDance extends Component {
   }
 
   playFirstMusic = () => {
-    const sounds = createSound('https://fastdfs-download.pagoda.com.cn/group1/M10/2E/EC/CmiLlF85C12AZVdxAAAkzuxHYSY215.mp3', (err) => {
+    const sounds = createSound('https://vb14674090674c43-cye0vuh7.hyext.com/extResource/dance/ready.mp3', (err) => {
       sounds.play()
     })
   }
