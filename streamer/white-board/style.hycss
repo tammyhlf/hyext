@@ -1,5 +1,6 @@
 .container {
   height: 100%;
+  width: 100%;
   position: relative;
 }
 .count-down {
@@ -20,10 +21,6 @@
 .img {
   width: 306;
   height: 306;
-}
-.action-contanier {
-  width: 400;
-  height: 500;
 }
 .result-text {
   display: inline-block;
@@ -48,13 +45,11 @@
   position: relative;
   width: 400;
   height: 500;
-  left: 100;
+  left: 150;
 }
 .dance-second {
-  float: right;
   width: 400;
   height: 500;
-  margin-right: 100;
 }
 .progress {
   height: 50;

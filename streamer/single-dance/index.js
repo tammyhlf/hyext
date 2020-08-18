@@ -231,11 +231,11 @@ class SingleDance extends Component {
           result: -1
         }
       })
-      this.props.history.push({
-        pathname: '/game-result', state: {
-          score: this.state.totalResult
-        }
-      })
+      // this.props.history.push({
+      //   pathname: '/game-result', state: {
+      //     score: this.state.totalResult
+      //   }
+      // })
     }
   }
 

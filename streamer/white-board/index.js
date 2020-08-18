@@ -130,7 +130,7 @@ export default class WhiteBoard extends Component {
           className="dance-contanier"
         >
           { danceAction.map((item, index)=> {
-            const context = require.context("../../assets/", true, /\.png$/)
+            const context = require.context("../../assets/tiger", true, /\.png$/)
             return (
               <View style={{
                 width: 400,
@@ -141,7 +141,7 @@ export default class WhiteBoard extends Component {
                   animation={ danceIndex == index ? resultAnimate : null }
                 >
                   <Image
-                    src={ danceIndex == index ? this.state.resultDataMap[result] : danceIndex > index ? '' : context(`./${skin}/${index + 1}.png`)}
+                    src={ danceIndex == index ? this.state.resultDataMap[result] : danceIndex > index ? '' : context(`./${index + 1}.png`)}
                     className={index % 2 == 0 ? 'dance-action' : 'dance-second'}
                   ></Image>
                 </Animatable.View>
