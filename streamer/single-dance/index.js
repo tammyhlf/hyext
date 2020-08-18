@@ -9,20 +9,18 @@ import * as Animatable from "react-native-animatable"
 
 const { createSound } = NativeModules
 
-const { View, Text, Image, BackgroundImage, Avatar } = UI
+const { View, Text, Image, BackgroundImage, Avatar, Button } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
+let musicTimer = null
+let readyTimer = null
 let TimeoutTimer = null; //延时的
 
-class App extends Component {
+class SingleDance extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      roomId: this.props.location.state.roomId,
       userInfo: {},
-      otherStreamerNick: this.props.location.state.otherStreamerNick,
-      otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
-      otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -77,17 +75,18 @@ class App extends Component {
       callback: recognition => {
         this.setState({
           recognition,
-          roomId: this.props.location.state.roomId
         });
       }
     });
+    readyTimer = setTimeout(this.playFirstMusic, 3000)
+    musicTimer = setTimeout(this.playMusic, 4000)
     TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
-    this.playMusic()
-    this.monitor() // 监听小程序发送的分数与随机数
   }
 
   componentWillUnmount() {
     clearTimeout(TimeoutTimer)
+    clearTimeout(musicTimer)
+    clearTimeout(readyTimer)
     hyExt.stream.deleteWB({ wbId: this.state.wbId }).then(() => {
       console.log('移除小程序普通白板成功')
     }).catch(err => {
@@ -125,38 +124,23 @@ class App extends Component {
       })
   }
 
-  // 监听游戏结果
-  monitor = () => {
-    const callbackFun = (res) => {
-      const { roomId, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, resultObj, userInfo } = this.state
-      console.log(`监听的数据${JSON.stringify(res)}`)
-      const formDataResult = JSON.stringify(res).split('=')
-      const equal = formDataResult[15].split(')')[0] // 这是字符串类型的true/fasle!
-      const dataObj = {
-        [formDataResult[7].split(',')[0]]: formDataResult[10].split(')')[0],
-        [formDataResult[11].split(',')[0]]: formDataResult[14].split(')')[0],
-        winner: equal == 'true' ? '' : formDataResult[2].split(',')[0]
-      }
-      const scoreData = dataObj[userInfo.streamerUnionId]
-      console.log('监听游戏结果', scoreData)
-      this.props.history.push({
-        pathname: '/punishment', state: {
-          otherStreamerNick,
-          otherStreamerAvatarUrl,
-          otherStreamerUnionId,
-          roomId,
-          score: scoreData,
-          dataObj
-        }
-      })
-    }
-    hyExt.observer.on('finish', callbackFun)
-  }
-
   // 播放音乐
   playMusic = () => {
     const sound1 = createSound('https://vb14674090674c43-cye0vuh7.hyext.com/extResource/dance/dance.mp3', (err) => {
+      sound1.setVolume(0.4)  
       sound1.play()
+    })
+  }
+
+  playFirstMusic = () => {
+    const sounds = createSound('https://vb14674090674c43-cye0vuh7.hyext.com/extResource/dance/ready.mp3', (err) => {
+      sounds.play()
+    })
+  }
+  // 卡点音效
+  playShortMusic = () => {
+    const sound = createSound('https://vb14674090674c43-cye0vuh7.hyext.com/extResource/dance/ding.mp3', (err) => {
+      sound.play()
     })
   }
 
@@ -222,7 +206,7 @@ class App extends Component {
   }
 
   sendResult = () => {
-    const { danceIndex, totalResult, userInfo, roomId, otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId } = this.state
+    const { danceIndex, totalResult, userInfo } = this.state
     const { streamerUnionId } = userInfo
     const keypoints = this.state.recognition.keypoints[0] || []
     let keypointsList = {}
@@ -236,6 +220,7 @@ class App extends Component {
       start: true
     })
     this.sendToWb(calResults, this.state.totalResult, danceIndex, this.state.start)
+    this.playShortMusic()
     console.log(`这是第${danceIndex + 1}个舞蹈动作，当前总分：${this.state.totalResult}`)
     // 舞蹈动作结束后
     if (danceIndex == 14) {
@@ -246,20 +231,10 @@ class App extends Component {
           result: -1
         }
       })
-      let params = {
-        header: {
-          "Content-Type": "application/json;charset=UTF-8",
-          'Accept': 'application/json'
-        },
-        url: `${ApiUrl}${finish}?roomID=${roomId}&score=${this.state.totalResult}&unionId=${streamerUnionId}`,
-        method: "POST",
-        data: {},
-        dataType: "json"
-      }
-      hyExt.request(params).then(res => {
-        console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-      }).catch(err => {
-        console.log('发送HTTP请求失败，错误信息：' + err.message)
+      this.props.history.push({
+        pathname: '/game-result', state: {
+          score: this.state.totalResult
+        }
       })
     }
   }
@@ -267,28 +242,12 @@ class App extends Component {
   setIntervalFun = () => {
     intervalTimer = setInterval(this.sendResult, 1500)
   }
-  //离开房间
-  leave = () => {
-    let args = {
-      header: {
-        "Content-Type": "application/json;charset=UTF-8",
-        'Accept': 'application/json'
-      },
-      url: ("http://121.196.176.201:8082/game/leave?roomID=" + this.state.roomId + "&unionId=" + this.state.userInfo.streamerUnionId),
-      method: "POST",
-      dataType: "json"
-    }
-    console.log('发送HTTP请求：' + JSON.stringify(args))
-    hyExt.request(args).then(resp => {
-      console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
-    }).catch(err => {
-      console.log('发送HTTP请求失败，错误信息：' + err.message)
-    })
+  handlePlayAgain = () => {
+    this.props.history.push('/single-dance')
   }
 
   handleClickHome = () => {
     this.props.history.push('/index_streamer_pc_anchor_panel.html')
-    this.leave()
   }
 
   render() {
@@ -324,37 +283,7 @@ class App extends Component {
         <View className="container">
           {/*logo图标*/}
           <Image className="logo1" src={require('../../assets/logo1.png')} />
-          <Animatable.View
-            style={{
-              flexDirection: "row",
-              height: 150,
-              padding: 50
-            }}
-            animation={leftAnimates}
-            easing="ease-in"
-          >
-            <View>
-              <Image className="blue-avatar-bgd" src={require('../../assets/blue-avatar-bgd.png')} />
-            </View>
-            <View>
-              <Image className="spack-left" src={require('../../assets/spark-left.png')} />
-            </View>
-            <View className="blue-user">
-              <Avatar
-                size="l"
-                borderWidth={3}
-                borderColor="#3a5ede"
-                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                src={this.state.otherStreamerAvatarUrl}
-              />
-            </View>
-            {/*蓝方姓名*/}
-            <Text className="streamerName-left">
-              {this.state.otherStreamerNick}
-            </Text>
-          </Animatable.View>
           {/*VS图片*/}
-          <Image className="vs" src={require('../../assets/vs.png')} />
           <Animatable.View
             animation={rightAnimates}
             easing="ease-in"
@@ -363,12 +292,6 @@ class App extends Component {
               height: 150,
             }}
           >
-            <View>
-              <Image className="spack-right" src={require('../../assets/spark-right.png')} />
-            </View>
-            <View>
-              <Image className="yellow-avatar-bgd" src={require('../../assets/yellow-avatar-bgd.png')} />
-            </View>
             <View className="yellow-user">
               <Avatar
                 size="l"
@@ -389,4 +312,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default SingleDance
