@@ -21,10 +21,6 @@
   width: 306;
   height: 306;
 }
-.dance-action {
-  width: 400;
-  height: 500;
-}
 .action-contanier {
   width: 400;
   height: 500;
@@ -46,12 +42,19 @@
 }
 .dance-contanier {
   position: absolute;
+  width: 100%;
+}
+.dance-action {
+  position: relative;
+  width: 400;
+  height: 500;
   left: 100;
 }
 .dance-second {
+  float: right;
   width: 400;
   height: 500;
-  left: 500;
+  margin-right: 100;
 }
 .progress {
   height: 50;

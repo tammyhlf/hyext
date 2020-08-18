@@ -9,7 +9,7 @@ import * as Animatable from "react-native-animatable"
 
 const { createSound } = NativeModules
 
-const { View, Text, Image, BackgroundImage, Avatar, Button } = UI
+const { View, Text, Image, BackgroundImage, Avatar } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
 let musicTimer = null
@@ -24,7 +24,7 @@ class SingleDance extends Component {
       wbId: "",
       danceIndex: 0,
       wb: false,
-      
+      skin: 'minions',
       wb_width: 1280,  //白板的分辨率，影响白板显示清晰度
       wb_height: 720,  //白板的分辨率，影响白板显示清晰度
       recognition: {
@@ -183,8 +183,8 @@ class SingleDance extends Component {
   }
 
   sendToWb(result, totalResult, danceIndex, start) {
-    let resultObj = { result, totalResult, danceIndex, start }
-    const { wbId } = this.state
+    const { wbId, skin } = this.state
+    let resultObj = { result, totalResult, danceIndex, start, skin }
     if (wbId) {
       const data = JSON.stringify(resultObj);
       hyExt.stream.sendToExtraWhiteBoard({
@@ -242,9 +242,6 @@ class SingleDance extends Component {
   setIntervalFun = () => {
     intervalTimer = setInterval(this.sendResult, 1500)
   }
-  handlePlayAgain = () => {
-    this.props.history.push('/single-dance')
-  }
 
   handleClickHome = () => {
     this.props.history.push('/index_streamer_pc_anchor_panel.html')
@@ -283,7 +280,6 @@ class SingleDance extends Component {
         <View className="container">
           {/*logo图标*/}
           <Image className="logo1" src={require('../../assets/logo1.png')} />
-          {/*VS图片*/}
           <Animatable.View
             animation={rightAnimates}
             easing="ease-in"
