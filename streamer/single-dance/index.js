@@ -78,7 +78,7 @@ class SingleDance extends Component {
         });
       }
     });
-    readyTimer = setTimeout(this.playFirstMusic, 3000)
+    readyTimer = setTimeout(this.playFirstMusic, 2000)
     musicTimer = setTimeout(this.playMusic, 4000)
     TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
   }
