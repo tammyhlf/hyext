@@ -42,16 +42,21 @@
   width: 100%;
 }
 .dance-action {
-  position: relative;
   width: 400;
   height: 500;
-  left: 120;
+  left: 200;
 }
 .dance-second {
   float: right;
-  right: 150;
+  right: 200;
   width: 400;
   height: 500;
+}
+.left {
+ left:190;
+}
+.right {
+  right:190;
 }
 .progress {
   height: 50;

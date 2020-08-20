@@ -5,11 +5,10 @@ import danceAction from './dance-action'
 import { RootContext } from '../context'
 import { ApiUrl, finish } from '../context/user'
 import { NativeModules } from '@hyext-beyond/hy-ui-native'
-import * as Animatable from "react-native-animatable"
 
 const { createSound } = NativeModules
 
-const { View, Text, Image, BackgroundImage, Avatar } = UI
+const { View, Text, Image, BackgroundImage, Avatar, Button } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
 let musicTimer = null
@@ -25,6 +24,11 @@ class SingleDance extends Component {
       danceIndex: 0,
       wb: false,
       skin: 'minions',
+      skinObj: {
+        cye0vuh77id0k4q6: 'boy',
+        cye0vuh7uaitjjt8: 'girl',
+        cye0vuh7fgw0lwnx: 'tiger'
+      },
       wb_width: 1280,  //白板的分辨率，影响白板显示清晰度
       wb_height: 720,  //白板的分辨率，影响白板显示清晰度
       recognition: {
@@ -61,26 +65,6 @@ class SingleDance extends Component {
         userInfo: that.context.user
       })
     }
-    hyExt.stream.getStreamResolution().then(res => {
-      const { width, height } = res
-      this.createWb(width, height);
-      console.log('获取图层画布布局信息成功')
-    }).catch(err => {
-      hyExt.logger.info('获取图层画布布局信息失败，错误信息：' + err.message)
-    })
-
-    hyExt.reg.onHumanSkeletonDetection({
-      width: wb_width,
-      height: wb_height,
-      callback: recognition => {
-        this.setState({
-          recognition,
-        });
-      }
-    });
-    readyTimer = setTimeout(this.playFirstMusic, 2000)
-    musicTimer = setTimeout(this.playMusic, 4000)
-    TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
   }
 
   componentWillUnmount() {
@@ -93,7 +77,7 @@ class SingleDance extends Component {
       console.log('移除小程序普通白板失败，错误信息：' + err.message)
     })
     hyExt.reg.offHumanSkeletonDetection().then(() => {
-      console.log('取消监听当前直播间肢体骨骼点检测消息成功')    
+      console.log('取消监听当前直播间肢体骨骼点检测消息成功')
     }).catch(err => {
       console.log('取消监听当前直播间肢体骨骼点检测消息失败，错误信息：' + err.message)
     })
@@ -119,6 +103,7 @@ class SingleDance extends Component {
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
         this.setState({ wbId });
+        // this.checkGoods()
       }).catch(err => {
         console.log(err);
       })
@@ -127,7 +112,7 @@ class SingleDance extends Component {
   // 播放音乐
   playMusic = () => {
     const sound1 = createSound('https://vb14674090674c43-cye0vuh7.hyext.com/extResource/dance/dance.mp3', (err) => {
-      sound1.setVolume(0.4)  
+      sound1.setVolume(0.4)
       sound1.play()
     })
   }
@@ -148,6 +133,32 @@ class SingleDance extends Component {
     const k1 = (angle2.y - angle1.y) / (angle2.x - angle1.x)
     const k2 = (angle3.y - angle2.y) / (angle3.x - angle2.x)
     return Math.abs((k2 - k1) / (1 + k1 * k2))
+  }
+
+  // 检查主播是否能使用当前皮肤
+  checkGoods() {
+    hyExt.storage.getItem('goodsUuid').then(value => {
+      if (value == '') {
+        this.setState({ skin: 'minions' })
+      } else {
+        const { skin, wbId, skinObj } = this.state
+        hyExt.revenue.checkStreamerCanUseGoods({ goodsUuid: value }).then(res => {
+          if (res.isCanUse) {
+            this.setState({ skin: 'minions' })
+          } else {
+            this.setState({ skin: skinObj[value] })
+          }
+          hyExt.stream.sendToExtraWhiteBoard({
+            wbId,
+            data: skin
+          })
+        }).catch(err => {
+          console.log(err.message)
+        })
+      }
+    }).catch(err => {
+      hyExt.logger.info('获取小程序简易存储键值对失败，错误信息：' + err.message)
+    })
   }
 
   calResult = (keypointsList) => {
@@ -194,15 +205,31 @@ class SingleDance extends Component {
     }
   }
 
-  //节流函数
-  throttle(func, gapTime, resolve) {
-    if (!timer) {
-      func.apply(this);
-      timer = setTimeout(() => {
-        timer = null;
-        resolve()
-      }, gapTime);
+  handlePlayGame = () => {
+    hyExt.stream.getStreamResolution().then(res => {
+      const { width, height } = res
+      this.createWb(width, height);
+      console.log('获取图层画布布局信息成功')
+    }).catch(err => {
+      hyExt.logger.info('获取图层画布布局信息失败，错误信息：' + err.message)
+    })
+    let args = []
+    args[0] = {}
+    args[0].callback = (...args) => {
+      console.log('触发回调：' + JSON.stringify(args))
+      this.setState({
+        recognition: args
+      })
     }
+    hyExt.reg.onHumanSkeletonDetection(args[0]).then(() => {
+      console.log('监听当前直播间肢体骨骼点检测消息成功')
+    }).catch(err => {
+      console.log('监听当前直播间肢体骨骼点检测消息失败，错误信息：' + err.message)
+    })
+
+    readyTimer = setTimeout(this.playFirstMusic, 3000)
+    musicTimer = setTimeout(this.playMusic, 4000)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
   }
 
   sendResult = () => {
@@ -231,12 +258,16 @@ class SingleDance extends Component {
           result: -1
         }
       })
-      // this.props.history.push({
-      //   pathname: '/game-result', state: {
-      //     score: this.state.totalResult
-      //   }
-      // })
+      setTimeout(this.handleRoute, 3000)
     }
+  }
+
+  handleRoute = () => {
+    this.props.history.push({
+      pathname: '/single-result', state: {
+        score: this.state.totalResult
+      }
+    })
   }
 
   setIntervalFun = () => {
@@ -248,22 +279,7 @@ class SingleDance extends Component {
   }
 
   render() {
-    const leftAnimates = {
-      from: {
-        translateX: -344
-      },
-      to: {
-        translateX: 0
-      }
-    }
-    const rightAnimates = {
-      from: {
-        translateX: 344,
-      },
-      to: {
-        translateX: 0
-      }
-    }
+    const { userInfo } = this.state
     return (
       <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
         {/*首页、下一步图标*/}
@@ -280,28 +296,29 @@ class SingleDance extends Component {
         <View className="container">
           {/*logo图标*/}
           <Image className="logo1" src={require('../../assets/logo1.png')} />
-          <Animatable.View
-            animation={rightAnimates}
-            easing="ease-in"
-            style={{
-              flexDirection: "row",
-              height: 150,
-            }}
-          >
-            <View className="yellow-user">
-              <Avatar
-                size="l"
-                borderWidth={3}
-                borderColor="#ffb700"
-                backupSrc={require('../../assets/fail.png')} // 网络错误显示默认图
-                src={this.state.userInfo.streamerAvatarUrl}
-              />
-            </View>
-            {/*黄方姓名*/}
-            <Text className="streamerName-right">
-              {this.state.userInfo.streamerNick}
+          <View className="blue-user">
+            <Image className="spack-left" src={require('../../assets/spark-right.png')} />
+            <Avatar
+              size="l"
+              borderWidth={3}
+              borderColor="#3a5ede"
+              backupSrc={require("../../assets/fail.png")} // 网络错误显示默认图
+              src={userInfo.streamerAvatarUrl}
+            />
+            <Image className="spack-right" src={require('../../assets/spark-left.png')} />
+            <Text className="streamerName-txt">
+              {userInfo.streamerNick}
             </Text>
-          </Animatable.View>
+          </View>
+          <View className="btn-group">
+            <Button
+              className="punish-btn"
+              textStyle={{ color: "white" }}
+              onPress={this.handlePlayGame}
+            >
+              开始游戏
+            </Button>
+          </View>
         </View>
       </BackgroundImage>
     )

@@ -26,7 +26,11 @@ export default class WhiteBoard extends Component {
       // 接收到数据，刷新视图
       callback: (data) => {
         const resultObj = JSON.parse(data);
-        this.setState({ resultObj });
+        if (Object.prototype.toString.call(resultObj) == '[object Object]') {
+          this.setState({ resultObj });
+        } else {
+          this.setState({ skin: resultObj })
+        }
         console.log(data)
       },
     });
@@ -64,25 +68,21 @@ export default class WhiteBoard extends Component {
       //   opacity: 1
       // },
       1: {
-        translateY: -7200, //动画最终停留的位置， 一共移动的距离为15*500 + 720-500 = 7720
+        translateY: -7000, //动画最终停留的位置， 一共移动的距离为15*500 + 720-500 = 7720
       },
-    },
+    }
     const resultAnimate = {
       0: {
-        scale: 0.8,
         opacity: 1,
       },
       0.5: {
-        scale: 1,
         opacity: 1,
       },
       0.6: {
         opacity: 0.5,
-        scale: 1,
       },
       0.7: {
         opacity: 0,
-        scale: 1,
       },
     };
     return (
@@ -164,19 +164,23 @@ export default class WhiteBoard extends Component {
           className="dance-contanier"
         >
           {danceAction.map((item, index) => {
-            const context = require.context("../../assets", true, /\.png$/);
+            const context = require.context("../../assets/girl", true, /\.png$/);
             return (
               <Animatable.View
                 key={index}
                 animation={danceIndex == index ? resultAnimate : null}
+                style={{
+                  display: 'block',
+                  overflow: 'hidden',
+                }}
               >
                 <Image
                   src={
                     danceIndex == index
                       ? this.state.resultDataMap[result]
                       : danceIndex > index
-                      ? ""
-                      : context(`./${skin}/${index + 1}.png`)
+                        ? ""
+                        : context(`./${index + 1}.png`)
                   }
                   className={index % 2 == 0 ? "dance-action" : "dance-second"}
                 ></Image>

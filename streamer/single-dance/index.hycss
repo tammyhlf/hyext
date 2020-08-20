@@ -40,51 +40,35 @@
   width: 520px;
   height: 200px;
 }
-.blue-avatar-bgd{
-  width: 344px;
-  height: 200px;
+.blue-user{
   position: relative;
-  left: -90px;
+  margin: 10px auto 0;
 }
-.yellow-avatar-bgd{
-  width: 344px;
-  height: 200px;
-  position: relative;
-  left: 260px;
+.streamerName-txt{
+  color: white;
+  text-align: center;
+}
+.btn-group {
+  margin-top: 100;
+}
+.punish-btn {
+  width: 180;
+  border: 4px solid #d2a017;
+  border-radius: 120px;
+  margin: 0 auto;
+  background-image: linear-gradient(#FFEA00,#FF9900);
 }
 .spack-left{
-  margin-top: 80px;
+  position: relative;
   width: 84px;
   height: 114px;
-  position: relative;
-  left: -150px;
+  left: -48;
+  top: 30;
 }
 .spack-right{
+  position: relative;
   width: 80px;
   height: 84px;
-  position: relative;
-  left: 340px;
-}
-.blue-user{
-  left:-440px;
-  top: 20px;
-}
-.yellow-user{
-  left: 40px;
-  top: 25px;
-}
-.streamerName-left{
-  color: white;
-  position: absolute;
-  top: 312px;
-}
-.streamerName-right{
-  position: absolute;
-  color: white;
-  top: 220px;
-  left: 500px;
-}
-.vs{
-  width: 162px;
-  height: 78px;
+  left: 75;
+  bottom: 20;
 }
