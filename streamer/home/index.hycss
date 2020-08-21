@@ -33,3 +33,14 @@
   padding-top: 120px;
   color: white;
 }
+.decoration{
+  width:60px;
+  height:60px;
+}
+.choice{
+  color:white;
+  margin-top:10px;
+}
+.choiceDecoration{
+  bottom:-65px;
+}
