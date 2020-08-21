@@ -169,25 +169,23 @@ class Punishment extends Component {
       });
   };
   //离开房间
-  leave = () =>{
-    let args = []
-    args[0] = {}
-    args[0].header = {
-        "Content-Type":"application/json;charset=UTF-8",
-        // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+  leave = () => {
+    let args = {
+      header: {
+        "Content-Type": "application/json;charset=UTF-8",
         'Accept': 'application/json'
+      },
+      url: ("http://121.196.176.201:8082/game/leave?roomID=" + this.state.roomId + "&unionId=" + this.state.userInfo.streamerUnionId),
+      method: "POST",
+      dataType: "json"
     }
-    args[0].url = ("http://121.196.176.201:8082/game/leave?roomID="+this.state.roomId+"&unionId="+this.state.userInfo.streamerUnionId)
-    args[0].method = "POST"
-    args[0].data = {}  //请求的body
-    args[0].dataType = "json"    //返回的数据格式
     console.log('发送HTTP请求：' + JSON.stringify(args))
-    hyExt.request(args[0]).then(resp => {
-        console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+    hyExt.request(args).then(resp => {
+      console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
     }).catch(err => {
-        console.log('发送HTTP请求失败，错误信息：' + err.message)
+      console.log('发送HTTP请求失败，错误信息：' + err.message)
     })
-}
+  }
 
   handleClickHome = () => {
     this.props.history.push("/index_streamer_pc_anchor_panel.html");
@@ -269,18 +267,18 @@ class Punishment extends Component {
           <View className="yellow-user">
             {score == otherScore ? null : dataObj.winner ==
               otherStreamerUnionId ? (
-              <Image className="win" src={require("../../assets/win.png")} />
-            ) : (
-              <Image className="lose" src={require("../../assets/lose.png")} />
-            )}
+                <Image className="win" src={require("../../assets/win.png")} />
+              ) : (
+                <Image className="lose" src={require("../../assets/lose.png")} />
+              )}
           </View>
           <View className="blue-user">
             {score == otherScore ? null : dataObj.winner ==
               userInfo.streamerUnionId ? (
-              <Image className="win" src={require("../../assets/win.png")} />
-            ) : (
-              <Image className="lose" src={require("../../assets/lose.png")} />
-            )}
+                <Image className="win" src={require("../../assets/win.png")} />
+              ) : (
+                <Image className="lose" src={require("../../assets/lose.png")} />
+              )}
           </View>
         </View>
 
@@ -325,7 +323,7 @@ class Punishment extends Component {
             自定义惩罚
           </Button>
         </View>
-        { score == otherScore && dataObj.winner == otherStreamerUnionId ? 
+        {score == otherScore && dataObj.winner == otherStreamerUnionId ?
           <Text className="text">等待赢家选择惩罚方式...</Text> : null
         }
       </BackgroundImage>

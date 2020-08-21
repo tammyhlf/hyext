@@ -1,0 +1,77 @@
+.container {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding-top: 60px;
+}
+.backgroundImage {
+  height: 100%;
+}
+.home{
+  width: 43px;
+  height: 43px;
+}
+.backdrop {
+  width: 300px;
+  height: 400px;
+  background-color: #8957BA;
+  border-radius: 20px;
+  margin: 30px;
+}
+.yellowMan {
+  width: 300px;
+  height: 400px;
+}
+.tiger {
+  width: 300px;
+  height: 400px;
+}
+.buy_tiger {
+  width: 240px;
+  height: 320px;
+}
+.girl {
+  width: 300px;
+  height: 400px;
+}
+.buy_girl {
+  width: 240px;
+  height: 320px;
+}
+.boy {
+  width: 300px;
+  height: 400px;
+}
+.buy_boy {
+  width: 240px;
+  height: 320px;
+}
+.txt {
+  color: white;
+  text-align:center;
+}
+.clocked {
+  width:100px;
+  height:100px;
+  top:-300px;
+  left:100px;
+}
+.title {
+  color:white;
+  text-align:center;
+  font-size:18;
+}
+.unlock {
+  border:4px;
+  border-radius: 120px;
+  margin: 10px;
+  border-color: #d2a017;
+  background-image: linear-gradient( #FFEA00,#FF9900);
+  height:50px;
+}
+.choice {
+  width:60px;
+  height:60px;
+  top:-100px;
+  left:230px;
+}

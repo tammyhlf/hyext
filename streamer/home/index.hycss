@@ -16,11 +16,13 @@
   border-radius: 120px;
   margin: 210px 50px 50px;
   border-color: #d2a017;
+  width: 43%;
   /* background-color: #ffb700; */
   background-image: linear-gradient(#FFEA00,#FF9900);
 }
 .add{
   border:4px;
+  width: 43%;
   border-radius: 120px;
   margin: 50px;
   margin-top: 0;
@@ -30,4 +32,15 @@
 .txt{
   padding-top: 120px;
   color: white;
+}
+.decoration{
+  width:60px;
+  height:60px;
+}
+.choice{
+  color:white;
+  margin-top:10px;
+}
+.choiceDecoration{
+  bottom:-65px;
 }

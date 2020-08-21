@@ -86,17 +86,18 @@ export default class WhiteBoard extends Component {
     }
     return (
       <View className='container'>
-        <Image src={require('../../assets/dance-action/logo.gif')} className="dance-logo"></Image>
+        <Image src={require('../../assets/dance-action/group-image.png')} className="logo-left"></Image>
         <Animatable.View delay={4000}
-        animation={{
-          from: {
-            opacity: 0
-          },
-          to: {
-            opacity: 1
-          }
-        }}
-        className="progress-content">
+          animation={{
+            from: {
+              opacity: 0
+            },
+            to: {
+              opacity: 1
+            }
+          }}
+          className="progress-content">
+          <Image src={require('../../assets/dance-action/logo.gif')} className="dance-logo"></Image>
           <Text className="result-text">得分：{totalResult || 0}</Text>
           <Progress
             easing={true}
@@ -140,8 +141,8 @@ export default class WhiteBoard extends Component {
                   animation={ danceIndex == index ? resultAnimate : null }
                 >
                   <Image
-                    src={ danceIndex == index ? this.state.resultDataMap[result] : context(`./${index + 1}.png`)}
-                    className="dance-action"
+                    src={ danceIndex == index ? this.state.resultDataMap[result] : danceIndex > index ? '' : context(`./${index + 1}.png`)}
+                    className={index % 2 == 0 ? 'dance-action' : 'dance-second'}
                   ></Image>
                 </Animatable.View>
               </View>
