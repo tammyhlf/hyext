@@ -47,6 +47,9 @@ class Home extends Component {
   handleSingle = () => {
     this.props.history.push('/single-dance')
   }
+  handleShop = () => {
+    this.props.history.push('/shop')
+  }
   handlePkModel = () => {
     this.setState({
       model: 'pk'
@@ -66,6 +69,11 @@ class Home extends Component {
               (<><Button className="setup" type="primary" onPress={this.handlePkModel}>PK模式</Button>
               <Button className="add" type="primary" onPress={this.handleSingle}>单人模式</Button></>)
             }
+            <View className="choiceDecoration" onClick={this.handleShop} style={{
+                    flexDirection: "row"}}>
+              <Image className="decoration" src={require("../../assets/decoration.png")}></Image>
+              <Text className="choice">  选择皮肤</Text>
+            </View>
             {/*<Text className="txt" onPress={this.handleClick2}>历史战绩<Icon type='angle-right' size={10} tintColor='#ffffff'></Icon></Text>*/}
         </View>
       </BackgroundImage>
