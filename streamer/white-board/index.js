@@ -22,18 +22,40 @@ export default class WhiteBoard extends Component {
 
   componentDidMount() {
     // 监听从原来小程序发送过来的独立白板数据
+    // hyExt.stream.onExtraWhiteBoardMessage({
+    //   // 接收到数据，刷新视图
+    //   callback: (data) => {
+    //     console.log('白板接受的数据', data)
+        // const resultObj = JSON.parse(data);
+        // if (Object.prototype.toString.call(resultObj) == '[object Object]') {
+        //   this.setState({ resultObj });
+        // } else {
+        //   this.setState({ skin: resultObj })
+        // }
+      // },
+    // })
     hyExt.stream.onExtraWhiteBoardMessage({
       // 接收到数据，刷新视图
-      callback: (data) => {
+      callback: data => {
         const resultObj = JSON.parse(data);
-        if (Object.prototype.toString.call(resultObj) == '[object Object]') {
-          this.setState({ resultObj });
-        } else {
-          this.setState({ skin: resultObj })
-        }
-        console.log(data)
-      },
-    });
+        console.log(11111111111111)
+        this.setState({ resultObj });
+      }
+    }).then(() => {
+      debugger
+          hyExt.logger.info('监听小程序独立白板消息成功')    
+        }).catch(err => {
+          hyExt.logger.info('监听小程序独立白板消息失败，错误信息：' + err.message)
+        })
+    // let args = []
+    //   args[0] = {}
+    //   args[0].callback = (...args) => hyExt.logger.info('触发回调：' + JSON.stringify(args))
+    //   hyExt.logger.info('监听小程序独立白板消息：' + JSON.stringify(args))
+    //   hyExt.stream.onExtraWhiteBoardMessage(args[0]).then(() => {
+    //     hyExt.logger.info('监听小程序独立白板消息成功')    
+    //   }).catch(err => {
+    //     hyExt.logger.info('监听小程序独立白板消息失败，错误信息：' + err.message)
+    //   })
   }
 
   render() {

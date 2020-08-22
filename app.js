@@ -11,8 +11,8 @@ import Wait from "./streamer/wait";
 import Shop from "./streamer/shop"
 import Record from "./streamer/record";
 import { root, RootContext, requestUserInfo } from './streamer/context'
-import SingleDance from './streamer/single-dance';
-import SingleResult from './streamer/single-reslut'
+import SingleDance from './streamer/single-model/single-dance';
+import SingleResult from './streamer/single-model/single-reslut'
 
 const func = {
   requestUserInfo,

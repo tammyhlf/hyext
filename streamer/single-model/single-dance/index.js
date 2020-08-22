@@ -2,8 +2,8 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import danceAction from './dance-action'
-import { RootContext } from '../context'
-import { ApiUrl, finish } from '../context/user'
+import { RootContext } from '../../context'
+import { ApiUrl, finish } from '../../context/user'
 import { NativeModules } from '@hyext-beyond/hy-ui-native'
 
 const { createSound } = NativeModules
@@ -99,11 +99,10 @@ class SingleDance extends Component {
       y: 0,
       force: true
     }
-    console.log('创建白板', JSON.stringify(args))
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
         this.setState({ wbId });
-        // this.checkGoods()
+        this.checkGoods()
       }).catch(err => {
         console.log(err);
       })
@@ -137,25 +136,30 @@ class SingleDance extends Component {
 
   // 检查主播是否能使用当前皮肤
   checkGoods() {
+    const { wbId, skin } = this.state
     hyExt.storage.getItem('goodsUuid').then(value => {
-      if (value == '') {
+      if (value == '' || value == 'minions') {
         this.setState({ skin: 'minions' })
       } else {
-        const { skin, wbId, skinObj } = this.state
+        const { skinObj } = this.state
         hyExt.revenue.checkStreamerCanUseGoods({ goodsUuid: value }).then(res => {
           if (res.isCanUse) {
             this.setState({ skin: 'minions' })
           } else {
             this.setState({ skin: skinObj[value] })
           }
-          hyExt.stream.sendToExtraWhiteBoard({
-            wbId,
-            data: skin
-          })
         }).catch(err => {
           console.log(err.message)
         })
       }
+      hyExt.stream.sendToExtraWhiteBoard({
+        wbId,
+        data: skin
+      }).then(() => {
+        console.log('发送消息到小程序独立白板成功')    
+      }).catch(err => {
+        console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
+      })
     }).catch(err => {
       hyExt.logger.info('获取小程序简易存储键值对失败，错误信息：' + err.message)
     })
@@ -213,19 +217,14 @@ class SingleDance extends Component {
     }).catch(err => {
       hyExt.logger.info('获取图层画布布局信息失败，错误信息：' + err.message)
     })
-    let args = []
-    args[0] = {}
-    args[0].callback = (...args) => {
-      console.log('触发回调：' + JSON.stringify(args))
-      this.setState({
-        recognition: args
-      })
-    }
-    hyExt.reg.onHumanSkeletonDetection(args[0]).then(() => {
-      console.log('监听当前直播间肢体骨骼点检测消息成功')
-    }).catch(err => {
-      console.log('监听当前直播间肢体骨骼点检测消息失败，错误信息：' + err.message)
-    })
+    hyExt.reg.onHumanSkeletonDetection({
+      callback: recognition => {
+        console.log('触发回调')
+        this.setState({
+          recognition
+        });
+      }
+    });
 
     readyTimer = setTimeout(this.playFirstMusic, 3000)
     musicTimer = setTimeout(this.playMusic, 4000)
@@ -281,7 +280,7 @@ class SingleDance extends Component {
   render() {
     const { userInfo } = this.state
     return (
-      <BackgroundImage className="backgroundImage" src={require('../../assets/background.png')}>
+      <BackgroundImage className="backgroundImage" src={require('../../../assets/background.png')}>
         {/*首页、下一步图标*/}
         <View style={{
           flexDirection: "row",
@@ -289,23 +288,23 @@ class SingleDance extends Component {
           padding: 20
         }}>
           <View style={{ width: 10 }} onClick={this.handleClickHome}>
-            <Image className="home" src={require('../../assets/home.png')}></Image>
+            <Image className="home" src={require('../../../assets/home.png')}></Image>
           </View>
         </View>
 
         <View className="container">
           {/*logo图标*/}
-          <Image className="logo1" src={require('../../assets/logo1.png')} />
+          <Image className="logo1" src={require('../../../assets/logo1.png')} />
           <View className="blue-user">
-            <Image className="spack-left" src={require('../../assets/spark-right.png')} />
+            <Image className="spack-left" src={require('../../../assets/spark-right.png')} />
             <Avatar
               size="l"
               borderWidth={3}
               borderColor="#3a5ede"
-              backupSrc={require("../../assets/fail.png")} // 网络错误显示默认图
+              backupSrc={require("../../../assets/fail.png")} // 网络错误显示默认图
               src={userInfo.streamerAvatarUrl}
             />
-            <Image className="spack-right" src={require('../../assets/spark-left.png')} />
+            <Image className="spack-right" src={require('../../../assets/spark-left.png')} />
             <Text className="streamerName-txt">
               {userInfo.streamerNick}
             </Text>

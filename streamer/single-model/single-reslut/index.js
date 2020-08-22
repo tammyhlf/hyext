@@ -1,7 +1,7 @@
 import { UI } from "@hyext/hy-ui";
 import React, { Component } from "react";
 import "./index.hycss";
-import { RootContext } from "../context";
+import { RootContext } from "../../context";
 
 const { View, Button, Image, Icon, BackgroundImage, Text, Avatar } = UI;
 
@@ -45,7 +45,7 @@ class SingleResult extends Component {
     return (
       <BackgroundImage
         className="backgroundImage"
-        src={require("../../assets/background.png")}
+        src={require("../../../assets/background.png")}
       >
         <View style={{
           flexDirection: "row",
@@ -53,16 +53,16 @@ class SingleResult extends Component {
           padding: 20
         }}>
           <View style={{ width: 10 }} onClick={this.handleClickHome}>
-            <Image className="home" src={require('../../assets/home.png')}></Image>
+            <Image className="home" src={require('../../../assets/home.png')}></Image>
           </View>
         </View>
-        <Image src={require('../../assets/logo.png')} className="punish-img" />
+        <Image src={require('../../../assets/logo.png')} className="punish-img" />
         <View className="blue-user">
           <Avatar
             size="l"
             borderWidth={3}
             borderColor="#3a5ede"
-            backupSrc={require("../../assets/fail.png")} // 网络错误显示默认图
+            backupSrc={require("../../../assets/fail.png")} // 网络错误显示默认图
             src={userInfo.streamerAvatarUrl}
           />
           <Text className="streamerName-txt">
