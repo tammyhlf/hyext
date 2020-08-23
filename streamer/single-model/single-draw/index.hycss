@@ -1,0 +1,95 @@
+.backgroundImage {
+  height: 100%;
+}
+.punish-img {
+  width: 80%;
+  margin: 20px auto 80px;
+  height: 180px;
+}
+.lose-back {
+  border: 6px solid #4668fa;
+  margin-top: 58px;
+}
+.draw-contanier {
+  position: relative;
+}
+.draw-bgd {
+  width: 606px;
+  height: 606px;
+  position: relative;
+  margin: 0 auto;
+}
+.draw-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  margin-left: -206px;
+  margin-top: -206px;
+}
+.content-img {
+  width: 412px;
+  height: 412px;
+}
+.start-img {
+  width: 140px;
+  height: 140px;
+}
+.draw-index {
+  width: 116px;
+  height: 146px;
+  position: absolute;
+  z-index: 3;
+  top: 5px;
+  left: 50%;
+  margin-left: -58px;
+}
+.start {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  margin-left: -70px;
+  margin-top: -70px;
+}
+.game-result {
+  margin-top: 40px;
+  font-size: 88px;
+  font-weight: 700;
+  color: #fee47b;
+  text-shadow: 0 0 34px #b90565;
+}
+
+
+.home{
+  width: 43px;
+  height: 43px;
+}
+.streamerName{
+  width: 50%;
+}
+.streamerName-txt{
+  color: white;
+  text-align: center;
+}
+.blue-user{
+  width: 50%;
+  left: 110px;
+}
+.yellow-user{
+  width: 50%;
+  left: 110px;
+}
+.crown {
+  width: 84px;
+  height: 58px;
+  left: 150px;
+}
+.text {
+  color: #ffffff;
+  font-size: 34px;
+}
+.draw-back{
+  width: 20px;
+  height: 36px;
+}

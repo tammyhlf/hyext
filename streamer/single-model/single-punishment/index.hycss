@@ -1,0 +1,101 @@
+.backgroundImage {
+  height: 100%;
+}
+.punish-img {
+  width: 90%;
+  margin: 20px auto;
+  height: 195px;
+}
+.result-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 80px;
+}
+
+.lose-back {
+  border: 6px solid #4668fa;
+  margin-top: 58px;
+}
+.crown {
+  width: 84px;
+  height: 58px;
+  margin-left: 62px;
+}
+
+.right-crown {
+  width: 84px;
+  height: 58px;
+  margin-left: 526px;
+}
+
+.btn-group {
+  margin-top: 80px;
+}
+
+.punish-btn {
+  width: 47%;
+  border: 4px solid #d2a017;
+  border-radius: 120px;
+  margin: 0 auto;
+  background-image: linear-gradient(#FFEA00,#FF9900);
+}
+.custom-btn {
+  width: 47%;
+  border: 4px solid #4a56cd;
+  border-radius: 120px;
+  margin: 60px auto;
+  background-image: linear-gradient(#6FBCEB, #3851FF);
+}
+.text {
+  color: #ffffff;
+  font-size: 28px;
+  text-align: center;
+}
+.animates {
+  width: 712px;
+  height: 712px;
+  overflow: hidden;
+}
+.box {
+  position: absolute;
+}
+
+.streamerName-txt{
+  color: white;
+  text-align: center;
+  margin-top: -10;
+}
+.blue-user{
+  margin: 0 auto;
+  left: 110px;
+}
+.yellow-user{
+  margin: 0 auto;
+  width: 50%;
+  left: 110px;
+}
+.win {
+  top: -50px;
+  width: 184px;
+  height: 100px;
+}
+.lose {
+  top: -50px;
+  width: 195px;
+  height: 100px;
+}
+.streamerScore-yellow {
+  color: #ffb901;
+  text-align: center;
+  margin: 30px;
+}
+.home{
+  width: 43px;
+  height: 43px;
+}
+.tip {
+  color: #eeeeee;
+  text-align: center;
+  font-size: 12;
+}

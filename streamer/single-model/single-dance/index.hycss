@@ -42,14 +42,26 @@
 }
 .blue-user{
   position: relative;
-  margin: 10px auto 0;
+  margin: 0 auto;
 }
 .streamerName-txt{
   color: white;
   text-align: center;
+  font-size: 16;
+  margin-top: -20;
+}
+.score {
+  color: #ffb901;
+  text-align: center;
+  height: 30;
+}
+.tip {
+  color: #eeeeee;
+  text-align: center;
+  font-size: 12;
 }
 .btn-group {
-  margin-top: 100;
+  margin-top: 60;
 }
 .punish-btn {
   width: 180;

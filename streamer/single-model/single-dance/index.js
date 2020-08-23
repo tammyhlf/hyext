@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import './index.hycss'
 import danceAction from './dance-action'
 import { RootContext } from '../../context'
-import { ApiUrl, finish } from '../../context/user'
+import { ApiUrl, finish, create, params } from '../../context/user'
 import { NativeModules } from '@hyext-beyond/hy-ui-native'
 
 const { createSound } = NativeModules
 
-const { View, Text, Image, BackgroundImage, Avatar, Button } = UI
+const { View, Text, Image, BackgroundImage, Avatar, Button, Input, Tip } = UI
 let timer = null; // 定时器，用于节流
 let intervalTimer = null; // 用于跳舞的
 let musicTimer = null
@@ -22,6 +22,8 @@ class SingleDance extends Component {
       userInfo: {},
       wbId: "",
       danceIndex: 0,
+      targetScore: '', // 目标分数
+      disabled: false,
       wb: false,
       skin: 'minions',
       skinObj: {
@@ -77,9 +79,9 @@ class SingleDance extends Component {
       console.log('移除小程序普通白板失败，错误信息：' + err.message)
     })
     hyExt.reg.offHumanSkeletonDetection().then(() => {
-      console.log('取消监听当前直播间肢体骨骼点检测消息成功')
+      console.log('取消监听肢体骨骼点成功')
     }).catch(err => {
-      console.log('取消监听当前直播间肢体骨骼点检测消息失败，错误信息：' + err.message)
+      console.log('取消监听肢体骨骼点失败，错误信息：' + err.message)
     })
   }
 
@@ -156,7 +158,7 @@ class SingleDance extends Component {
         wbId,
         data: skin
       }).then(() => {
-        console.log('发送消息到小程序独立白板成功')    
+        console.log('发送消息到小程序独立白板成功')
       }).catch(err => {
         console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
       })
@@ -210,30 +212,41 @@ class SingleDance extends Component {
   }
 
   handlePlayGame = () => {
-    hyExt.stream.getStreamResolution().then(res => {
-      const { width, height } = res
-      this.createWb(width, height);
-      console.log('获取图层画布布局信息成功')
-    }).catch(err => {
-      hyExt.logger.info('获取图层画布布局信息失败，错误信息：' + err.message)
-    })
-    hyExt.reg.onHumanSkeletonDetection({
-      callback: recognition => {
-        console.log('触发回调')
-        this.setState({
-          recognition
-        });
-      }
-    });
-
-    readyTimer = setTimeout(this.playFirstMusic, 3000)
-    musicTimer = setTimeout(this.playMusic, 4000)
-    TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
+    if (this.state.targetScore == '') {
+      Tip.show("请输入目标分数", 500, false, 'top')
+    } else {
+      this.setState({ disabled: true })
+      const { wb_height, wb_width } = this.state
+      hyExt.stream.getStreamResolution().then(res => {
+        const { width, height } = res
+        this.createWb(width, height);
+        console.log('获取图层画布布局信息成功')
+      }).catch(err => {
+        console.log('获取图层画布布局信息失败，错误信息：' + err.message)
+      })
+      hyExt.reg.onHumanSkeletonDetection({
+        width: wb_width,
+        height: wb_height,
+        callback: recognition => {
+          console.log('触发回调')
+          this.setState({
+            recognition
+          });
+        }
+      }).then(() => {
+        console.log('骨骼监听开启成功')
+      }).catch(err => {
+        console.log('骨骼监听开启成功失败，错误信息：' + err.message)
+      })
+      readyTimer = setTimeout(this.playFirstMusic, 3000)
+      musicTimer = setTimeout(this.playMusic, 4000)
+      TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
+    }
   }
 
   sendResult = () => {
     const { danceIndex, totalResult, userInfo } = this.state
-    const { streamerUnionId } = userInfo
+    const { streamerUnionId, streamerNick, streamerAvatarUrl } = userInfo
     const keypoints = this.state.recognition.keypoints[0] || []
     let keypointsList = {}
     keypoints.map(item => {
@@ -257,16 +270,41 @@ class SingleDance extends Component {
           result: -1
         }
       })
+      const createUrl = `${ApiUrl}${create}?nickName=${streamerNick}&picUrl=${streamerAvatarUrl}&unionId=${streamerUnionId}`
+
+      // 先创建房间再提交分数
+      hyExt.request(params(createUrl)).then(res => {
+        const url = `${ApiUrl}${finish}?roomID=${res.data.result}&score=${this.state.totalResult}&unionId=${streamerUnionId}`
+        console.log(params(url))
+        hyExt.request(params(url)).then(res => {
+          console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
+        }).catch(err => {
+          console.log('发送HTTP请求失败，错误信息：' + err.message)
+        })
+      }).catch(err => {
+        console.log('发送HTTP请求失败，错误信息：' + err.message)
+      })
       setTimeout(this.handleRoute, 3000)
     }
   }
 
   handleRoute = () => {
-    this.props.history.push({
-      pathname: '/single-result', state: {
-        score: this.state.totalResult
-      }
-    })
+    const {totalResult, targetScore} = this.state
+    if (totalResult >= targetScore) {
+      this.props.history.push({
+        pathname: '/single-result', state: {
+          score: totalResult,
+          targetScore
+        }
+      })
+    } else {
+      this.props.history.push({
+        pathname: '/single-punishment', state: {
+          score: this.state.totalResult,
+          targetScore: this.state.targetScore
+        }
+      })
+    }
   }
 
   setIntervalFun = () => {
@@ -291,10 +329,10 @@ class SingleDance extends Component {
             <Image className="home" src={require('../../../assets/home.png')}></Image>
           </View>
         </View>
-
         <View className="container">
           {/*logo图标*/}
           <Image className="logo1" src={require('../../../assets/logo1.png')} />
+
           <View className="blue-user">
             <Image className="spack-left" src={require('../../../assets/spark-right.png')} />
             <Avatar
@@ -305,15 +343,34 @@ class SingleDance extends Component {
               src={userInfo.streamerAvatarUrl}
             />
             <Image className="spack-right" src={require('../../../assets/spark-left.png')} />
-            <Text className="streamerName-txt">
+            {/* <Text className="streamerName-txt">
               {userInfo.streamerNick}
-            </Text>
+            </Text> */}
+          </View>
+          <View style={{marginTop: '40px'}}>
+            { this.state.disabled ? 
+              <Text className="score">目标分数：{ this.state.targetScore }</Text> :
+              <Input
+                style={{ margin: 13, borderRadius: 150 }}
+                textAlign='center'
+                value={this.state.targetScore}
+                placeholder='请输入目标分数'
+                maxLength={3}
+                onChange={(value) => {
+                  this.setState({
+                    targetScore: value
+                  })
+                }}
+              />
+            }
+            <Text className="tip">(总分：150分)</Text>
           </View>
           <View className="btn-group">
             <Button
               className="punish-btn"
               textStyle={{ color: "white" }}
               onPress={this.handlePlayGame}
+              disabled={this.state.disabled}
             >
               开始游戏
             </Button>

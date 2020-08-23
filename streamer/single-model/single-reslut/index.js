@@ -10,7 +10,8 @@ class SingleResult extends Component {
     super(props);
     this.state = {
       userInfo: {},
-      score: this.props.location.state.score
+      score: this.props.location.state.score,
+      targetScore: this.props.location.state.targetScore
     };
   }
 
@@ -41,7 +42,7 @@ class SingleResult extends Component {
   }
 
   render() {
-    const { score, userInfo } = this.state
+    const { score, userInfo, targetScore } = this.state
     return (
       <BackgroundImage
         className="backgroundImage"
@@ -65,11 +66,17 @@ class SingleResult extends Component {
             backupSrc={require("../../../assets/fail.png")} // 网络错误显示默认图
             src={userInfo.streamerAvatarUrl}
           />
-          <Text className="streamerName-txt">
+          {
+            targetScore >= score ? 
+            <Image className="win" src={require("../../../assets/win.png")} /> :
+            <Image className="lose" src={require("../../../assets/lose.png")} />
+          }
+          {/* <Text className="streamerName-txt">
             {userInfo.streamerNick}
-          </Text>
-          <Text className="streamerName-txt">
-            得分：{score}
+          </Text> */}
+          <Text className="streamerScore-yellow">得分：{score}</Text>
+          <Text className="tip">
+            （目标得分：{targetScore}）
           </Text>
         </View>
 
