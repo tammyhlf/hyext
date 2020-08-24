@@ -28,7 +28,7 @@ class App extends Component {
           <Route path="/luck-draw" render={ (props) => <LuckDraw {...props} func={func} />} />
           <Route path="/single-dance" render={ (props) => <SingleDance {...props} func={func} />} />
           <Route path="/wait" render={ (props) => <Wait {...props} func={func} />}/>
-          {/* <Route path="/record" render={ (props) => <Record {...props} func={func} />}/> */}
+          <Route path="/record" render={ (props) => <Record {...props} func={func} />}/>
           <Route path="/add" render={ (props) => <Add {...props} func={func} />}/>
           <Route path="/shop" render={ (props) => <Shop {...props} func={func} />}/>
           <Route path="/create" render={ (props) => <Create {...props} func={func} />}/>

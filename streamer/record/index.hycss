@@ -14,3 +14,12 @@
   width: 520px;
   height: 200px;
 }
+.txt {
+  color:white;
+  font-size:30px;
+}
+.underLine {
+  height: 5px;
+  width: 120px;
+  background-color: white;
+}
