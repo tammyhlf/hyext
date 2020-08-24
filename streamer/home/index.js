@@ -74,7 +74,7 @@ class Home extends Component {
               <Image className="decoration" src={require("../../assets/decoration.png")}></Image>
               <Text className="choice">  选择皮肤</Text>
             </View>
-            {/*<Text className="txt" onPress={this.handleClick2}>历史战绩<Icon type='angle-right' size={10} tintColor='#ffffff'></Icon></Text>*/}
+            {/* <Text className="txt" onPress={this.handleClick2}>历史战绩<Icon type='angle-right' size={10} tintColor='#ffffff'></Icon></Text> */}
         </View>
       </BackgroundImage>
     )
