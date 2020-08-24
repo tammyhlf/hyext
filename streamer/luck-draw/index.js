@@ -70,7 +70,7 @@ class App extends Component {
     }
     hyExt.stream.getStreamResolution().then(res => {
       const { width, height } = res
-      this.createWb(width/2, height/2);
+      this.createWb(width, height);
       console.log('获取图层画布布局信息成功')
     }).catch(err => {
       hyExt.logger.info('获取图层画布布局信息失败，错误信息：' + err.message)
