@@ -70,7 +70,7 @@ class App extends Component {
     }
     hyExt.stream.getStreamResolution().then(res => {
       const { width, height } = res
-      this.createWb(width, height);
+      this.createWb(width/2, height/2);
       console.log('获取图层画布布局信息成功')
     }).catch(err => {
       hyExt.logger.info('获取图层画布布局信息失败，错误信息：' + err.message)
@@ -86,7 +86,7 @@ class App extends Component {
         });
       }
     });
-    TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 5750)
     this.playMusic()
     this.monitor() // 监听小程序发送的分数与随机数
   }
