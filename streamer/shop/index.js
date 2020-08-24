@@ -25,34 +25,58 @@ class Shop extends Component {
     }
     //购买虎小牙皮肤
     buyTiger = () => {
-        //弹出商品购买的H5面板
-        hyExt.revenue.popupGoodsBuyPanel({
+        //检查主播是否可以使用当前付费模块
+        hyExt.revenue.checkStreamerCanUseGoods({
             goodsUuid: 'cye0vuh7fgw0lwnx'
-        }).then(() => {
-        console.log('弹出商品购买窗口成功')
+        }).then(({ isCanUse }) => {
+        hyExt.logger.info('检查成功：' + isCanUse)
         }).catch(err => {
-            console.log('弹出商品购买窗口失败：' + err.message)
+        hyExt.logger.warn('检查失败：' + err.message)
         })
+        //弹出商品购买的H5面板
+        // hyExt.revenue.popupGoodsBuyPanel({
+        //     goodsUuid: 'cye0vuh7fgw0lwnx'
+        // }).then(() => {
+        // console.log('弹出商品购买窗口成功')
+        // }).catch(err => {
+        //     console.log('弹出商品购买窗口失败：' + err.message)
+        // })
     }
     //购买旗袍girl皮肤
     buyGirl = () => {
-        hyExt.revenue.popupGoodsBuyPanel({
+        //检查主播是否可以使用当前付费模块
+        hyExt.revenue.checkStreamerCanUseGoods({
             goodsUuid: 'cye0vuh7uaitjjt8'
-         }).then(() => {
-            console.log('弹出商品购买窗口成功')
-         }).catch(err => {
-            console.log('弹出商品购买窗口失败：' + err.message)
-         })
+        }).then(({ isCanUse }) => {
+        hyExt.logger.info('检查成功：' + isCanUse)
+        }).catch(err => {
+        hyExt.logger.warn('检查失败：' + err.message)
+        })
+        // hyExt.revenue.popupGoodsBuyPanel({
+        //     goodsUuid: 'cye0vuh7uaitjjt8'
+        //  }).then(() => {
+        //     console.log('弹出商品购买窗口成功')
+        //  }).catch(err => {
+        //     console.log('弹出商品购买窗口失败：' + err.message)
+        //  })
     }
     //购买篮球boy皮肤
     buyBoy = () => {
-        hyExt.revenue.popupGoodsBuyPanel({
+        //检查主播是否可以使用当前付费模块
+        hyExt.revenue.checkStreamerCanUseGoods({
             goodsUuid: 'cye0vuh77id0k4q6'
-         }).then(() => {
-            console.log('弹出商品购买窗口成功')
-         }).catch(err => {
-            console.log('弹出商品购买窗口失败：' + err.message)
-         })
+        }).then(({ isCanUse }) => {
+        hyExt.logger.info('检查成功：' + isCanUse)
+        }).catch(err => {
+        hyExt.logger.warn('检查失败：' + err.message)
+        })
+        // hyExt.revenue.popupGoodsBuyPanel({
+        //     goodsUuid: 'cye0vuh77id0k4q6'
+        //  }).then(() => {
+        //     console.log('弹出商品购买窗口成功')
+        //  }).catch(err => {
+        //     console.log('弹出商品购买窗口失败：' + err.message)
+        //  })
     }
     //获取虎小牙皮肤有效期
     getTigerDate = () =>{
@@ -60,15 +84,23 @@ class Shop extends Component {
             goodsUuid: 'cye0vuh7fgw0lwnx'
          }).then(({expire,hadBuy})=>{
             console.log('获取虎小牙商品有效期成功', expire, hadBuy)
-            console.log(hadBuy)
-            if(hadBuy=="true"){
-                this.setState({
-                    myTiger:true
-                })
-            }else{
+            //获取当前时间戳
+            let date = Math.round(new Date() / 1000)
+            //没有购买过的情况
+            if(expire=="-1"){
                 this.setState({
                     myTiger:false
                 })
+            }else{
+                if(date <= Number(expire)){
+                    this.setState({
+                        myTiger:true
+                    })
+                }else{
+                    this.setState({
+                        myTiger:false
+                    })
+                }
             }
          }).catch(err=>{
             console.log('获取虎小牙商品有效期失败：' + err.message)
@@ -80,15 +112,23 @@ class Shop extends Component {
             goodsUuid: 'cye0vuh7uaitjjt8'
          }).then(({expire,hadBuy})=>{
             console.log('获取旗袍girl商品有效期成功', expire, hadBuy)
-            console.log(hadBuy)
-            if(hadBuy=="true"){
-                this.setState({
-                    myGirl:true
-                })
-            }else{
+            //获取当前时间戳
+            let date = Math.round(new Date() / 1000)
+            //没有购买过的情况
+            if(expire=="-1"){
                 this.setState({
                     myGirl:false
                 })
+            }else{
+                if(date <= Number(expire)){
+                    this.setState({
+                        myGirl:true
+                    })
+                }else{
+                    this.setState({
+                        myGirl:false
+                    })
+                }
             }
          }).catch(err=>{
             console.log('获取旗袍girl商品有效期失败：' + err.message)
@@ -100,15 +140,23 @@ class Shop extends Component {
             goodsUuid: 'cye0vuh77id0k4q6'
          }).then(({expire,hadBuy})=>{
             console.log('获取篮球boy商品有效期成功', expire, hadBuy)
-            console.log(hadBuy)
-            if(hadBuy=="true"){
-                this.setState({
-                    myBoy:true
-                })
-            }else{
+            //获取当前时间戳
+            let date = Math.round(new Date() / 1000)
+            //没有购买过的情况
+            if(expire=="-1"){
                 this.setState({
                     myBoy:false
                 })
+            }else{
+                if(date <= Number(expire)){
+                    this.setState({
+                        myBoy:true
+                    })
+                }else{
+                    this.setState({
+                        myBoy:false
+                    })
+                }
             }
          }).catch(err=>{
             console.log('获取篮球boy商品有效期失败：' + err.message)
@@ -268,16 +316,7 @@ class Shop extends Component {
             </View>
             :
             <View className="backdrop" onClick={() => {
-                //检查主播是否可以使用当前付费模块
-                hyExt.revenue.checkStreamerCanUseGoods({
-                    goodsUuid: 'cye0vuh7fgw0lwnx'
-                }).then(({ isCanUse }) => {
-                hyExt.logger.info('检查成功：' + isCanUse)
-                }).catch(err => {
-                hyExt.logger.warn('检查失败：' + err.message)
-                })
                 this._modal_tiger.open()
-                this.refresh()
             }}>
                 <Image className="tiger" src={require("../../assets/decoration/tiger.png")} style={{opacity:0.3}}/>
                 <Text className="txt">虎小牙</Text>
@@ -294,14 +333,6 @@ class Shop extends Component {
             </View>
             :
             <View className="backdrop" onClick={() => {
-                //检查主播是否可以使用当前付费模块
-                hyExt.revenue.checkStreamerCanUseGoods({
-                    goodsUuid: 'cye0vuh7uaitjjt8'
-                }).then(({ isCanUse }) => {
-                hyExt.logger.info('检查成功：' + isCanUse)
-                }).catch(err => {
-                hyExt.logger.warn('检查失败：' + err.message)
-                })
                 this._modal_girl.open()
             }}>
                 <Image className="girl" src={require("../../assets/decoration/girl.png")} style={{opacity:0.3}}/>
@@ -319,14 +350,6 @@ class Shop extends Component {
             </View>
             :
             <View className="backdrop" onClick={() => {
-                //检查主播是否可以使用当前付费模块
-                hyExt.revenue.checkStreamerCanUseGoods({
-                    goodsUuid: 'cye0vuh77id0k4q6'
-                }).then(({ isCanUse }) => {
-                hyExt.logger.info('检查成功：' + isCanUse)
-                }).catch(err => {
-                hyExt.logger.warn('检查失败：' + err.message)
-                })
                 this._modal_boy.open()
             }}>
                 <Image className="boy" src={require("../../assets/decoration/boy.png")} style={{opacity:0.3}}/>

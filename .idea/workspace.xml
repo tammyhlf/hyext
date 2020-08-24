@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="878d83e0-78e8-4eb1-8b40-ec342627a586" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/decoration/boy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/decoration/girl.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/decoration/tiger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/decoration/yellowMan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/streamer/shop/index.hycss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/streamer/shop/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/streamer/record/single.hycss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/home/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/record/index.hycss" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/record/index.hycss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamer/record/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/streamer/record/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,14 +32,14 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\77497\Desktop\hyext\assets\decoration" />
+      <recent name="C:\Users\77497\Desktop\hyext\streamer\test" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\77497\Desktop\hyext\assets\decoration" />
       <recent name="C:\Users\77497\Desktop\hyext\assets" />
       <recent name="C:\Users\77497\Desktop\hyext\assets\dance-action" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\77497\Desktop\hyext\assets\decoration" />
-      <recent name="C:\Users\77497\Desktop\hyext\streamer\test" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -158,6 +156,9 @@
       <workItem from="1597160067526" duration="600000" />
       <workItem from="1597731873889" duration="3893000" />
       <workItem from="1597738816397" duration="613000" />
+      <workItem from="1598204765126" duration="4214000" />
+      <workItem from="1598242439417" duration="1255000" />
+      <workItem from="1598247220934" duration="80000" />
     </task>
     <servers />
   </component>

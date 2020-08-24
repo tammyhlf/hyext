@@ -34,7 +34,7 @@ class App extends Component {
           <Route path="/single-draw" render={ (props) => <SingleDraw {...props} func={func} />} />
           <Route path="/single-punishment" render={ (props) => <SinglePunishment {...props} func={func} />} />
           <Route path="/wait" render={ (props) => <Wait {...props} func={func} />}/>
-          {/* <Route path="/record" render={ (props) => <Record {...props} func={func} />}/> */}
+          <Route path="/record" render={ (props) => <Record {...props} func={func} />}/>
           <Route path="/add" render={ (props) => <Add {...props} func={func} />}/>
           <Route path="/shop" render={ (props) => <Shop {...props} func={func} />}/>
           <Route path="/create" render={ (props) => <Create {...props} func={func} />}/>
