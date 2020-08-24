@@ -67,7 +67,7 @@ class SingleResult extends Component {
             src={userInfo.streamerAvatarUrl}
           />
           {
-            targetScore >= score ? 
+            score >= targetScore ? 
             <Image className="win" src={require("../../../assets/win.png")} /> :
             <Image className="lose" src={require("../../../assets/lose.png")} />
           }
