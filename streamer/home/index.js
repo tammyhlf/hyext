@@ -31,7 +31,6 @@ class Home extends Component {
       })
     }
     global.hyExt.env.getInitialParam().then(param => {
-      debugger
       console.log('接受的白板信息', JSON.stringify(param))
       this.setState({
         path: param.wb ? 'wb' : ''
@@ -141,14 +140,10 @@ class Home extends Component {
 
   render () {
     const { path, model } = this.state
-    debugger
-    console.log('model的大小', model)
     if (path === '') {
       return this.renderHome()
     } else if (path === 'wb') {
       return <WhiteBoard />
-    } else if (path === 'wb') {
-      return <SingleBoard />
     }
   }
 }

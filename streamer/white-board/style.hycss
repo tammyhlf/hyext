@@ -25,7 +25,7 @@
 .result-text {
   display: inline-block;
   color: #67339c;
-  font-size: 18;
+  font-size: 20;
   font-weight: 600;
   text-align: center;
   margin-top: -20;
@@ -49,11 +49,11 @@
 .dance-action {
   width: 250;
   height: 340;
-  left: 90;
+  left: 10%;
 }
 .dance-second {
   float: right;
-  right: 90;
+  right: 10%;
   width: 250;
   height: 340;
 }
@@ -66,15 +66,15 @@
 }
 .dance-logo {
   position: fixed;
-  top: 8;
-  right: 8;
-  width: 90;
-  height: 90;
+  top: 0;
+  right: 0;
+  width: 15%;
+  height: 15%;
 }
 .logo-left {
   position: fixed;
-  top: -40;
-  left: -65;
-  width: 250;
-  height: 150;
+  top: -8%;
+  left: -10%;
+  width: 40%;
+  height: 30%;
 }

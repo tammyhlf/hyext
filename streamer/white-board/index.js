@@ -118,7 +118,7 @@ export default class WhiteBoard extends Component {
             ></Image>
           }
           
-          <Text className="result-text">得分：{totalResult || 0}</Text>
+          <Text className="result-text">得分:{totalResult || 0}</Text>
           <Progress
             easing={true}
             percent={(totalResult / 150) * 100}
