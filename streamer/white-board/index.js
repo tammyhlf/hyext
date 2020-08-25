@@ -127,8 +127,8 @@ export default class WhiteBoard extends Component {
               transform: [{ rotate: "-90deg" }],
             }}
             barStyle={{
-              height: 25,
-              width: 200,
+              height: 50,
+              width: 400,
               backgroundImage: "linear-gradient(to right, #FC8F04, #FFBF00)",
             }}
           />
@@ -180,10 +180,7 @@ export default class WhiteBoard extends Component {
               <Animatable.View
                 key={index}
                 animation={danceIndex == index ? resultAnimate : null}
-                style={{
-                  display: 'block',
-                  overflow: 'hidden',
-                }}
+                className="dance-border"
               >
                 <Image
                   src={

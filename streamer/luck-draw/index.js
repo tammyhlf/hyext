@@ -23,7 +23,7 @@ class App extends Component {
       otherStreamerNick: this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
-      captain: false, // 是否为队长
+      captain: true, // 是否为队长
       wbId: "",
       danceIndex: 0,
       wb: false,
