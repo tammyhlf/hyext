@@ -113,15 +113,14 @@ class App extends Component {
       wbName: 'foo',
       offsetX: 0,
       offsetY: 0,
-      canvasWidth: width,
+      canvasWidth: width / 2,
       canvasHeight: height,
       width: wb_width,
       height: wb_height,
-      x: 0,
+      x: width / 2,  // 白板取中间值
       y: 0,
       force: true
     }
-    console.log('创建白板', JSON.stringify(args))
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
         this.setState({ wbId });
