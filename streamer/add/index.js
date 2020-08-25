@@ -9,6 +9,7 @@ class Add extends Component {
     constructor (p) {
         super(p)
         this.state = {
+            captain: this.props.location.state.captain,
             userInfo: {},
             otherStreamerNick:"",
             otherStreamerUnionId:"",
@@ -18,6 +19,7 @@ class Add extends Component {
 
     static contextType = RootContext
     componentDidMount() {
+        console.log(this.state.captain)
         let that = this
         hyExt.onLoad(()=> {
             if (!this.context.user) {
@@ -97,19 +99,20 @@ class Add extends Component {
         this.props.history.push('/index_streamer_pc_anchor_panel.html')
     }
     goto = () =>{
-        // const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
-        // this.props.history.push(this.props.history.push({ pathname: '/wait', state: {
-        //         otherStreamerNick,
-        //         otherStreamerAvatarUrl,
-        //         otherStreamerUnionId,
-        //         roomId
-        //     }}))
-        this.props.history.push({ pathname: '/wait', state: {
-                otherStreamerNick: this.state.otherStreamerNick,
-                otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
-                otherStreamerUnionId: this.state.otherStreamerUnionId,
-                roomId: this.state.roomId,
-            } })
+        const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId, captain} = this.state
+        this.props.history.push({ pathname: '/wait', state: {
+                captain: captain,
+                otherStreamerNick: otherStreamerNick,
+                otherStreamerAvatarUrl: otherStreamerAvatarUrl,
+                otherStreamerUnionId: otherStreamerUnionId,
+                roomId: roomId,
+            }})
+        // this.props.history.push({ pathname: '/wait', state: {
+        //         otherStreamerNick: this.state.otherStreamerNick,
+        //         otherStreamerAvatarUrl: this.state.otherStreamerAvatarUrl,
+        //         otherStreamerUnionId: this.state.otherStreamerUnionId,
+        //         roomId: this.state.roomId,
+        //     } })
     }
 
     render() {
