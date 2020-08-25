@@ -1,0 +1,78 @@
+.backgroundImage {
+  height: 100%;
+}
+.punish-img {
+  width: 100%;
+  height: 212px;
+  margin: 40px 0;
+}
+.btn-group {
+  margin-top: 95px;
+}
+.punish-btn {
+  width: 45%;
+  border: 4px solid #d2a017;
+  border-radius: 120px;
+  margin: 0 auto;
+  background-image: linear-gradient(#FFEA00,#FF9900);
+}
+.custom-btn {
+  width: 45%;
+  border: 4px solid #4a56cd;
+  border-radius: 120px;
+  margin: 60px auto;
+  background-image: linear-gradient(#6FBCEB, #3851FF);
+}
+.result-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 80px;
+}
+.game-restart {
+  margin-top: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.right-crown {
+  width: 84px;
+  height: 58px;
+  margin-left: 526px;
+}
+.text {
+  color: #ffffff;
+  font-size: 36px;
+}
+.streamerName-txt{
+  margin-top: 10;
+  color: white;
+  text-align: center;
+}
+.blue-user{
+  margin: 0 auto;
+}
+.home{
+  width: 43px;
+  height: 43px;
+}
+.streamerScore-yellow {
+  color: #ffb901;
+  text-align: center;
+  margin: 35px 0 30px;
+}
+.tip {
+  color: #eeeeee;
+  text-align: center;
+  font-size: 12;
+}
+.win {
+  top: -50px;
+  width: 184px;
+  height: 100px;
+}
+.lose {
+  top: -50px;
+  width: 195px;
+  height: 100px;
+}

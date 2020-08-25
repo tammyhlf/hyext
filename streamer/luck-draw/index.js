@@ -18,6 +18,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      captain: this.props.location.state.captain, // 是否为队长
       roomId: this.props.location.state.roomId,
       userInfo: {},
       otherStreamerNick: this.props.location.state.otherStreamerNick,
@@ -26,8 +27,13 @@ class App extends Component {
       wbId: "",
       danceIndex: 0,
       wb: false,
-      
-      wb_width: 1280,  //白板的分辨率，影响白板显示清晰度
+      skin: 'minions',
+      skinObj: {
+        cye0vuh77id0k4q6: 'boy',
+        cye0vuh7uaitjjt8: 'girl',
+        cye0vuh7fgw0lwnx: 'tiger'
+      },
+      wb_width: 640,  //白板的分辨率，影响白板显示清晰度
       wb_height: 720,  //白板的分辨率，影响白板显示清晰度
       recognition: {
         canvas: {
@@ -81,7 +87,7 @@ class App extends Component {
         });
       }
     });
-    TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 5750)
     this.playMusic()
     this.monitor() // 监听小程序发送的分数与随机数
   }
@@ -102,27 +108,60 @@ class App extends Component {
 
   //在组件内加入创建白板函数
   createWb(width, height) {
-    const { wb_width, wb_height } = this.state;
+    const { wb_width, wb_height, captain } = this.state;
     let args = {
       type: "EXTRA",
       wbName: 'foo',
-      offsetX: 0,
+      offsetX: captain ? 0 : width/2,
       offsetY: 0,
-      canvasWidth: width,
+      canvasWidth: width / 2,
       canvasHeight: height,
       width: wb_width,
       height: wb_height,
-      x: 0,
+      x: 0,  // 白板取中间值
       y: 0,
       force: true
     }
-    console.log('创建白板', JSON.stringify(args))
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
         this.setState({ wbId });
+        setTimeout(() => this.checkGoods(wbId), 1000)
       }).catch(err => {
         console.log(err);
       })
+  }
+
+  // 检查主播是否能使用当前皮肤
+  checkGoods(wbId) {
+    hyExt.storage.getItem('goodsUuid').then(value => {
+      if (value == '' || value == 'minions') {
+        return
+      } else {
+        const { skinObj } = this.state
+        hyExt.revenue.checkStreamerCanUseGoods({ goodsUuid: value }).then(res => {
+          if (res.isCanUse) {
+            this.setState({ skin: skinObj[value]})
+          } else {
+            this.setState({ skin: 'minions' })
+          }
+          const data = JSON.stringify({
+            skin: this.state.skin,
+            goods: true
+          })
+          hyExt.stream.sendToExtraWhiteBoard({
+            wbId,
+            data
+          }).then(() => {
+          }).catch(err => {
+            console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
+          })
+        }).catch(err => {
+          console.log(err.message)
+        })
+      }
+    }).catch(err => {
+      hyExt.logger.info('获取小程序简易存储键值对失败，错误信息：' + err.message)
+    })
   }
 
   // 监听游戏结果
@@ -267,9 +306,28 @@ class App extends Component {
   setIntervalFun = () => {
     intervalTimer = setInterval(this.sendResult, 1500)
   }
+  //离开房间
+  leave = () => {
+    let args = {
+      header: {
+        "Content-Type": "application/json;charset=UTF-8",
+        'Accept': 'application/json'
+      },
+      url: ("http://121.196.176.201:8082/game/leave?roomID=" + this.state.roomId + "&unionId=" + this.state.userInfo.streamerUnionId),
+      method: "POST",
+      dataType: "json"
+    }
+    console.log('发送HTTP请求：' + JSON.stringify(args))
+    hyExt.request(args).then(resp => {
+      console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+    }).catch(err => {
+      console.log('发送HTTP请求失败，错误信息：' + err.message)
+    })
+  }
 
   handleClickHome = () => {
     this.props.history.push('/index_streamer_pc_anchor_panel.html')
+    this.leave()
   }
 
   render() {
