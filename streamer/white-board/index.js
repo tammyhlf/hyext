@@ -127,8 +127,8 @@ export default class WhiteBoard extends Component {
               transform: [{ rotate: "-90deg" }],
             }}
             barStyle={{
-              height: 50,
-              width: 400,
+              height: 40,
+              width: 300,
               backgroundImage: "linear-gradient(to right, #FC8F04, #FFBF00)",
             }}
           />

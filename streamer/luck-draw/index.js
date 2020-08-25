@@ -18,13 +18,12 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      captain: this.props.location.state.captain,
+      captain: this.props.location.state.captain, // 是否为队长
       roomId: this.props.location.state.roomId,
       userInfo: {},
       otherStreamerNick: this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
-      captain: true, // 是否为队长
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -34,7 +33,7 @@ class App extends Component {
         cye0vuh7uaitjjt8: 'girl',
         cye0vuh7fgw0lwnx: 'tiger'
       },
-      wb_width: 1280,  //白板的分辨率，影响白板显示清晰度
+      wb_width: 640,  //白板的分辨率，影响白板显示清晰度
       wb_height: 720,  //白板的分辨率，影响白板显示清晰度
       recognition: {
         canvas: {
@@ -57,7 +56,6 @@ class App extends Component {
   static contextType = RootContext
 
   componentDidMount() {
-    console.log(this.state.captain)
     let that = this
     const { wb_width, wb_height } = this.state;
     if (!this.context.user) {
