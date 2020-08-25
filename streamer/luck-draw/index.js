@@ -26,7 +26,12 @@ class App extends Component {
       wbId: "",
       danceIndex: 0,
       wb: false,
-      
+      skin: 'minions',
+      skinObj: {
+        cye0vuh77id0k4q6: 'boy',
+        cye0vuh7uaitjjt8: 'girl',
+        cye0vuh7fgw0lwnx: 'tiger'
+      },
       wb_width: 1280,  //白板的分辨率，影响白板显示清晰度
       wb_height: 720,  //白板的分辨率，影响白板显示清晰度
       recognition: {
@@ -81,7 +86,7 @@ class App extends Component {
         });
       }
     });
-    TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
+    TimeoutTimer = setTimeout(this.setIntervalFun, 5750)
     this.playMusic()
     this.monitor() // 监听小程序发送的分数与随机数
   }
@@ -120,9 +125,44 @@ class App extends Component {
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
         this.setState({ wbId });
+        setTimeout(() => this.checkGoods(wbId), 1000)
       }).catch(err => {
         console.log(err);
       })
+  }
+
+  // 检查主播是否能使用当前皮肤
+  checkGoods(wbId) {
+    hyExt.storage.getItem('goodsUuid').then(value => {
+      if (value == '' || value == 'minions') {
+        return
+      } else {
+        const { skinObj } = this.state
+        hyExt.revenue.checkStreamerCanUseGoods({ goodsUuid: value }).then(res => {
+          if (res.isCanUse) {
+            this.setState({ skin: skinObj[value]})
+          } else {
+            this.setState({ skin: 'minions' })
+          }
+          const data = JSON.stringify({
+            skin: this.state.skin,
+            goods: true
+          })
+          hyExt.stream.sendToExtraWhiteBoard({
+            wbId,
+            data
+          }).then(() => {
+            console.log('发送消息到小程序独立白板成功第二部', this.state.skin)
+          }).catch(err => {
+            console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
+          })
+        }).catch(err => {
+          console.log(err.message)
+        })
+      }
+    }).catch(err => {
+      hyExt.logger.info('获取小程序简易存储键值对失败，错误信息：' + err.message)
+    })
   }
 
   // 监听游戏结果

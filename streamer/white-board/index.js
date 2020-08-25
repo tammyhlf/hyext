@@ -26,18 +26,18 @@ export default class WhiteBoard extends Component {
     hyExt.stream.onExtraWhiteBoardMessage({
       // 接收到数据，刷新视图
       callback: (data) => {
-        console.log('白板接受的数据', data)
+        console.log('白板接受的数据第一条到底去哪了第三步', data)
         const resultObj = JSON.parse(data);
-        if (Object.prototype.toString.call(resultObj) == '[object Object]') {
-          this.setState({ resultObj });
+        if (resultObj.goods) {
+          this.setState({ skin: resultObj.skin })
         } else {
-          this.setState({ skin: data })
+          this.setState({ resultObj });
         }
       },
     }).then(() => {
-      hyExt.logger.info('监听小程序独立白板消息成功')    
+      console.log('监听小程序独立白板消息成功')    
     }).catch(err => {
-      hyExt.logger.info('监听小程序独立白板消息失败，错误信息：' + err.message)
+      console.log('监听小程序独立白板消息失败，错误信息：' + err.message)
     })
   }
 
@@ -94,7 +94,7 @@ export default class WhiteBoard extends Component {
     return (
       <View className="container">
         <Image
-          src={require("../../assets/dance-action/group-image.png")}
+          src={require("../../assets/dance-action/group-image2.gif")}
           className="logo-left"
         ></Image>
         <Animatable.View
@@ -109,11 +109,22 @@ export default class WhiteBoard extends Component {
           }}
           className="progress-content"
         >
-          <Image
-            src={require("../../assets/dance-action/logo.gif")}
-            className="dance-logo"
-          ></Image>
-          <Text className="result-text">得分：{totalResult || 0}{skin}</Text>
+          {skin == 'minions' || skin == 'tiger' ? 
+            <Image
+              src={require("../../assets/dance-action/tiger.gif")}
+              className="dance-logo"
+            ></Image> : skin == 'girl' ?
+            <Image
+              src={require("../../assets/dance-action/girl.gif")}
+              className="dance-logo"
+            ></Image> :
+            <Image
+              src={require("../../assets/dance-action/boy.gif")}
+              className="dance-logo"
+            ></Image>
+          }
+          
+          <Text className="result-text">得分：{totalResult || 0}</Text>
           <Progress
             easing={true}
             percent={(totalResult / 150) * 100}
@@ -163,7 +174,7 @@ export default class WhiteBoard extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23150}
+          duration={23550}  // +400
           animation={danceAnimates}
           easing="linear"
           delay={4000}

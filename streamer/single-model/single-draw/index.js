@@ -12,7 +12,7 @@ class SingleDraw extends Component {
     this.state = {
       dataMap: {
         0: "唱歌",
-        1: "表白对面傍一",
+        1: "深情表白傍一",
         2: "大冒险",
         3: "喝水跳舞",
         4: "叫爸爸",
@@ -123,7 +123,7 @@ class SingleDraw extends Component {
           <Animatable.View ref={this.handleDraw} className="draw-content">
             <Image
               className="content-img"
-              src={require("../../../assets/draw-content.png")}
+              src={require("../../../assets/draw-content1.png")}
             />
           </Animatable.View>
           <Image

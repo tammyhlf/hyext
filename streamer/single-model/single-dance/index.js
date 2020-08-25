@@ -103,8 +103,9 @@ class SingleDance extends Component {
     }
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
+        console.log('白板创建成功第一步')
         this.setState({ wbId });
-        this.checkGoods()
+        setTimeout(() => this.checkGoods(wbId), 1000)
       }).catch(err => {
         console.log(err);
       })
@@ -137,31 +138,34 @@ class SingleDance extends Component {
   }
 
   // 检查主播是否能使用当前皮肤
-  checkGoods() {
-    const { wbId, skin } = this.state
+  checkGoods(wbId) {
     hyExt.storage.getItem('goodsUuid').then(value => {
       if (value == '' || value == 'minions') {
-        this.setState({ skin: 'minions' })
+        return
       } else {
         const { skinObj } = this.state
         hyExt.revenue.checkStreamerCanUseGoods({ goodsUuid: value }).then(res => {
           if (res.isCanUse) {
-            this.setState({ skin: 'minions' })
+            this.setState({ skin: skinObj[value]})
           } else {
-            this.setState({ skin: skinObj[value] })
+            this.setState({ skin: 'minions'  })
           }
+          const data = JSON.stringify({
+            skin: this.state.skin,
+            goods: true
+          })
+          hyExt.stream.sendToExtraWhiteBoard({
+            wbId,
+            data
+          }).then(() => {
+            console.log('发送消息到小程序独立白板成功第二部', this.state.skin)
+          }).catch(err => {
+            console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
+          })
         }).catch(err => {
           console.log(err.message)
         })
       }
-      hyExt.stream.sendToExtraWhiteBoard({
-        wbId,
-        data: skin
-      }).then(() => {
-        console.log('发送消息到小程序独立白板成功')
-      }).catch(err => {
-        console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
-      })
     }).catch(err => {
       hyExt.logger.info('获取小程序简易存储键值对失败，错误信息：' + err.message)
     })
@@ -200,8 +204,8 @@ class SingleDance extends Component {
   }
 
   sendToWb(result, totalResult, danceIndex, start) {
-    const { wbId, skin } = this.state
-    let resultObj = { result, totalResult, danceIndex, start, skin }
+    const { wbId } = this.state
+    let resultObj = { result, totalResult, danceIndex, start }
     if (wbId) {
       const data = JSON.stringify(resultObj);
       hyExt.stream.sendToExtraWhiteBoard({
@@ -220,7 +224,6 @@ class SingleDance extends Component {
       hyExt.stream.getStreamResolution().then(res => {
         const { width, height } = res
         this.createWb(width, height);
-        console.log('获取图层画布布局信息成功')
       }).catch(err => {
         console.log('获取图层画布布局信息失败，错误信息：' + err.message)
       })
@@ -228,19 +231,14 @@ class SingleDance extends Component {
         width: wb_width,
         height: wb_height,
         callback: recognition => {
-          console.log('触发回调')
           this.setState({
             recognition
           });
         }
-      }).then(() => {
-        console.log('骨骼监听开启成功')
-      }).catch(err => {
-        console.log('骨骼监听开启成功失败，错误信息：' + err.message)
       })
       readyTimer = setTimeout(this.playFirstMusic, 3000)
       musicTimer = setTimeout(this.playMusic, 4000)
-      TimeoutTimer = setTimeout(this.setIntervalFun, 5350)
+      TimeoutTimer = setTimeout(this.setIntervalFun, 5750)
     }
   }
 
