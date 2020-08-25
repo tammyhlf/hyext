@@ -1,0 +1,81 @@
+.container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.count-down {
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.count-content {
+  position: relative;
+  width: 306;
+  height: 306;
+}
+.img-content {
+  position: absolute;
+}
+.img {
+  width: 306;
+  height: 306;
+}
+.result-text {
+  display: inline-block;
+  color: #67339c;
+  font-size: 36;
+  font-weight: 600;
+  text-align: center;
+  margin-top: -20;
+  margin-bottom: 10;
+  /* text-shadow: 0 0 10px #ffb700; */
+}
+.progress-content {
+  position: absolute;
+  right: -8%;
+  top: 30%;
+}
+.dance-contanier {
+  position: absolute;
+  width: 100%;
+}
+.dance-action {
+  width: 400;
+  height: 500;
+  left: 200;
+}
+.dance-second {
+  float: right;
+  right: 200;
+  width: 400;
+  height: 500;
+}
+.left {
+ left:190;
+}
+.right {
+  right:190;
+}
+.progress {
+  height: 50;
+  width: 400;
+  margin-top: 50%;
+  box-shadow: -2px 2px 6px #888;
+  border-radius: 40px;
+}
+.dance-logo {
+  position: fixed;
+  top: -10;
+  right: 0;
+  width: 180;
+  height: 180;
+}
+.logo-left {
+  position: fixed;
+  top: -120;
+  left: -60;
+  width: 380;
+  height: 380;
+}
