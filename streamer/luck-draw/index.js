@@ -23,6 +23,7 @@ class App extends Component {
       otherStreamerNick: this.props.location.state.otherStreamerNick,
       otherStreamerAvatarUrl: this.props.location.state.otherStreamerAvatarUrl,
       otherStreamerUnionId: this.props.location.state.otherStreamerUnionId,
+      captain: false, // 是否为队长
       wbId: "",
       danceIndex: 0,
       wb: false,
@@ -107,17 +108,17 @@ class App extends Component {
 
   //在组件内加入创建白板函数
   createWb(width, height) {
-    const { wb_width, wb_height } = this.state;
+    const { wb_width, wb_height, captain } = this.state;
     let args = {
       type: "EXTRA",
       wbName: 'foo',
-      offsetX: 0,
+      offsetX: captain ? 0 : width/2,
       offsetY: 0,
       canvasWidth: width / 2,
       canvasHeight: height,
       width: wb_width,
       height: wb_height,
-      x: width / 4,  // 白板取中间值
+      x: 0,  // 白板取中间值
       y: 0,
       force: true
     }
@@ -151,7 +152,6 @@ class App extends Component {
             wbId,
             data
           }).then(() => {
-            console.log('发送消息到小程序独立白板成功第二部', this.state.skin)
           }).catch(err => {
             console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
           })

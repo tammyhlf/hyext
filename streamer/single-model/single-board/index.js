@@ -26,7 +26,6 @@ export default class SingleBoard extends Component {
     hyExt.stream.onExtraWhiteBoardMessage({
       // 接收到数据，刷新视图
       callback: (data) => {
-        console.log('白板接受的数据第一条到底去哪了第三步', data)
         const resultObj = JSON.parse(data);
         if (resultObj.goods) {
           this.setState({ skin: resultObj.skin })

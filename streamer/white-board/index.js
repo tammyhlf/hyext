@@ -26,7 +26,6 @@ export default class WhiteBoard extends Component {
     hyExt.stream.onExtraWhiteBoardMessage({
       // 接收到数据，刷新视图
       callback: (data) => {
-        console.log('白板接受的数据第一条到底去哪了第三步', data)
         const resultObj = JSON.parse(data);
         if (resultObj.goods) {
           this.setState({ skin: resultObj.skin })
@@ -67,15 +66,10 @@ export default class WhiteBoard extends Component {
     const danceAnimates = {
       0: {
         translateY: 720,
-        // opacity: 1
       },
-      // 0.99: {
-      //   translateY: -7920,
-      //   opacity: 1
-      // },
       1: {
         translateY: -7000, //动画最终停留的位置， 一共移动的距离为15*500 + 720-500 = 7720
-      },
+      }
     }
     const resultAnimate = {
       0: {
@@ -134,7 +128,7 @@ export default class WhiteBoard extends Component {
             }}
             barStyle={{
               height: 25,
-              width: 400,
+              width: 200,
               backgroundImage: "linear-gradient(to right, #FC8F04, #FFBF00)",
             }}
           />
@@ -189,7 +183,6 @@ export default class WhiteBoard extends Component {
                 style={{
                   display: 'block',
                   overflow: 'hidden',
-                  marginTop: '250px'
                 }}
               >
                 <Image
