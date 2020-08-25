@@ -99,7 +99,7 @@ class Home extends Component {
               }}
               body={
                 <View style={{alignItems: 'center'}}>
-                  <Image src={require('../../assets/pk.png')} style={{width:252,height:106}}/>
+                  <Image src={require('../../assets/pk.png')} style={{width:302,height:116}}/>
                 </View>
               }
               cancelable={false}
