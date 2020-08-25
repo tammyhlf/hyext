@@ -18,6 +18,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      captain: this.props.location.state.captain,
       roomId: this.props.location.state.roomId,
       userInfo: {},
       otherStreamerNick: this.props.location.state.otherStreamerNick,
@@ -56,6 +57,7 @@ class App extends Component {
   static contextType = RootContext
 
   componentDidMount() {
+    console.log(this.state.captain)
     let that = this
     const { wb_width, wb_height } = this.state;
     if (!this.context.user) {

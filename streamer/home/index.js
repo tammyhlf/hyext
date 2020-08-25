@@ -3,14 +3,16 @@ import React, { Component } from 'react'
 import './index.hycss'
 import WhiteBoard from '../white-board'
 import SingleBoard from '../single-model/single-board'
+import { Redirect } from 'react-router'
 
-const { View, Button, Text, Icon, Image, BackgroundImage} = UI
+const { View, Button, Text, Icon, Image, BackgroundImage, Modal, Dialog} = UI
 class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
       path: '',
-      model: ''
+      model: '',
+      captain:'',
     };
   }
 
@@ -37,10 +39,16 @@ class Home extends Component {
   }
 
   handleClick = () => {
-    this.props.history.push('/add')
+    const {captain} = this.state
+    this.props.history.push({pathname:'/add' ,state:{
+      captain: captain,
+    }})
   }
   handleClick1 = () => {
-    this.props.history.push('/create')
+    const {captain} = this.state
+    this.props.history.push({ pathname:'/create' , state:{
+      captain: captain,
+    }})
   }
   handleClick2 = () => {
     this.props.history.push('/record')
@@ -55,6 +63,8 @@ class Home extends Component {
     this.setState({
       model: 'pk'
     })
+    // this._modal.open()
+    this._dialog.open()
   }
 
   renderHome () {
@@ -70,6 +80,53 @@ class Home extends Component {
               (<><Button className="setup" type="primary" onPress={this.handlePkModel}>PK模式</Button>
               <Button className="add" type="primary" onPress={this.handleSingle}>单人模式</Button></>)
             }
+            {/* <Modal
+              ref={(c) => { this._modal = c; }}
+              cancelable={true}
+              style={{
+                flex: 1,
+                marginHorizontal: 70,
+            }}>
+              <BackgroundImage src={require('../../assets/modal1.png')} style={{width:235,height:300}}>
+                <View style={{alignItems: 'center'}}>
+                  <Image src={require('../../assets/pk.png')} style={{width:252,height:106}}/>
+                </View>
+              </BackgroundImage>
+            </Modal> */}
+            <Dialog
+              ref={(c) => {
+                this._dialog = c
+              }}
+              body={
+                <View style={{alignItems: 'center'}}>
+                  <Image src={require('../../assets/pk.png')} style={{width:252,height:106}}/>
+                </View>
+              }
+              cancelable={false}
+              title='请选择自己PK所在阵营'
+              // operationsLayout='column'
+              operations={[
+                {
+                  labelText: '红队',
+                  type: 'cancel',
+                  onPress: () => {
+                    this.setState({
+                      captain:true
+                    })
+                    console.log('红队')
+                  }
+                },
+                {
+                  labelText: '蓝队',
+                  type: 'cancel',
+                  onPress: () => {
+                    this.setState({
+                      captain:false
+                    })
+                    console.log('蓝队')
+                  }
+                }
+            ]}/>
             <View className="choiceDecoration" onClick={this.handleShop} style={{
                     flexDirection: "row"}}>
               <Image className="decoration" src={require("../../assets/decoration.png")}></Image>

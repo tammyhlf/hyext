@@ -10,6 +10,7 @@ class Wait extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            captain:this.props.location.state.captain,
             roomId:this.props.location.state.roomId,
             userInfo: {},
             otherStreamerNick:this.props.location.state.otherStreamerNick,
@@ -52,8 +53,9 @@ class Wait extends Component {
         }
     }
     handleClick2 = () =>{
-        const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId} = this.state
+        const {otherStreamerNick, otherStreamerAvatarUrl, otherStreamerUnionId, roomId, captain} = this.state
         this.props.history.push({ pathname: '/luck-draw', state: {
+                captain: captain,
                 otherStreamerNick: otherStreamerNick,
                 otherStreamerAvatarUrl: otherStreamerAvatarUrl,
                 otherStreamerUnionId: otherStreamerUnionId,
@@ -65,6 +67,7 @@ class Wait extends Component {
     static contextType = RootContext
 
     componentDidMount() {
+        console.log(this.state.captain)
         let that = this
         hyExt.onLoad(()=> {
             if (!this.context.user) {
