@@ -117,7 +117,7 @@ class App extends Component {
       canvasHeight: height,
       width: wb_width,
       height: wb_height,
-      x: width / 2,  // 白板取中间值
+      x: width / 4,  // 白板取中间值
       y: 0,
       force: true
     }

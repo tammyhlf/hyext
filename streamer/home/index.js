@@ -2,6 +2,7 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import WhiteBoard from '../white-board'
+import SingleBoard from '../single-model/single-board'
 
 const { View, Button, Text, Icon, Image, BackgroundImage} = UI
 class Home extends Component {
@@ -81,11 +82,13 @@ class Home extends Component {
   }
 
   render () {
-    const { path } = this.state
+    const { path, model } = this.state
     if (path === '') {
       return this.renderHome()
-    } else if (path === 'wb') {
+    } else if (path === 'wb' && model === 'pk') {
       return <WhiteBoard />
+    } else if (path === 'wb') {
+      return <SingleBoard />
     }
   }
 }

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { UI } from "@hyext/hy-ui";
 import "./style.hycss";
-import danceAction from "../luck-draw/dance-action";
+import danceAction from "../../luck-draw/dance-action";
 import * as Animatable from "react-native-animatable";
 
 const { View, Progress, Text, Image } = UI;
 
-export default class WhiteBoard extends Component {
+export default class SingleBoard extends Component {
   constructor(props) {
     super(props);
 
@@ -14,9 +14,9 @@ export default class WhiteBoard extends Component {
       skin: 'minions',
       resultObj: {},
       resultDataMap: {
-        10: require("../../assets/dance-action/perfect.png"),
-        8: require("../../assets/dance-action/good.png"),
-        0: require("../../assets/dance-action/miss.png"),
+        10: require("../../../assets/dance-action/perfect.png"),
+        8: require("../../../assets/dance-action/good.png"),
+        0: require("../../../assets/dance-action/miss.png"),
       },
     };
   }
@@ -94,7 +94,7 @@ export default class WhiteBoard extends Component {
     return (
       <View className="container">
         <Image
-          src={require("../../assets/dance-action/group-image2.gif")}
+          src={require("../../../assets/dance-action/group-image2.gif")}
           className="logo-left"
         ></Image>
         <Animatable.View
@@ -111,15 +111,15 @@ export default class WhiteBoard extends Component {
         >
           {skin == 'minions' || skin == 'tiger' ? 
             <Image
-              src={require("../../assets/dance-action/tiger.gif")}
+              src={require("../../../assets/dance-action/tiger.gif")}
               className="dance-logo"
             ></Image> : skin == 'girl' ?
             <Image
-              src={require("../../assets/dance-action/girl.gif")}
+              src={require("../../../assets/dance-action/girl.gif")}
               className="dance-logo"
             ></Image> :
             <Image
-              src={require("../../assets/dance-action/boy.gif")}
+              src={require("../../../assets/dance-action/boy.gif")}
               className="dance-logo"
             ></Image>
           }
@@ -133,7 +133,7 @@ export default class WhiteBoard extends Component {
               transform: [{ rotate: "-90deg" }],
             }}
             barStyle={{
-              height: 25,
+              height: 50,
               width: 400,
               backgroundImage: "linear-gradient(to right, #FC8F04, #FFBF00)",
             }}
@@ -147,7 +147,7 @@ export default class WhiteBoard extends Component {
               className="img-content"
             >
               <Image
-                src={require("../../assets/dance-action/three.png")}
+                src={require("../../../assets/dance-action/three.png")}
                 className="img"
               ></Image>
             </Animatable.View>
@@ -157,7 +157,7 @@ export default class WhiteBoard extends Component {
               className="img-content"
             >
               <Image
-                src={require("../../assets/dance-action/two.png")}
+                src={require("../../../assets/dance-action/two.png")}
                 className="img"
               ></Image>
             </Animatable.View>
@@ -167,7 +167,7 @@ export default class WhiteBoard extends Component {
               className="img-content"
             >
               <Image
-                src={require("../../assets/dance-action/one.png")}
+                src={require("../../../assets/dance-action/one.png")}
                 className="img"
               ></Image>
             </Animatable.View>
@@ -181,7 +181,7 @@ export default class WhiteBoard extends Component {
           className="dance-contanier"
         >
           {danceAction.map((item, index) => {
-            const context = require.context("../../assets/", true, /\.png$/);
+            const context = require.context("../../../assets/", true, /\.png$/);
             return (
               <Animatable.View
                 key={index}
@@ -189,7 +189,6 @@ export default class WhiteBoard extends Component {
                 style={{
                   display: 'block',
                   overflow: 'hidden',
-                  marginTop: '250px'
                 }}
               >
                 <Image
