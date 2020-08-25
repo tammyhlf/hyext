@@ -93,7 +93,7 @@ class SingleDance extends Component {
       wbName: 'foo',
       offsetX: 0,
       offsetY: 0,
-      canvasWidth: width/2,
+      canvasWidth: width,
       canvasHeight: height,
       width: wb_width,
       height: wb_height,
