@@ -15,6 +15,14 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    //获取主播PK状态
+    hyExt.context.getPKInfo().then(
+      res=>{
+        console.log('获取当前主播PK状态成功，返回：' + JSON.stringify(res))    
+        }).catch(err => {
+          console.log('获取当前主播PK状态失败，错误信息：' + err.message)
+      }
+    )
     let that = this
     if (!this.context.user) {
       this.props.func.requestUserInfo().then(res => {
@@ -48,6 +56,12 @@ class Home extends Component {
       captain: captain,
     }})
   }
+  // handleClick = () => {
+  //   this.props.history.push('/add')
+  // }
+  // handleClick1 = () => {
+  //   this.props.history.push('/create')
+  // }
   handleClick2 = () => {
     this.props.history.push('/record')
   }
