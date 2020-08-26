@@ -37,7 +37,6 @@ class Home extends Component {
       })
     }
     global.hyExt.env.getInitialParam().then(param => {
-      console.log('接受的白板信息', JSON.stringify(param))
       this.setState({
         path: param.wb ? 'wb' : ''
       })
