@@ -18,7 +18,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      captain: this.props.location.state.captain,
+      captain: this.props.location.state.captain, // 是否为队长
       roomId: this.props.location.state.roomId,
       userInfo: {},
       otherStreamerNick: this.props.location.state.otherStreamerNick,
@@ -33,7 +33,7 @@ class App extends Component {
         cye0vuh7uaitjjt8: 'girl',
         cye0vuh7fgw0lwnx: 'tiger'
       },
-      wb_width: 1280,  //白板的分辨率，影响白板显示清晰度
+      wb_width: 640,  //白板的分辨率，影响白板显示清晰度
       wb_height: 720,  //白板的分辨率，影响白板显示清晰度
       recognition: {
         canvas: {
@@ -56,7 +56,6 @@ class App extends Component {
   static contextType = RootContext
 
   componentDidMount() {
-    console.log(this.state.captain)
     let that = this
     const { wb_width, wb_height } = this.state;
     if (!this.context.user) {
@@ -109,11 +108,11 @@ class App extends Component {
 
   //在组件内加入创建白板函数
   createWb(width, height) {
-    const { wb_width, wb_height } = this.state;
+    const { wb_width, wb_height, captain } = this.state;
     let args = {
       type: "EXTRA",
       wbName: 'foo',
-      offsetX: 0,
+      offsetX: captain ? 0 : width/2,
       offsetY: 0,
       canvasWidth: width / 2,
       canvasHeight: height,
@@ -153,7 +152,6 @@ class App extends Component {
             wbId,
             data
           }).then(() => {
-            console.log('发送消息到小程序独立白板成功第二部', this.state.skin)
           }).catch(err => {
             console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
           })

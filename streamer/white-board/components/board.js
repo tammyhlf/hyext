@@ -1,49 +1,25 @@
-import React, { Component } from "react";
+import * as Animatable from "react-native-animatable";
 import { UI } from "@hyext/hy-ui";
 import "./style.hycss";
 import danceAction from "../../luck-draw/dance-action";
-import * as Animatable from "react-native-animatable";
+import React, { Component } from "react";
 
 const { View, Progress, Text, Image } = UI;
 
-export default class SingleBoard extends Component {
+export default class Board extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      skin: 'minions',
-      resultObj: {},
       resultDataMap: {
         10: require("../../../assets/dance-action/perfect.png"),
         8: require("../../../assets/dance-action/good.png"),
         0: require("../../../assets/dance-action/miss.png"),
-      },
-    };
+      }
+    }
   }
-
-  componentDidMount() {
-    // 监听从原来小程序发送过来的独立白板数据
-    hyExt.stream.onExtraWhiteBoardMessage({
-      // 接收到数据，刷新视图
-      callback: (data) => {
-        console.log('白板接受的数据第一条到底去哪了第三步', data)
-        const resultObj = JSON.parse(data);
-        if (resultObj.goods) {
-          this.setState({ skin: resultObj.skin })
-        } else {
-          this.setState({ resultObj });
-        }
-      },
-    }).then(() => {
-      console.log('监听小程序独立白板消息成功')    
-    }).catch(err => {
-      console.log('监听小程序独立白板消息失败，错误信息：' + err.message)
-    })
-  }
-
   render() {
-    let { result, totalResult, danceIndex, start } = this.state.resultObj;
-    const { skin } = this.state
+    let { result, totalResult, danceIndex, start } = this.props.resultObj;
+    const skin = this.props.skin;
     if (!start) {
       danceIndex = danceIndex || -1;
     }
@@ -67,16 +43,11 @@ export default class SingleBoard extends Component {
     const danceAnimates = {
       0: {
         translateY: 720,
-        // opacity: 1
       },
-      // 0.99: {
-      //   translateY: -7920,
-      //   opacity: 1
-      // },
       1: {
         translateY: -7000, //动画最终停留的位置， 一共移动的距离为15*500 + 720-500 = 7720
       },
-    }
+    };
     const resultAnimate = {
       0: {
         opacity: 1,
@@ -109,22 +80,24 @@ export default class SingleBoard extends Component {
           }}
           className="progress-content"
         >
-          {skin == 'minions' || skin == 'tiger' ? 
+          {skin == "minions" || skin == "tiger" ? (
             <Image
               src={require("../../../assets/dance-action/tiger.gif")}
               className="dance-logo"
-            ></Image> : skin == 'girl' ?
+            ></Image>
+          ) : skin == "girl" ? (
             <Image
               src={require("../../../assets/dance-action/girl.gif")}
               className="dance-logo"
-            ></Image> :
+            ></Image>
+          ) : (
             <Image
               src={require("../../../assets/dance-action/boy.gif")}
               className="dance-logo"
             ></Image>
-          }
-          
-          <Text className="result-text">得分：{totalResult || 0}</Text>
+          )}
+
+          <Text className="result-text">得分:{totalResult || 0}</Text>
           <Progress
             easing={true}
             percent={(totalResult / 150) * 100}
@@ -133,8 +106,8 @@ export default class SingleBoard extends Component {
               transform: [{ rotate: "-90deg" }],
             }}
             barStyle={{
-              height: 50,
-              width: 400,
+              height: 30,
+              width: 330,
               backgroundImage: "linear-gradient(to right, #FC8F04, #FFBF00)",
             }}
           />
@@ -174,7 +147,7 @@ export default class SingleBoard extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23550}  // +400
+          duration={23550} // +400
           animation={danceAnimates}
           easing="linear"
           delay={4000}
@@ -186,18 +159,15 @@ export default class SingleBoard extends Component {
               <Animatable.View
                 key={index}
                 animation={danceIndex == index ? resultAnimate : null}
-                style={{
-                  display: 'block',
-                  overflow: 'hidden',
-                }}
+                className="dance-border"
               >
                 <Image
                   src={
                     danceIndex == index
                       ? this.state.resultDataMap[result]
                       : danceIndex > index
-                        ? ""
-                        : context(`./${skin}/${index + 1}.png`)
+                      ? ""
+                      : context(`./${skin}/${index + 1}.png`)
                   }
                   className={index % 2 == 0 ? "dance-action" : "dance-second"}
                 ></Image>

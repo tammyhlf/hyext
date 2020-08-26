@@ -103,7 +103,6 @@ class SingleDance extends Component {
     }
     hyExt.stream.createWB(args)
       .then(({ wbId }) => {
-        console.log('白板创建成功第一步')
         this.setState({ wbId });
         setTimeout(() => this.checkGoods(wbId), 1000)
       }).catch(err => {
@@ -141,7 +140,16 @@ class SingleDance extends Component {
   checkGoods(wbId) {
     hyExt.storage.getItem('goodsUuid').then(value => {
       if (value == '' || value == 'minions') {
-        return
+        const data = JSON.stringify({
+          singleModel: 'single'
+        })
+        hyExt.stream.sendToExtraWhiteBoard({
+          wbId,
+          data
+        }).then(() => {
+        }).catch(err => {
+          console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
+        })
       } else {
         const { skinObj } = this.state
         hyExt.revenue.checkStreamerCanUseGoods({ goodsUuid: value }).then(res => {
@@ -152,13 +160,13 @@ class SingleDance extends Component {
           }
           const data = JSON.stringify({
             skin: this.state.skin,
-            goods: true
+            goods: true,
+            singleModel: 'single'
           })
           hyExt.stream.sendToExtraWhiteBoard({
             wbId,
             data
           }).then(() => {
-            console.log('发送消息到小程序独立白板成功第二部', this.state.skin)
           }).catch(err => {
             console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
           })

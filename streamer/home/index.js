@@ -2,8 +2,6 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import WhiteBoard from '../white-board'
-import SingleBoard from '../single-model/single-board'
-import { Redirect } from 'react-router'
 
 const { View, Button, Text, Icon, Image, BackgroundImage, Modal, Dialog} = UI
 class Home extends Component {
@@ -17,6 +15,14 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    //获取主播PK状态
+    hyExt.context.getPKInfo().then(
+      res=>{
+        console.log('获取当前主播PK状态成功，返回：' + JSON.stringify(res))    
+        }).catch(err => {
+          console.log('获取当前主播PK状态失败，错误信息：' + err.message)
+      }
+    )
     let that = this
     if (!this.context.user) {
       this.props.func.requestUserInfo().then(res => {
@@ -31,7 +37,6 @@ class Home extends Component {
       })
     }
     global.hyExt.env.getInitialParam().then(param => {
-      console.log(JSON.stringify(param))
       this.setState({
         path: param.wb ? 'wb' : ''
       })
@@ -50,6 +55,12 @@ class Home extends Component {
       captain: captain,
     }})
   }
+  // handleClick = () => {
+  //   this.props.history.push('/add')
+  // }
+  // handleClick1 = () => {
+  //   this.props.history.push('/create')
+  // }
   handleClick2 = () => {
     this.props.history.push('/record')
   }
@@ -99,7 +110,7 @@ class Home extends Component {
               }}
               body={
                 <View style={{alignItems: 'center'}}>
-                  <Image src={require('../../assets/pk.png')} style={{width:252,height:106}}/>
+                  <Image src={require('../../assets/pk.png')} style={{width:302,height:116}}/>
                 </View>
               }
               cancelable={false}
@@ -142,10 +153,8 @@ class Home extends Component {
     const { path, model } = this.state
     if (path === '') {
       return this.renderHome()
-    } else if (path === 'wb' && model === 'pk') {
-      return <WhiteBoard />
     } else if (path === 'wb') {
-      return <SingleBoard />
+      return <WhiteBoard />
     }
   }
 }
