@@ -2,8 +2,6 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import WhiteBoard from '../white-board'
-import SingleBoard from '../single-model/single-board'
-import { Redirect } from 'react-router'
 
 const { View, Button, Text, Icon, Image, BackgroundImage, Modal, Dialog} = UI
 class Home extends Component {
@@ -31,7 +29,7 @@ class Home extends Component {
       })
     }
     global.hyExt.env.getInitialParam().then(param => {
-      console.log(JSON.stringify(param))
+      console.log('接受的白板信息', JSON.stringify(param))
       this.setState({
         path: param.wb ? 'wb' : ''
       })
@@ -142,10 +140,8 @@ class Home extends Component {
     const { path, model } = this.state
     if (path === '') {
       return this.renderHome()
-    } else if (path === 'wb' && model === 'pk') {
-      return <WhiteBoard />
     } else if (path === 'wb') {
-      return <SingleBoard />
+      return <WhiteBoard />
     }
   }
 }
