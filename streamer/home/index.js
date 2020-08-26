@@ -66,15 +66,7 @@ class Home extends Component {
     // args[0].param = { foo: 'bar' }
     console.log('获取主播PK状态：' + JSON.stringify(args))
     hyExt.backend.commonQuery(args[0]).then(resp => {
-      console.log('获取主播PK状态成功，返回：' + JSON.stringify(resp))    
-      // console.log('获取主播PK状态成功，返回：' + JSON.stringify(resp.onPk))
-      // console.log('获取主播PK状态成功，返回：' + JSON.stringify(resp.leftTeam.memberInfos)) 
-      //获取红队参赛人数
-      // console.log('获取红队人数成功，返回：' + resp.leftTeam.memberInfos.length) 
-      //获取红队（左边）队长信息  
-      // console.log('获取主播id成功，返回：' + JSON.stringify(resp.leftTeam.memberInfos[0].unionId))    
-      //根据ID判断主播在哪个队伍
-      
+      console.log('获取主播PK状态成功，返回：' + JSON.stringify(resp))
 
       //设置PK模式按钮disabled
       //判断是否处于PK状态
@@ -127,8 +119,6 @@ class Home extends Component {
     this.setState({
       model: 'pk'
     })
-    // this._modal.open()
-    // this._dialog.open()
   }
 
   renderHome () {
@@ -144,53 +134,6 @@ class Home extends Component {
               (<><Button className="setup" type="primary" onPress={this.handlePkModel} disabled={this.state.pk}>PK模式</Button>
               <Button className="add" type="primary" onPress={this.handleSingle}>单人模式</Button></>)
             }
-            {/* <Modal
-              ref={(c) => { this._modal = c; }}
-              cancelable={true}
-              style={{
-                flex: 1,
-                marginHorizontal: 70,
-            }}>
-              <BackgroundImage src={require('../../assets/modal1.png')} style={{width:235,height:300}}>
-                <View style={{alignItems: 'center'}}>
-                  <Image src={require('../../assets/pk.png')} style={{width:252,height:106}}/>
-                </View>
-              </BackgroundImage>
-            </Modal> */}
-            {/* <Dialog
-              ref={(c) => {
-                this._dialog = c
-              }}
-              body={
-                <View style={{alignItems: 'center'}}>
-                  <Image src={require('../../assets/pk.png')} style={{width:302,height:116}}/>
-                </View>
-              }
-              cancelable={false}
-              title='请选择自己PK所在阵营'
-              // operationsLayout='column'
-              operations={[
-                {
-                  labelText: '红队',
-                  type: 'cancel',
-                  onPress: () => {
-                    this.setState({
-                      captain:true
-                    })
-                    console.log('红队')
-                  }
-                },
-                {
-                  labelText: '蓝队',
-                  type: 'cancel',
-                  onPress: () => {
-                    this.setState({
-                      captain:false
-                    })
-                    console.log('蓝队')
-                  }
-                }
-            ]}/> */}
             <View className="choiceDecoration" onClick={this.handleShop} style={{
                     flexDirection: "row"}}>
               <Image className="decoration" src={require("../../assets/decoration.png")}></Image>
