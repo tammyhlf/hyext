@@ -224,7 +224,7 @@ class Punishment extends Component {
         {score == otherScore ? null : (
           <Image
             className={
-              dataObj.winner == otherStreamerUnionId ? "crown" : "right-crown"
+              dataObj.winner == otherStreamerUnionId ? "right-crown" : "crown"
             }
             src={require("../../assets/crown.png")}
           />

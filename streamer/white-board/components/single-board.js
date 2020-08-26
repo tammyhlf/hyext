@@ -116,7 +116,6 @@ export default class SingleBoard extends Component {
           <View className="count-content">
             <Animatable.View
               animation={animates}
-              delay={1000}
               className="img-content"
             >
               <Image
@@ -126,7 +125,7 @@ export default class SingleBoard extends Component {
             </Animatable.View>
             <Animatable.View
               animation={animates}
-              delay={2000}
+              delay={1000}
               className="img-content"
             >
               <Image
@@ -136,7 +135,7 @@ export default class SingleBoard extends Component {
             </Animatable.View>
             <Animatable.View
               animation={animates}
-              delay={3000}
+              delay={2000}
               className="img-content"
             >
               <Image
@@ -147,10 +146,10 @@ export default class SingleBoard extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23550} // +400
+          duration={23350} // +850
           animation={danceAnimates}
           easing="linear"
-          delay={4000}
+          delay={3000}
           className="dance-contanier"
         >
           {danceAction.map((item, index) => {

@@ -52,7 +52,7 @@
   left: 10%;
 }
 .dance-second {
-  float: right;
+  margin-left: auto;
   right: 10%;
   width: 250;
   height: 340;

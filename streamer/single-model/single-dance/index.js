@@ -141,7 +141,7 @@ class SingleDance extends Component {
     hyExt.storage.getItem('goodsUuid').then(value => {
       if (value == '' || value == 'minions') {
         const data = JSON.stringify({
-          singleModel: 'single'
+          singleModel: 'single',
         })
         hyExt.stream.sendToExtraWhiteBoard({
           wbId,
@@ -167,6 +167,7 @@ class SingleDance extends Component {
             wbId,
             data
           }).then(() => {
+            console.log('发送皮肤消息成功', data)
           }).catch(err => {
             console.log('发送消息到小程序独立白板失败，错误信息：' + err.message)
           })
@@ -245,8 +246,8 @@ class SingleDance extends Component {
         }
       })
       readyTimer = setTimeout(this.playFirstMusic, 3000)
-      musicTimer = setTimeout(this.playMusic, 4000)
-      TimeoutTimer = setTimeout(this.setIntervalFun, 5750)
+      musicTimer = setTimeout(this.playMusic, 3000)
+      TimeoutTimer = setTimeout(this.setIntervalFun, 5250) // 增加500ms -1s
     }
   }
 

@@ -19,9 +19,8 @@ export default class WhiteBoard extends Component {
       // 接收到数据，刷新视图
       callback: (data) => {
         const resultObj = JSON.parse(data);
-        console.log('single', resultObj)
-        if (resultObj.singleModel == 'single') {
-          this.setState({singleModel: resultObj.singleModel})
+        if (resultObj.singleModel == 'single' && resultObj.goods) {
+          this.setState({singleModel: resultObj.singleModel, skin: resultObj.skin})
         } else if (resultObj.goods) {
           this.setState({ skin: resultObj.skin })
         } else {
