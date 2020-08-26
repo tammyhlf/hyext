@@ -108,12 +108,12 @@ class Home extends Component {
       console.log('获取主播PK状态失败，错误信息：' + err.message)
     })
   }
-  handleClick = () => {
-    this.props.history.push('/add')
-  }
-  handleClick1 = () => {
-    this.props.history.push('/create')
-  }
+  // handleClick = () => {
+  //   this.props.history.push('/add')
+  // }
+  // handleClick1 = () => {
+  //   this.props.history.push('/create')
+  // }
   handleClick2 = () => {
     this.props.history.push('/record')
   }
