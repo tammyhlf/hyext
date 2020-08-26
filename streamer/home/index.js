@@ -2,8 +2,6 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './index.hycss'
 import WhiteBoard from '../white-board'
-import SingleBoard from '../single-model/single-board'
-import { Redirect } from 'react-router'
 
 const { View, Button, Text, Icon, Image, BackgroundImage, Modal, Dialog} = UI
 class Home extends Component {

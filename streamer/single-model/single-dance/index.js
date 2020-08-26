@@ -151,7 +151,8 @@ class SingleDance extends Component {
           }
           const data = JSON.stringify({
             skin: this.state.skin,
-            goods: true
+            goods: true,
+            singleModel: true
           })
           hyExt.stream.sendToExtraWhiteBoard({
             wbId,

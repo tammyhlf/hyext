@@ -41,6 +41,10 @@
   position: absolute;
   width: 100%;
 }
+.dance-border {
+  display: block;
+  overflow: hidden;
+}
 .dance-action {
   width: 400;
   height: 500;
