@@ -9,7 +9,7 @@ export default class WhiteBoard extends Component {
     this.state = {
       skin: 'minions',
       resultObj: {},
-      singleModel: true
+      singleModel: ''
     };
   }
 
@@ -19,8 +19,11 @@ export default class WhiteBoard extends Component {
       // 接收到数据，刷新视图
       callback: (data) => {
         const resultObj = JSON.parse(data);
-        if (resultObj.goods) {
-          this.setState({ skin: resultObj.skin, singleModel: resultObj.singleModel })
+        console.log('single', resultObj)
+        if (resultObj.singleModel == 'single') {
+          this.setState({singleModel: resultObj.singleModel})
+        } else if (resultObj.goods) {
+          this.setState({ skin: resultObj.skin })
         } else {
           this.setState({ resultObj });
         }
@@ -40,7 +43,7 @@ export default class WhiteBoard extends Component {
   }
 
   render () {
-    if(this.state.singleModel){
+    if(this.state.singleModel == 'single'){
       return this.renderSingle();
     }else
       return this.renderBoard();
