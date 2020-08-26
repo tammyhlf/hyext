@@ -39,12 +39,12 @@ class Home extends Component {
         path: param.wb ? 'wb' : ''
       })
     })
-    //每3秒，获取PK信息刷新队伍状态
-    myVar = setInterval(this.getPKInfo,3000)
+    //每2秒，获取PK信息刷新队伍状态
+    myTeam = setInterval(this.getPKInfo,2000)
   }
   componentWillUnmount() {
     clearInterval(myTeam)
-}
+  }
 
   handleClick = () => {
     const {captain} = this.state
