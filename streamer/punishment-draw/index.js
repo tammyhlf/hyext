@@ -48,6 +48,21 @@ class PunishmentDraw extends Component {
         userInfo: that.context.user,
       });
     }
+    // 只投胜利者的屏
+    const params = {
+      x: 0,
+      y: 0,
+      width: 375,
+      height: 600
+    }
+    console.log( this.state.dataObj.winner, this.state.otherStreamerUnionId)
+    if(this.state.dataObj.winner != this.state.otherStreamerUnionId) {
+      hyExt.stream.addWhiteBoard(params).then(res => {
+        console.log('创建普通白板成功', JSON.stringify(res))
+      }).catch(error => {
+        console.log('创建普通白板失败', JSON.stringify(error))
+      })
+    }
     if (this.state.winner != this.state.userInfo.streamerUnionId) {
       this.setState({
         gameResult: this.state.dataMap[this.state.randomMath % 8],
@@ -62,6 +77,15 @@ class PunishmentDraw extends Component {
       });
     }
   }
+
+  componentWillUnmount() {
+    hyExt.stream.removeWhiteBoard().then(() => {
+      console.log('普通白板移除成功')
+    }).then(error => {
+      console.log('普通白板移除成功', JSON.stringify(error))
+    })
+  }
+
   handleDraw = (ref) => (this.view = ref);
 
   handleStart = () => {

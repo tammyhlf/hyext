@@ -35,20 +35,7 @@ class Punishment extends Component {
       });
       this.monitor();
     }
-    const params = {
-      x: 0,
-      y: 0,
-      width: 375,
-      height: 600
-    }
-    // 只投胜利者的屏
-    if(this.state.dataObj.winner == this.state.userInfo.streamerUnionId) {
-      hyExt.stream.addWhiteBoard(params).then(res => {
-        console.log('创建普通白板成功', JSON.stringify(res))
-      }).catch(error => {
-        console.log('创建普通白板失败', JSON.stringify(error))
-      })
-    }
+   
     const { dataObj, otherStreamerUnionId, score } = this.state;
     console.log(this.state.score, dataObj[otherStreamerUnionId]);
     if (score == dataObj[otherStreamerUnionId]) {
@@ -205,14 +192,6 @@ class Punishment extends Component {
     this.props.history.push("/index_streamer_pc_anchor_panel.html");
     this.leave()
   };
-
-  componentWillUnmount() {
-    hyExt.stream.removeWhiteBoard().then(() => {
-      console.log('普通白板移除成功')
-    }).then(error => {
-      console.log('普通白板移除成功', JSON.stringify(error))
-    })
-  }
 
   render() {
     const {
