@@ -41,11 +41,14 @@ class Punishment extends Component {
       width: 375,
       height: 600
     }
-    hyExt.stream.addWhiteBoard(params).then(res => {
-      console.log('创建普通白板成功', JSON.stringify(res))
-    }).catch(error => {
-      console.log('创建普通白板失败', JSON.stringify(error))
-    })
+    // 只投胜利者的屏
+    if(this.state.dataObj.winner == this.state.userInfo.streamerUnionId) {
+      hyExt.stream.addWhiteBoard(params).then(res => {
+        console.log('创建普通白板成功', JSON.stringify(res))
+      }).catch(error => {
+        console.log('创建普通白板失败', JSON.stringify(error))
+      })
+    }
     const { dataObj, otherStreamerUnionId, score } = this.state;
     console.log(this.state.score, dataObj[otherStreamerUnionId]);
     if (score == dataObj[otherStreamerUnionId]) {
@@ -243,7 +246,7 @@ class Punishment extends Component {
         {score == otherScore ? null : (
           <Image
             className={
-              dataObj.winner == otherStreamerUnionId ? "right-crown" : "crown"
+              dataObj.winner == otherStreamerUnionId ? "crown" : "right-crown"
             }
             src={require("../../assets/crown.png")}
           />
