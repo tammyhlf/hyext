@@ -277,20 +277,20 @@ class SingleDance extends Component {
           result: -1
         }
       })
-      const createUrl = encodeURIComponent(`${ApiUrl}${create}?nickName=${streamerNick}&picUrl=${streamerAvatarUrl}&unionId=${encodeURIComponent(streamerUnionId)}`)
+      // const createUrl = `${ApiUrl}${create}?nickName=${streamerNick}&picUrl=${streamerAvatarUrl}&unionId=${encodeURIComponent(streamerUnionId)}`
 
-      // 先创建房间再提交分数
-      hyExt.request(params(createUrl)).then(res => {
-        const url = encodeURIComponent(`${ApiUrl}${finish}?roomID=${res.data.result}&score=${this.state.totalResult}&unionId=${encodeURIComponent(streamerUnionId)}`)
-        console.log(params(url))
-        hyExt.request(params(url)).then(res => {
-          console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
-        }).catch(err => {
-          console.log('发送HTTP请求失败，错误信息：' + err.message)
-        })
-      }).catch(err => {
-        console.log('发送HTTP请求失败，错误信息：' + err.message)
-      })
+      // // 先创建房间再提交分数
+      // hyExt.request(params(createUrl)).then(res => {
+      //   const url = `${ApiUrl}${finish}?roomID=${res.data.result}&score=${this.state.totalResult}&unionId=${encodeURIComponent(streamerUnionId)}`
+      //   console.log(params(url))
+      //   hyExt.request(params(url)).then(res => {
+      //     console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))
+      //   }).catch(err => {
+      //     console.log('发送HTTP请求失败，错误信息：' + err.message)
+      //   })
+      // }).catch(err => {
+      //   console.log('发送HTTP请求失败，错误信息：' + err.message)
+      // })
       setTimeout(this.handleRoute, 3000)
     }
   }
