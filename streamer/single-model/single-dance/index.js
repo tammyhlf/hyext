@@ -247,7 +247,7 @@ class SingleDance extends Component {
       })
       readyTimer = setTimeout(this.playFirstMusic, 3000)
       musicTimer = setTimeout(this.playMusic, 3000)
-      TimeoutTimer = setTimeout(this.setIntervalFun, 5250) // 增加500ms -1s
+      TimeoutTimer = setTimeout(this.setIntervalFun, 5600) // 增加850ms -1s
     }
   }
 

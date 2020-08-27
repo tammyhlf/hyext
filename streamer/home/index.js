@@ -150,6 +150,7 @@ class Home extends Component {
     if (path === '') {
       return this.renderHome()
     } else if (path === 'wb') {
+      clearInterval(myTeam)
       return <WhiteBoard />
     }
   }
