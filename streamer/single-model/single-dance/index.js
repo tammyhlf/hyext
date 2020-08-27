@@ -245,9 +245,9 @@ class SingleDance extends Component {
           });
         }
       })
-      readyTimer = setTimeout(this.playFirstMusic, 3000)
+      readyTimer = setTimeout(this.playFirstMusic, 2000)
       musicTimer = setTimeout(this.playMusic, 3000)
-      TimeoutTimer = setTimeout(this.setIntervalFun, 5600) // 增加850ms -1s
+      TimeoutTimer = setTimeout(this.setIntervalFun, 5150) //  -1s + 400ms
     }
   }
 
@@ -277,11 +277,11 @@ class SingleDance extends Component {
           result: -1
         }
       })
-      const createUrl = `${ApiUrl}${create}?nickName=${streamerNick}&picUrl=${streamerAvatarUrl}&unionId=${streamerUnionId}`
+      const createUrl = encodeURIComponent(`${ApiUrl}${create}?nickName=${streamerNick}&picUrl=${streamerAvatarUrl}&unionId=${streamerUnionId}`)
 
       // 先创建房间再提交分数
       hyExt.request(params(createUrl)).then(res => {
-        const url = `${ApiUrl}${finish}?roomID=${res.data.result}&score=${this.state.totalResult}&unionId=${streamerUnionId}`
+        const url = encodeURIComponent(`${ApiUrl}${finish}?roomID=${res.data.result}&score=${this.state.totalResult}&unionId=${streamerUnionId}`)
         console.log(params(url))
         hyExt.request(params(url)).then(res => {
           console.log('发送HTTP请求成功，返回：' + JSON.stringify(res))

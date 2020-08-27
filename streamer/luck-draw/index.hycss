@@ -101,6 +101,7 @@
   color: white;
   position: absolute;
   top: 312px;
+  left: 20px;
 }
 .streamerName-right{
   position: absolute;
