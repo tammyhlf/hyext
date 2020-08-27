@@ -42,6 +42,17 @@ class SingleDraw extends Component {
         userInfo: that.context.user,
       });
     }
+    const params = {
+      x: 0,
+      y: 0,
+      width: 375,
+      height: 600
+    }
+    hyExt.stream.addWhiteBoard(params).then(res => {
+      console.log('创建普通白板成功', JSON.stringify(res))
+    }).catch(error => {
+      console.log('创建普通白板失败', JSON.stringify(error))
+    })
   }
   handleDraw = (ref) => (this.view = ref);
 
@@ -85,6 +96,10 @@ class SingleDraw extends Component {
       },
     });
   };
+
+  componentWillUnmount() {
+    hyExt.stream.removeWhiteBoard()
+  }
 
   render() {
     return (

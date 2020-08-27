@@ -290,7 +290,7 @@ class App extends Component {
           "Content-Type": "application/json;charset=UTF-8",
           'Accept': 'application/json'
         },
-        url: `${ApiUrl}${finish}?roomID=${roomId}&score=${this.state.totalResult}&unionId=${streamerUnionId}`,
+        url: `${ApiUrl}${finish}?roomID=${roomId}&score=${this.state.totalResult}&unionId=${encodeURIComponent(streamerUnionId)}`,
         method: "POST",
         data: {},
         dataType: "json"
@@ -313,7 +313,7 @@ class App extends Component {
         "Content-Type": "application/json;charset=UTF-8",
         'Accept': 'application/json'
       },
-      url: ("http://121.196.176.201:8082/game/leave?roomID=" + this.state.roomId + "&unionId=" + this.state.userInfo.streamerUnionId),
+      url: ("http://121.196.176.201:8082/game/leave?roomID=" + this.state.roomId + "&unionId=" + encodeURIComponent(this.state.userInfo.streamerUnionId)),
       method: "POST",
       dataType: "json"
     }

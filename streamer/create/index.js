@@ -292,7 +292,7 @@ class Create extends Component {
             // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/status/ready?roomID="+this.state.roomId+"&unionId="+this.state.userInfo.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/status/ready?roomID="+this.state.roomId+"&unionId="+encodeURIComponent(this.state.userInfo.streamerUnionId))
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式
@@ -312,7 +312,7 @@ class Create extends Component {
             // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/status/unready?roomID="+this.state.roomId+"&unionId="+this.state.userInfo.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/status/unready?roomID="+this.state.roomId+"&unionId="+encodeURIComponent(this.state.userInfo.streamerUnionId))
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式
@@ -332,7 +332,7 @@ class Create extends Component {
             // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/leave?roomID="+this.state.roomId+"&unionId="+this.state.userInfo.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/leave?roomID="+this.state.roomId+"&unionId="+encodeURIComponent(this.state.userInfo.streamerUnionId))
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式
@@ -352,7 +352,7 @@ class Create extends Component {
             // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.userInfo.streamerNick+"&picUrl="+this.state.userInfo.streamerAvatarUrl+"&unionId="+this.state.userInfo.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/create?nickName="+this.state.userInfo.streamerNick+"&picUrl="+this.state.userInfo.streamerAvatarUrl+"&unionId="+encodeURIComponent(this.state.userInfo.streamerUnionId))
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式

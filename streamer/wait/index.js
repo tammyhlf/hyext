@@ -284,11 +284,11 @@ class Wait extends Component {
             // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/status/ready?roomID="+this.state.roomId+"&unionId="+this.state.userInfo.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/status/ready?roomID="+this.state.roomId+"&unionId="+ encodeURIComponent(this.state.userInfo.streamerUnionId))
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式
-        console.log('发送HTTP请求：' + JSON.stringify(args))
+        console.log('开始对战请求：' + JSON.stringify(args))
         hyExt.request(args[0]).then(resp => {
             console.log('发送HTTP请求成功，返回：' + JSON.stringify(resp))
         }).catch(err => {
@@ -304,7 +304,7 @@ class Wait extends Component {
             // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/status/unready?roomID="+this.state.roomId+"&unionId="+this.state.userInfo.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/status/unready?roomID="+this.state.roomId+"&unionId="+encodeURIComponent(this.state.userInfo.streamerUnionId))
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式
@@ -324,7 +324,7 @@ class Wait extends Component {
             // 'content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'application/json'
         }
-        args[0].url = ("http://121.196.176.201:8082/game/leave?roomID="+this.state.roomId+"&unionId="+this.state.userInfo.streamerUnionId)
+        args[0].url = ("http://121.196.176.201:8082/game/leave?roomID="+this.state.roomId+"&unionId="+encodeURIComponent(this.state.userInfo.streamerUnionId))
         args[0].method = "POST"
         args[0].data = {}  //请求的body
         args[0].dataType = "json"    //返回的数据格式
