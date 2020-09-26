@@ -83,3 +83,29 @@
   width: 380;
   height: 380;
 }
+.tip-left {
+  position: fixed;
+  top: 200;
+  left: -100;
+  width: 500;
+  height: 130;
+}
+.tip-right {
+  position: fixed;
+  top: 200;
+  right: -100;
+  width: 500;
+  height: 130;
+}
+.left-img {
+  width: 500;
+  height: 130;
+}
+.tip-text {
+  position: relative;
+  font-size: 40;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  top: 200;
+}

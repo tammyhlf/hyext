@@ -147,7 +147,7 @@ export default class Board extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23550} // +400
+          duration={23850} // +400
           animation={danceAnimates}
           easing="linear"
           delay={4000}
