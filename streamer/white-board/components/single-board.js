@@ -88,6 +88,20 @@ export default class SingleBoard extends Component {
         opacity: 0
       }
     }
+    const tipTextAnimation = {
+      0: {
+        opacity: 0
+      },
+      0.1: {
+        opacity: 1
+      },
+      0.8: {
+        opacity: 1
+      },
+      1: {
+        opacity: 0
+      }
+    }
     return (
       <View className="container">
         <Image
@@ -104,11 +118,17 @@ export default class SingleBoard extends Component {
             src={require("../../../assets/dance-action/tip-left.png")}
             className="left-img"
           ></Image>
-          <Text className="tip-text">动作识别区</Text>
         </Animatable.View>
+          <Animatable.View
+            delay={3000}
+            duration={2000}
+            animation={tipTextAnimation}
+          >
+            <Text className="tip-text">动作识别区</Text>
+          </Animatable.View>
         <Animatable.View
           delay={3000}
-          duration={1500}
+          duration={2000}
           animation={tipAnimation}
           className="tip-right"
         >
@@ -195,7 +215,7 @@ export default class SingleBoard extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23550} // +850
+          duration={23150} // +850
           animation={danceAnimates}
           easing="linear"
           delay={3000}

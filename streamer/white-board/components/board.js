@@ -62,12 +62,81 @@ export default class Board extends Component {
         opacity: 0,
       },
     };
+    const tipAnimation = {
+      0: {
+        scale: 1,
+        opacity: 0
+      },
+      0.1: {
+        scale: 0.9,
+        opacity: 1
+      },
+      0.3: {
+        scale: 0.7,
+        opacity: 0.9
+      },
+      0.5: {
+        scale: 0.9,
+        opacity: 1
+      },
+      0.6: {
+        scale: 0.7,
+        opacity: 0.8
+      },
+      1: {
+        scale: 0.9,
+        opacity: 0
+      }
+    }
+    const tipTextAnimation = {
+      0: {
+        opacity: 0
+      },
+      0.1: {
+        opacity: 1
+      },
+      0.8: {
+        opacity: 1
+      },
+      1: {
+        opacity: 0
+      }
+    }
     return (
       <View className="container">
         <Image
           src={require("../../../assets/dance-action/group-image2.gif")}
           className="logo-left"
         ></Image>
+        <Animatable.View
+          delay={3000}
+          duration={2000}
+          animation={tipAnimation}
+          className="tip-left"
+        >
+          <Image
+            src={require("../../../assets/dance-action/tip-left.png")}
+            className="left-img"
+          ></Image>
+        </Animatable.View>
+          <Animatable.View
+            delay={3000}
+            duration={2000}
+            animation={tipTextAnimation}
+          >
+            <Text className="tip-text">动作识别区</Text>
+          </Animatable.View>
+        <Animatable.View
+          delay={3000}
+          duration={2000}
+          animation={tipAnimation}
+          className="tip-right"
+        >
+          <Image
+            src={require("../../../assets/dance-action/tip-right.png")}
+            className="left-img"
+          ></Image>
+        </Animatable.View>
         <Animatable.View
           delay={4000}
           animation={{
@@ -147,7 +216,7 @@ export default class Board extends Component {
           </View>
         </View>
         <Animatable.View
-          duration={23850} // +400
+          duration={23650} //+200ms
           animation={danceAnimates}
           easing="linear"
           delay={4000}

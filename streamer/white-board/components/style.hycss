@@ -78,3 +78,30 @@
   width: 40%;
   height: 30%;
 }
+
+.tip-left {
+  position: fixed;
+  top: 200;
+  left: -60;
+  width: 240;
+  height: 85;
+}
+.tip-right {
+  position: fixed;
+  top: 200;
+  right: -50;
+  width: 240;
+  height: 85;
+}
+.left-img {
+  width: 240;
+  height: 85;
+}
+.tip-text {
+  position: fixed;
+  font-size: 40;
+  font-weight: 600;
+  color: white;
+  top: 220;
+  left: 35%;
+}

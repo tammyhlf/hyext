@@ -9,7 +9,7 @@ export default class WhiteBoard extends Component {
     this.state = {
       skin: 'minions',
       resultObj: {},
-      singleModel: ''
+      singleModel: 'single'
     };
   }
 
